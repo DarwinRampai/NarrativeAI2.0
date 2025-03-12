@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLocation } from "wouter";
 import { useEffect } from "react";
+import { Sparkles, VideoIcon, Brain, Gauge, PenTool } from "lucide-react";
 
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
@@ -45,7 +46,7 @@ export default function AuthPage() {
       <div className="flex items-center justify-center p-8">
         <Card className="w-full max-w-md bg-card/30 backdrop-blur-sm border-primary/10">
           <CardHeader>
-            <CardTitle className="text-2xl bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+            <CardTitle className="text-2xl gradient-heading">
               Welcome to NarratixAI
             </CardTitle>
           </CardHeader>
@@ -134,11 +135,37 @@ export default function AuthPage() {
       <div className="hidden md:flex bg-primary items-center justify-center p-8">
         <div className="max-w-lg text-primary-foreground">
           <h1 className="text-4xl font-bold mb-6">AI-Powered Ad Creation Platform</h1>
-          <ul className="space-y-4">
-            <li>✨ Generate persuasive ad scripts with AI</li>
-            <li>🎬 Create professional videos with templates</li>
-            <li>📊 Track performance and optimize ads</li>
-            <li>🔄 Real-time collaboration tools</li>
+          <ul className="space-y-6">
+            <li className="flex items-center gap-3">
+              <div className="feature-icon">
+                <Brain className="feature-icon-inner" />
+              </div>
+              <span>Advanced AI script generation for persuasive content</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <div className="feature-icon">
+                <VideoIcon className="feature-icon-inner" />
+              </div>
+              <span>Professional video production with neural avatars</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <div className="feature-icon">
+                <PenTool className="feature-icon-inner" />
+              </div>
+              <span>Customizable templates and dynamic content</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <div className="feature-icon">
+                <Gauge className="feature-icon-inner" />
+              </div>
+              <span>Real-time performance analytics and optimization</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <div className="feature-icon">
+                <Sparkles className="feature-icon-inner" />
+              </div>
+              <span>AI-powered content enhancement and refinement</span>
+            </li>
           </ul>
         </div>
       </div>
