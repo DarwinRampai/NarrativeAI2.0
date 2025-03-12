@@ -227,7 +227,320 @@ const demoAvatars: Avatar[] = [
   }
 ];
 
-function AvatarsPage() {
+function CustomizationPanel({ 
+  avatar, 
+  customization, 
+  onCustomizationChange, 
+  onClose 
+}: { 
+  avatar: Avatar;
+  customization: CustomizationState;
+  onCustomizationChange: (field: keyof CustomizationState, value: any) => void;
+  onClose: () => void;
+}) {
+  return (
+    <Card className="mt-4 bg-card/30 backdrop-blur-sm border-primary/10">
+      <CardContent className="p-6">
+        <Tabs defaultValue="physical">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="physical">
+              <UserCircle className="h-4 w-4 mr-2" />
+              Physical
+            </TabsTrigger>
+            <TabsTrigger value="motion">
+              <Sliders className="h-4 w-4 mr-2" />
+              Motion
+            </TabsTrigger>
+            <TabsTrigger value="ai">
+              <Brain className="h-4 w-4 mr-2" />
+              AI
+            </TabsTrigger>
+            <TabsTrigger value="voice">
+              <Mic2 className="h-4 w-4 mr-2" />
+              Voice
+            </TabsTrigger>
+            <TabsTrigger value="language">
+              <Languages className="h-4 w-4 mr-2" />
+              Language
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="physical" className="space-y-4">
+            <div>
+              <Label>Avatar Style</Label>
+              <Select
+                value={customization.avatarStyle}
+                onValueChange={(value) => onCustomizationChange('avatarStyle', value)}
+              >
+                <SelectTrigger className="mt-2">
+                  <SelectValue placeholder="Select style" />
+                </SelectTrigger>
+                <SelectContent>
+                  {avatar.styles.map((style) => (
+                    <SelectItem key={style} value={style}>
+                      {style}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label>Skin Tone</Label>
+              <Select
+                value={customization.skinTone}
+                onValueChange={(value) => onCustomizationChange('skinTone', value)}
+              >
+                <SelectTrigger className="mt-2">
+                  <SelectValue placeholder="Select skin tone" />
+                </SelectTrigger>
+                <SelectContent>
+                  {avatar.physicalFeatures.skinTones.map((tone) => (
+                    <SelectItem key={tone} value={tone}>
+                      {tone}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label>Hair Style</Label>
+              <Select
+                value={customization.hairStyle}
+                onValueChange={(value) => onCustomizationChange('hairStyle', value)}
+              >
+                <SelectTrigger className="mt-2">
+                  <SelectValue placeholder="Select hair style" />
+                </SelectTrigger>
+                <SelectContent>
+                  {avatar.physicalFeatures.hairStyles.map((style) => (
+                    <SelectItem key={style} value={style}>
+                      {style}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label>Face Shape</Label>
+              <Select
+                value={customization.faceShape}
+                onValueChange={(value) => onCustomizationChange('faceShape', value)}
+              >
+                <SelectTrigger className="mt-2">
+                  <SelectValue placeholder="Select face shape" />
+                </SelectTrigger>
+                <SelectContent>
+                  {avatar.physicalFeatures.faceShapes.map((shape) => (
+                    <SelectItem key={shape} value={shape}>
+                      {shape}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Eye Color</Label>
+              <Select
+                value={customization.eyeColor}
+                onValueChange={(value) => onCustomizationChange('eyeColor', value)}
+              >
+                <SelectTrigger className="mt-2">
+                  <SelectValue placeholder="Select eye color" />
+                </SelectTrigger>
+                <SelectContent>
+                  {avatar.physicalFeatures.eyeColors.map((color) => (
+                    <SelectItem key={color} value={color}>
+                      {color}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="motion" className="space-y-4">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Label>AI Lip Sync</Label>
+                <Checkbox
+                  checked={customization.lipSync}
+                  onCheckedChange={(checked) => 
+                    onCustomizationChange('lipSync', checked)
+                  }
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <Label>Expression Recognition</Label>
+                <Checkbox
+                  checked={customization.expressionRecognition}
+                  onCheckedChange={(checked) => 
+                    onCustomizationChange('expressionRecognition', checked)
+                  }
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <Label>Full Body Motion</Label>
+                <Checkbox
+                  checked={customization.bodyMotion}
+                  onCheckedChange={(checked) => 
+                    onCustomizationChange('bodyMotion', checked)
+                  }
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <Label>Physics-Based Animation</Label>
+                <Checkbox
+                  checked={customization.physicsEnabled}
+                  onCheckedChange={(checked) => 
+                    onCustomizationChange('physicsEnabled', checked)
+                  }
+                />
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="ai" className="space-y-4">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label>Autonomous Reactions</Label>
+                  <p className="text-sm text-muted-foreground">Avatar responds naturally to interactions</p>
+                </div>
+                <Checkbox
+                  checked={customization.autonomousReactions}
+                  onCheckedChange={(checked) => 
+                    onCustomizationChange('autonomousReactions', checked)
+                  }
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label>Voice Cloning</Label>
+                  <p className="text-sm text-muted-foreground">Use AI to clone a specific voice</p>
+                </div>
+                <Checkbox
+                  checked={customization.voiceCloning}
+                  onCheckedChange={(checked) => 
+                    onCustomizationChange('voiceCloning', checked)
+                  }
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label>Emotion Detection</Label>
+                  <p className="text-sm text-muted-foreground">Adapt to audience reactions</p>
+                </div>
+                <Checkbox
+                  checked={customization.emotionDetection}
+                  onCheckedChange={(checked) => 
+                    onCustomizationChange('emotionDetection', checked)
+                  }
+                />
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="voice" className="space-y-4">
+            <div>
+              <Label>Voice Style</Label>
+              <Select 
+                value={avatar.voiceOptions[customization.voiceStyle || 0]}
+                onValueChange={(value) => onCustomizationChange(
+                  'voiceStyle',
+                  avatar.voiceOptions.indexOf(value)
+                )}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {avatar.voiceOptions.map((voice) => (
+                    <SelectItem key={voice} value={voice}>
+                      {voice}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label>Voice Pitch</Label>
+              <Slider
+                defaultValue={[customization.voicePitch || 50]}
+                min={0}
+                max={100}
+                step={1}
+                onValueChange={(value) => onCustomizationChange('voicePitch', value[0])}
+              />
+            </div>
+
+            <div>
+              <Label>Speaking Speed</Label>
+              <Slider
+                defaultValue={[customization.voiceSpeed || 50]}
+                min={0}
+                max={100}
+                step={1}
+                onValueChange={(value) => onCustomizationChange('voiceSpeed', value[0])}
+              />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="language" className="space-y-4">
+            <div>
+              <Label>Language</Label>
+              <Select
+                value={customization.language}
+                onValueChange={(value) => onCustomizationChange('language', value)}
+              >
+                <SelectTrigger className="mt-2">
+                  <SelectValue placeholder="Select language" />
+                </SelectTrigger>
+                <SelectContent>
+                  {avatar.languages.map((lang) => (
+                    <SelectItem key={lang} value={lang}>
+                      {lang}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label>Accent Strength</Label>
+              <Slider
+                defaultValue={[customization.accentStrength || 50]}
+                min={0}
+                max={100}
+                step={1}
+                onValueChange={(value) => onCustomizationChange('accentStrength', value[0])}
+              />
+            </div>
+          </TabsContent>
+        </Tabs>
+
+        <div className="flex justify-end gap-2 mt-6">
+          <Button variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button className="bg-primary/90 hover:bg-primary">
+            Apply Changes
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default function AvatarsPage() {
   const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null);
   const [customization, setCustomization] = useState<Record<number, CustomizationState>>({});
   const [isCustomizing, setIsCustomizing] = useState(false);
@@ -329,305 +642,12 @@ function AvatarsPage() {
             </Card>
 
             {isCustomizing && selectedAvatar === avatar.id && (
-              <Card className="mt-4 bg-card/30 backdrop-blur-sm border-primary/10">
-                <CardContent className="p-6">
-                  <Tabs defaultValue="physical">
-                    <TabsList className="grid w-full grid-cols-5">
-                      <TabsTrigger value="physical">
-                        <UserCircle className="h-4 w-4 mr-2" />
-                        Physical
-                      </TabsTrigger>
-                      <TabsTrigger value="motion">
-                        <Sliders className="h-4 w-4 mr-2" />
-                        Motion
-                      </TabsTrigger>
-                      <TabsTrigger value="ai">
-                        <Brain className="h-4 w-4 mr-2" />
-                        AI
-                      </TabsTrigger>
-                      <TabsTrigger value="voice">
-                        <Mic2 className="h-4 w-4 mr-2" />
-                        Voice
-                      </TabsTrigger>
-                      <TabsTrigger value="language">
-                        <Languages className="h-4 w-4 mr-2" />
-                        Language
-                      </TabsTrigger>
-                    </TabsList>
-
-                    <TabsContent value="physical" className="space-y-4">
-                      <div>
-                        <Label>Avatar Style</Label>
-                        <Select
-                          value={customization[avatar.id]?.avatarStyle}
-                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'avatarStyle', value)}
-                        >
-                          <SelectTrigger className="mt-2">
-                            <SelectValue placeholder="Select style" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {avatar.styles.map((style) => (
-                              <SelectItem key={style} value={style}>
-                                {style}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div>
-                        <Label>Skin Tone</Label>
-                        <Select
-                          value={customization[avatar.id]?.skinTone}
-                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'skinTone', value)}
-                        >
-                          <SelectTrigger className="mt-2">
-                            <SelectValue placeholder="Select skin tone" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {avatar.physicalFeatures.skinTones.map((tone) => (
-                              <SelectItem key={tone} value={tone}>
-                                {tone}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div>
-                        <Label>Hair Style</Label>
-                        <Select
-                          value={customization[avatar.id]?.hairStyle}
-                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'hairStyle', value)}
-                        >
-                          <SelectTrigger className="mt-2">
-                            <SelectValue placeholder="Select hair style" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {avatar.physicalFeatures.hairStyles.map((style) => (
-                              <SelectItem key={style} value={style}>
-                                {style}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div>
-                        <Label>Face Shape</Label>
-                        <Select
-                          value={customization[avatar.id]?.faceShape}
-                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'faceShape', value)}
-                        >
-                          <SelectTrigger className="mt-2">
-                            <SelectValue placeholder="Select face shape" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {avatar.physicalFeatures.faceShapes.map((shape) => (
-                              <SelectItem key={shape} value={shape}>
-                                {shape}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label>Eye Color</Label>
-                        <Select
-                          value={customization[avatar.id]?.eyeColor}
-                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'eyeColor', value)}
-                        >
-                          <SelectTrigger className="mt-2">
-                            <SelectValue placeholder="Select eye color" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {avatar.physicalFeatures.eyeColors.map((color) => (
-                              <SelectItem key={color} value={color}>
-                                {color}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </TabsContent>
-
-                    <TabsContent value="motion" className="space-y-4">
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                          <Label>AI Lip Sync</Label>
-                          <Checkbox
-                            checked={customization[avatar.id]?.lipSync}
-                            onCheckedChange={(checked) => 
-                              handleCustomizationChange(avatar.id, 'lipSync', checked)
-                            }
-                          />
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <Label>Expression Recognition</Label>
-                          <Checkbox
-                            checked={customization[avatar.id]?.expressionRecognition}
-                            onCheckedChange={(checked) => 
-                              handleCustomizationChange(avatar.id, 'expressionRecognition', checked)
-                            }
-                          />
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <Label>Full Body Motion</Label>
-                          <Checkbox
-                            checked={customization[avatar.id]?.bodyMotion}
-                            onCheckedChange={(checked) => 
-                              handleCustomizationChange(avatar.id, 'bodyMotion', checked)
-                            }
-                          />
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <Label>Physics-Based Animation</Label>
-                          <Checkbox
-                            checked={customization[avatar.id]?.physicsEnabled}
-                            onCheckedChange={(checked) => 
-                              handleCustomizationChange(avatar.id, 'physicsEnabled', checked)
-                            }
-                          />
-                        </div>
-                      </div>
-                    </TabsContent>
-
-                    <TabsContent value="ai" className="space-y-4">
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <Label>Autonomous Reactions</Label>
-                            <p className="text-sm text-muted-foreground">Avatar responds naturally to interactions</p>
-                          </div>
-                          <Checkbox
-                            checked={customization[avatar.id]?.autonomousReactions}
-                            onCheckedChange={(checked) => 
-                              handleCustomizationChange(avatar.id, 'autonomousReactions', checked)
-                            }
-                          />
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <Label>Voice Cloning</Label>
-                            <p className="text-sm text-muted-foreground">Use AI to clone a specific voice</p>
-                          </div>
-                          <Checkbox
-                            checked={customization[avatar.id]?.voiceCloning}
-                            onCheckedChange={(checked) => 
-                              handleCustomizationChange(avatar.id, 'voiceCloning', checked)
-                            }
-                          />
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <Label>Emotion Detection</Label>
-                            <p className="text-sm text-muted-foreground">Adapt to audience reactions</p>
-                          </div>
-                          <Checkbox
-                            checked={customization[avatar.id]?.emotionDetection}
-                            onCheckedChange={(checked) => 
-                              handleCustomizationChange(avatar.id, 'emotionDetection', checked)
-                            }
-                          />
-                        </div>
-                      </div>
-                    </TabsContent>
-
-                    <TabsContent value="voice" className="space-y-4">
-                      <div>
-                        <Label>Voice Style</Label>
-                        <Select 
-                          value={avatar.voiceOptions[customization[avatar.id]?.voiceStyle || 0]}
-                          onValueChange={(value) => handleCustomizationChange(
-                            avatar.id,
-                            'voiceStyle',
-                            avatar.voiceOptions.indexOf(value)
-                          )}
-                        >
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {avatar.voiceOptions.map((voice) => (
-                              <SelectItem key={voice} value={voice}>
-                                {voice}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div>
-                        <Label>Voice Pitch</Label>
-                        <Slider
-                          defaultValue={[customization[avatar.id]?.voicePitch || 50]}
-                          min={0}
-                          max={100}
-                          step={1}
-                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'voicePitch', value[0])}
-                        />
-                      </div>
-
-                      <div>
-                        <Label>Speaking Speed</Label>
-                        <Slider
-                          defaultValue={[customization[avatar.id]?.voiceSpeed || 50]}
-                          min={0}
-                          max={100}
-                          step={1}
-                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'voiceSpeed', value[0])}
-                        />
-                      </div>
-                    </TabsContent>
-
-                    <TabsContent value="language" className="space-y-4">
-                      <div>
-                        <Label>Language</Label>
-                        <Select
-                          value={customization[avatar.id]?.language}
-                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'language', value)}
-                        >
-                          <SelectTrigger className="mt-2">
-                            <SelectValue placeholder="Select language" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {avatar.languages.map((lang) => (
-                              <SelectItem key={lang} value={lang}>
-                                {lang}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div>
-                        <Label>Accent Strength</Label>
-                        <Slider
-                          defaultValue={[customization[avatar.id]?.accentStrength || 50]}
-                          min={0}
-                          max={100}
-                          step={1}
-                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'accentStrength', value[0])}
-                        />
-                      </div>
-                    </TabsContent>
-                  </Tabs>
-
-                  <div className="flex justify-end gap-2 mt-6">
-                    <Button variant="outline" onClick={() => setIsCustomizing(false)}>
-                      Cancel
-                    </Button>
-                    <Button className="bg-primary/90 hover:bg-primary">
-                      Apply Changes
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <CustomizationPanel
+                avatar={avatar}
+                customization={customization[avatar.id] || ({} as CustomizationState)}
+                onCustomizationChange={(field, value) => handleCustomizationChange(avatar.id, field, value)}
+                onClose={() => setIsCustomizing(false)}
+              />
             )}
           </motion.div>
         ))}
@@ -635,5 +655,3 @@ function AvatarsPage() {
     </AppLayout>
   );
 }
-
-export default AvatarsPage;
