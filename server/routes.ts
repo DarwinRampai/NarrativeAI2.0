@@ -9,14 +9,19 @@ import { insertProjectSchema, insertScriptSchema } from "@shared/schema";
 export async function registerRoutes(app: Express): Promise<Server> {
   setupAuth(app);
 
+  // Error handling middleware
+  const asyncHandler = (fn: Function) => (req: any, res: any, next: any) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+  };
+
   // Projects
-  app.get("/api/projects", async (req, res) => {
+  app.get("/api/projects", asyncHandler(async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
     const projects = await storage.getProjects(req.user.id);
     res.json(projects);
-  });
+  }));
 
-  app.post("/api/projects", async (req, res) => {
+  app.post("/api/projects", asyncHandler(async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
     const data = insertProjectSchema.parse(req.body);
     const project = await storage.createProject({
@@ -24,16 +29,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       userId: req.user.id,
     });
     res.status(201).json(project);
-  });
+  }));
 
   // Scripts
-  app.get("/api/projects/:projectId/scripts", async (req, res) => {
+  app.get("/api/projects/:projectId/scripts", asyncHandler(async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
     const scripts = await storage.getScripts(parseInt(req.params.projectId));
     res.json(scripts);
-  });
+  }));
 
-  app.post("/api/projects/:projectId/scripts/generate", async (req, res) => {
+  app.post("/api/projects/:projectId/scripts/generate", asyncHandler(async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
 
     const schema = z.object({
@@ -52,10 +57,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
 
     res.status(201).json(script);
-  });
+  }));
 
   // Content Optimization
-  app.post("/api/optimize-content", async (req, res) => {
+  app.post("/api/optimize-content", asyncHandler(async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
 
     const schema = z.object({
@@ -65,10 +70,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const data = schema.parse(req.body);
     const optimization = await optimizeContent(data.content);
     res.json(optimization);
-  });
+  }));
 
   // Ad Variations
-  app.post("/api/generate-variations", async (req, res) => {
+  app.post("/api/generate-variations", asyncHandler(async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
 
     const schema = z.object({
@@ -79,10 +84,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const data = schema.parse(req.body);
     const variations = await generateAdVariations(data.baseScript, data.platforms);
     res.json(variations);
-  });
+  }));
 
   // Audience Insights
-  app.post("/api/audience-insights", async (req, res) => {
+  app.post("/api/audience-insights", asyncHandler(async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
 
     const schema = z.object({
@@ -93,13 +98,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const data = schema.parse(req.body);
     const insights = await getAudienceInsights(data.demographics, data.behavior);
     res.json(insights);
-  });
+  }));
 
   // Templates
-  app.get("/api/templates", async (req, res) => {
+  app.get("/api/templates", asyncHandler(async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
     const templates = await storage.getTemplates();
     res.json(templates);
+  }));
+
+  // Error handling middleware
+  app.use((err: any, req: any, res: any, next: any) => {
+    console.error(err);
+    res.status(err.status || 500).json({
+      message: err.message || 'Internal Server Error',
+      ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+    });
   });
 
   const httpServer = createServer(app);
