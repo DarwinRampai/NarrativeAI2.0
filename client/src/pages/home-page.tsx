@@ -5,7 +5,12 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Code, Cpu, VideoIcon } from "lucide-react";
 
-const FeatureCard = ({ icon: Icon, title, description, delay = 0 }) => (
+const FeatureCard = ({ icon: Icon, title, description, delay = 0 }: {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  delay?: number;
+}) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -34,19 +39,19 @@ export default function HomePage() {
         </h1>
         <div>
           {user ? (
-            <Link href="/dashboard">
-              <Button>
+            <Button asChild>
+              <Link href="/dashboard">
                 Go to Dashboard
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           ) : (
-            <Link href="/auth">
-              <Button className="bg-primary/90 hover:bg-primary">
+            <Button asChild className="bg-primary/90 hover:bg-primary">
+              <Link href="/auth">
                 Get Started
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           )}
         </div>
       </nav>
@@ -72,17 +77,17 @@ export default function HomePage() {
             </p>
 
             <div className="flex gap-4 justify-center mb-20">
-              <Link href="/auth">
-                <Button size="lg" className="bg-primary/90 hover:bg-primary">
+              <Button asChild size="lg" className="bg-primary/90 hover:bg-primary">
+                <Link href="/early-access">
                   Get Early Access
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link href="#features">
-                <Button size="lg" variant="outline">
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <Link href="/learn-more">
                   Learn More
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </motion.div>
         </div>
@@ -118,12 +123,12 @@ export default function HomePage() {
           <p className="text-muted-foreground mb-8">
             Join the next generation of AI-powered advertising creation.
           </p>
-          <Link href="/auth">
-            <Button size="lg" className="bg-primary/90 hover:bg-primary">
+          <Button asChild size="lg" className="bg-primary/90 hover:bg-primary">
+            <Link href="/auth">
               Start Creating Now
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </motion.div>
       </main>
     </div>
