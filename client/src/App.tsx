@@ -14,6 +14,7 @@ import Settings from "@/pages/settings";
 import AuthPage from "@/pages/auth-page";
 import EarlyAccess from "@/pages/early-access";
 import LearnMore from "@/pages/learn-more";
+import AvatarsPage from "@/pages/avatars";
 import { ProtectedRoute } from "./lib/protected-route";
 
 function Router() {
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/learn-more" component={LearnMore} />
       <ProtectedRoute path="/dashboard" component={Dashboard} />
       <ProtectedRoute path="/script-generator" component={ScriptGenerator} />
+      <ProtectedRoute path="/avatars" component={AvatarsPage} />
       <ProtectedRoute path="/video-editor" component={VideoEditor} />
       <ProtectedRoute path="/optimization" component={Optimization} />
       <ProtectedRoute path="/analytics" component={Analytics} />
