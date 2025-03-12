@@ -7,6 +7,21 @@ interface ScriptPrompt {
   prompt: string;
   tone: string;
   audience: string;
+  industry?: string;
+  brandVoice?: string;
+  platform?: string;
+}
+
+interface ContentOptimization {
+  targetAudience: string[];
+  engagement: {
+    score: number;
+    suggestions: string[];
+  };
+  tone: {
+    current: string;
+    recommendations: string[];
+  };
 }
 
 export async function generateAIScript(prompt: string, tone: string, audience: string): Promise<string> {
@@ -36,5 +51,94 @@ export async function generateAIScript(prompt: string, tone: string, audience: s
   } catch (error) {
     console.error("OpenAI API error:", error);
     throw new Error("Failed to generate script: " + (error as Error).message);
+  }
+}
+
+export async function optimizeContent(content: string): Promise<ContentOptimization> {
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: `Analyze this ad content and provide optimization suggestions. Return a JSON object with:
+          - Target audience identification
+          - Engagement score and improvement suggestions
+          - Tone analysis and recommendations
+          Format the response as valid JSON.`
+        },
+        {
+          role: "user",
+          content
+        }
+      ],
+      response_format: { type: "json_object" },
+      temperature: 0.3,
+    });
+
+    return JSON.parse(response.choices[0].message.content || "{}");
+  } catch (error) {
+    console.error("Content optimization error:", error);
+    throw new Error("Failed to optimize content: " + (error as Error).message);
+  }
+}
+
+export async function generateAdVariations(
+  baseScript: string,
+  platforms: string[]
+): Promise<Record<string, string>> {
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: `Create platform-specific variations of this ad script. Adapt the content for each platform while maintaining the core message. Return a JSON object with platform names as keys and adapted scripts as values.`
+        },
+        {
+          role: "user",
+          content: `Base script: ${baseScript}\nPlatforms: ${platforms.join(", ")}`
+        }
+      ],
+      response_format: { type: "json_object" },
+      temperature: 0.5,
+    });
+
+    return JSON.parse(response.choices[0].message.content || "{}");
+  } catch (error) {
+    console.error("Ad variation generation error:", error);
+    throw new Error("Failed to generate ad variations: " + (error as Error).message);
+  }
+}
+
+export async function getAudienceInsights(
+  demographics: string,
+  behavior: string
+): Promise<Record<string, any>> {
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: `Analyze the target audience data and provide actionable insights. Return a JSON object with:
+          - Audience segments
+          - Content preferences
+          - Engagement patterns
+          - Platform recommendations`
+        },
+        {
+          role: "user",
+          content: `Demographics: ${demographics}\nBehavior patterns: ${behavior}`
+        }
+      ],
+      response_format: { type: "json_object" },
+      temperature: 0.4,
+    });
+
+    return JSON.parse(response.choices[0].message.content || "{}");
+  } catch (error) {
+    console.error("Audience insights error:", error);
+    throw new Error("Failed to generate audience insights: " + (error as Error).message);
   }
 }

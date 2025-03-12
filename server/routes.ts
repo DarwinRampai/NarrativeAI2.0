@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
-import { generateAIScript } from "./openai";
+import { generateAIScript, optimizeContent, generateAdVariations, getAudienceInsights } from "./openai";
 import { z } from "zod";
 import { insertProjectSchema, insertScriptSchema } from "@shared/schema";
 
@@ -52,6 +52,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
 
     res.status(201).json(script);
+  });
+
+  // Content Optimization
+  app.post("/api/optimize-content", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+
+    const schema = z.object({
+      content: z.string(),
+    });
+
+    const data = schema.parse(req.body);
+    const optimization = await optimizeContent(data.content);
+    res.json(optimization);
+  });
+
+  // Ad Variations
+  app.post("/api/generate-variations", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+
+    const schema = z.object({
+      baseScript: z.string(),
+      platforms: z.array(z.string()),
+    });
+
+    const data = schema.parse(req.body);
+    const variations = await generateAdVariations(data.baseScript, data.platforms);
+    res.json(variations);
+  });
+
+  // Audience Insights
+  app.post("/api/audience-insights", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+
+    const schema = z.object({
+      demographics: z.string(),
+      behavior: z.string(),
+    });
+
+    const data = schema.parse(req.body);
+    const insights = await getAudienceInsights(data.demographics, data.behavior);
+    res.json(insights);
   });
 
   // Templates
