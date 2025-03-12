@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { UserCircle, Sliders, Brain, Languages, Mic2 } from "lucide-react";
+import { UserCircle, Sliders, Brain, Languages, Mic2, Wand2 } from "lucide-react";
 import AppLayout from "@/components/layout/app-layout";
 import { motion } from "framer-motion";
 
@@ -226,6 +227,58 @@ const demoAvatars: Avatar[] = [
     }
   }
 ];
+
+function GenerateAvatarSection() {
+  const [description, setDescription] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleGenerate = async () => {
+    setIsGenerating(true);
+    // Here we would integrate with AI to generate the avatar
+    // For now, just simulate a delay
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    setIsGenerating(false);
+  };
+
+  return (
+    <Card className="mb-8 bg-card/30 backdrop-blur-sm border-primary/10">
+      <CardHeader>
+        <CardTitle className="text-2xl flex items-center gap-2">
+          <Wand2 className="h-6 w-6 text-primary" />
+          Generate Custom Avatar
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="space-y-2">
+          <Label>Describe Your Avatar</Label>
+          <Textarea
+            placeholder="Describe the avatar you want to create... For example: 'A professional female presenter in her 30s with shoulder-length brown hair, wearing a navy business suit. She should have a warm and approachable demeanor, suitable for corporate training videos.'"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="h-32 bg-background/50 backdrop-blur-sm border-primary/10 focus:border-primary/30"
+          />
+        </div>
+        <Button 
+          onClick={handleGenerate} 
+          className="w-full bg-primary/90 hover:bg-primary"
+          disabled={!description.trim() || isGenerating}
+        >
+          {isGenerating ? (
+            <>
+              <Sliders className="mr-2 h-4 w-4 animate-spin" />
+              Generating Avatar...
+            </>
+          ) : (
+            <>
+              <Wand2 className="mr-2 h-4 w-4" />
+              Generate Avatar
+            </>
+          )}
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
 
 function CustomizationPanel({ 
   avatar, 
@@ -608,6 +661,8 @@ export default function AvatarsPage() {
           Create Custom Avatar
         </Button>
       </div>
+
+      <GenerateAvatarSection />
 
       <div className="grid md:grid-cols-3 gap-6">
         {demoAvatars.map((avatar) => (
