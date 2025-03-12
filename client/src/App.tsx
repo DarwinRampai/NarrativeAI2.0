@@ -12,6 +12,8 @@ import Optimization from "@/pages/optimization";
 import Analytics from "@/pages/analytics";
 import Settings from "@/pages/settings";
 import AuthPage from "@/pages/auth-page";
+import EarlyAccess from "@/pages/early-access";
+import LearnMore from "@/pages/learn-more";
 import { ProtectedRoute } from "./lib/protected-route";
 
 function Router() {
@@ -19,6 +21,8 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/auth" component={AuthPage} />
+      <Route path="/early-access" component={EarlyAccess} />
+      <Route path="/learn-more" component={LearnMore} />
       <ProtectedRoute path="/dashboard" component={Dashboard} />
       <ProtectedRoute path="/script-generator" component={ScriptGenerator} />
       <ProtectedRoute path="/video-editor" component={VideoEditor} />
