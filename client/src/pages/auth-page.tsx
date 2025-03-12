@@ -16,7 +16,7 @@ export default function AuthPage() {
 
   useEffect(() => {
     if (user) {
-      setLocation("/");
+      setLocation("/dashboard");
     }
   }, [user, setLocation]);
 
@@ -43,9 +43,11 @@ export default function AuthPage() {
   return (
     <div className="min-h-screen grid md:grid-cols-2">
       <div className="flex items-center justify-center p-8">
-        <Card className="w-full max-w-md">
+        <Card className="w-full max-w-md bg-card/30 backdrop-blur-sm border-primary/10">
           <CardHeader>
-            <CardTitle>Welcome to NarratixAI</CardTitle>
+            <CardTitle className="text-2xl bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+              Welcome to NarratixAI
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="login">
@@ -56,7 +58,7 @@ export default function AuthPage() {
 
               <TabsContent value="login">
                 <Form {...loginForm}>
-                  <form onSubmit={loginForm.handleSubmit((data) => loginMutation.mutate(data))}>
+                  <form onSubmit={loginForm.handleSubmit((data) => loginMutation.mutate(data))} className="space-y-4">
                     <FormField
                       control={loginForm.control}
                       name="username"
@@ -64,7 +66,7 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Username</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} className="bg-background/50 backdrop-blur-sm border-primary/10 focus:border-primary/30" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -77,13 +79,13 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Password</FormLabel>
                           <FormControl>
-                            <Input type="password" {...field} />
+                            <Input type="password" {...field} className="bg-background/50 backdrop-blur-sm border-primary/10 focus:border-primary/30" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" className="w-full mt-4" disabled={loginMutation.isPending}>
+                    <Button type="submit" className="w-full bg-primary/90 hover:bg-primary" disabled={loginMutation.isPending}>
                       Login
                     </Button>
                   </form>
@@ -92,7 +94,7 @@ export default function AuthPage() {
 
               <TabsContent value="register">
                 <Form {...registerForm}>
-                  <form onSubmit={registerForm.handleSubmit((data) => registerMutation.mutate(data))}>
+                  <form onSubmit={registerForm.handleSubmit((data) => registerMutation.mutate(data))} className="space-y-4">
                     <FormField
                       control={registerForm.control}
                       name="username"
@@ -100,7 +102,7 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Username</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} className="bg-background/50 backdrop-blur-sm border-primary/10 focus:border-primary/30" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -113,13 +115,13 @@ export default function AuthPage() {
                         <FormItem>
                           <FormLabel>Password</FormLabel>
                           <FormControl>
-                            <Input type="password" {...field} />
+                            <Input type="password" {...field} className="bg-background/50 backdrop-blur-sm border-primary/10 focus:border-primary/30" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" className="w-full mt-4" disabled={registerMutation.isPending}>
+                    <Button type="submit" className="w-full bg-primary/90 hover:bg-primary" disabled={registerMutation.isPending}>
                       Register
                     </Button>
                   </form>
