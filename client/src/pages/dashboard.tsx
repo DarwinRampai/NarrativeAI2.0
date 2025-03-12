@@ -33,7 +33,7 @@ export default function Dashboard() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {projects?.map((project) => (
-                <Card key={project.id}>
+                <Card key={project.id} className="bg-card hover:bg-card/80 transition-colors">
                   <CardHeader>
                     <CardTitle>{project.name}</CardTitle>
                   </CardHeader>
