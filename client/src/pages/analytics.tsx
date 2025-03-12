@@ -4,7 +4,14 @@ import { BarChart3, Download, LineChart, PieChart, TrendingUp } from "lucide-rea
 import AppLayout from "@/components/layout/app-layout";
 import { motion } from "framer-motion";
 
-const StatCard = ({ title, value, change, icon: Icon }) => (
+interface StatCardProps {
+  title: string;
+  value: string;
+  change: string;
+  icon: React.ElementType;
+}
+
+const StatCard = ({ title, value, change, icon: Icon }: StatCardProps) => (
   <Card className="relative overflow-hidden bg-card/30 backdrop-blur-sm border-primary/10">
     <CardContent className="pt-6">
       <div className="flex items-center justify-between">

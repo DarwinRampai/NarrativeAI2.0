@@ -4,7 +4,14 @@ import { Loader2, Sparkles, TrendingUp, Zap } from "lucide-react";
 import AppLayout from "@/components/layout/app-layout";
 import { motion } from "framer-motion";
 
-const MetricCard = ({ title, value, icon: Icon, delay = 0 }) => (
+interface MetricCardProps {
+  title: string;
+  value: string;
+  icon: React.ElementType;
+  delay?: number;
+}
+
+const MetricCard = ({ title, value, icon: Icon, delay = 0 }: MetricCardProps) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -84,7 +91,7 @@ export default function Optimization() {
                   <span className="text-sm text-muted-foreground">75%</span>
                 </div>
               </div>
-              
+
               <div className="p-4 rounded-lg bg-primary/5 border border-primary/10">
                 <div className="flex justify-between items-center mb-2">
                   <h4 className="font-medium">Tech Gadget Campaign</h4>
