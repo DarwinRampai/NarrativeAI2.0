@@ -12,10 +12,10 @@ export default function Sidebar() {
   const [location] = useLocation();
 
   return (
-    <div className="w-64 min-h-[calc(100vh-4rem)] bg-card border-r">
+    <aside className="fixed inset-y-0 left-0 w-64 bg-card border-r mt-16">
       <nav className="p-4 space-y-2">
         {navigation.map((item) => {
-          const isActive = location === item.href;
+          const isActive = location.startsWith(item.href);
           return (
             <Link key={item.name} href={item.href}>
               <a
@@ -33,6 +33,6 @@ export default function Sidebar() {
           );
         })}
       </nav>
-    </div>
+    </aside>
   );
 }

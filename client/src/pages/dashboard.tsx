@@ -15,9 +15,9 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="flex">
-        <Sidebar />
-        <main className="flex-1 p-6">
+      <Sidebar />
+      <main className="ml-64 pt-16 min-h-screen">
+        <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">Projects</h1>
             <Button>
@@ -58,8 +58,8 @@ export default function Dashboard() {
               ))}
             </div>
           )}
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 }
