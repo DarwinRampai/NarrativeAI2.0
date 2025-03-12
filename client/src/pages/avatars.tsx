@@ -36,6 +36,48 @@ const demoAvatars: Avatar[] = [
     previewUrl: "/avatars/sarah.mp4",
     description: "Great for creative and artistic content",
     voiceOptions: ["Artistic", "Inspirational", "Relaxed"]
+  },
+  {
+    id: 4,
+    name: "Executive Michael",
+    previewUrl: "/avatars/michael.mp4",
+    description: "Perfect for executive presentations and corporate announcements",
+    voiceOptions: ["Authoritative", "Confident", "Professional"]
+  },
+  {
+    id: 5,
+    name: "Lifestyle Coach Rachel",
+    previewUrl: "/avatars/rachel.mp4",
+    description: "Specialized in wellness, lifestyle, and motivational content",
+    voiceOptions: ["Motivational", "Calming", "Energetic"]
+  },
+  {
+    id: 6,
+    name: "Sales Pro David",
+    previewUrl: "/avatars/david.mp4",
+    description: "Expert in sales pitches and product demonstrations",
+    voiceOptions: ["Persuasive", "Friendly", "Dynamic"]
+  },
+  {
+    id: 7,
+    name: "Educational Lisa",
+    previewUrl: "/avatars/lisa.mp4",
+    description: "Perfect for educational content and e-learning materials",
+    voiceOptions: ["Clear", "Patient", "Engaging"]
+  },
+  {
+    id: 8,
+    name: "Entertainment Host James",
+    previewUrl: "/avatars/james.mp4",
+    description: "Ideal for entertainment and media content",
+    voiceOptions: ["Entertaining", "Dramatic", "Casual"]
+  },
+  {
+    id: 9,
+    name: "Medical Expert Dr. Maria",
+    previewUrl: "/avatars/maria.mp4",
+    description: "Specialized in healthcare and medical content delivery",
+    voiceOptions: ["Professional", "Compassionate", "Informative"]
   }
 ];
 
