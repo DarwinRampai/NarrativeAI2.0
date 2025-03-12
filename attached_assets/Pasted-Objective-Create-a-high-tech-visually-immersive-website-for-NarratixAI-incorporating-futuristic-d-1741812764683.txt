@@ -1,0 +1,86 @@
+Objective:
+Create a high-tech, visually immersive website for NarratixAI, incorporating futuristic design elements, advanced CGI visuals, and AI-powered interactivity to showcase the power of AI-generated advertising. The website should communicate innovation, precision, and high performance, similar to NVIDIA’s branding.
+
+⸻
+
+1. Overall Design Aesthetic
+
+✅ Futuristic & Sleek – Dark-themed UI with neon-accented highlights (green, orange, or electric blue) to give a cutting-edge, cybernetic feel.
+✅ 3D & CGI-Enhanced Visuals – Dynamic hero banners featuring hyper-realistic AI-generated characters and environments.
+✅ Parallax & Motion Effects – Subtle scroll-triggered animations to enhance interactivity.
+✅ Glassmorphism & Neuromorphic UI – Blurred-glass overlays, soft shadows, and glowing interface elements.
+✅ AI-Generated Video Backgrounds – Dynamic, high-fidelity CGI animations showcasing ad creation in real-time.
+
+⸻
+
+2. Homepage Elements
+
+✅ Hero Section (Above the Fold):
+	•	Cinematic 3D CGI animation showcasing NarratixAI in action.
+	•	Bold headline: “Revolutionizing Ad Creation with AI & Next-Gen CGI”.
+	•	Call-to-action (CTA): “Get Early Access” or “Request a Demo”.
+
+✅ Feature Highlights (Scrolling Sections):
+	•	Neural Avatars & CGI Ads – Showcases dynamic, AI-generated digital spokespeople.
+	•	Real-Time Ad Adaptation – Interactive example of AI optimizing ads on the fly.
+	•	AI-Powered 3D Environments – Displays how the platform generates photo-realistic backgrounds for ads.
+
+✅ Showcase Demos & Case Studies:
+	•	Interactive sliders demonstrating before/after AI ad transformations.
+	•	Live comparison module where users can generate instant AI-driven ad previews.
+
+✅ Dynamic Data Display:
+	•	Real-time counters showing ads generated, AI optimizations per second, and campaign performance boosts.
+	•	User testimonials & brand success stories powered by AI-driven animations.
+
+✅ Call-to-Action (CTA) Sections:
+	•	Sticky “Try NarratixAI for Free” button that follows users as they scroll.
+	•	AI chatbot for personalized recommendations and interactive Q&A.
+
+⸻
+
+3. Core Website Pages & Functionality
+
+✅ Technology Page:
+	•	Deep dive into AI + CGI technology behind NarratixAI.
+	•	3D-rendered interactive explainer graphics.
+	•	Showcase of AI pipeline: Script → CGI Creation → Smart Optimization.
+
+✅ Product Page:
+	•	Modular feature breakdown with scroll-triggered animations.
+	•	Interactive demos: Users can generate a sample ad in real-time.
+
+✅ Pricing & Plans:
+	•	Dynamic pricing calculator that adjusts based on features selected.
+
+✅ Blog / Insights Section:
+	•	AI-generated marketing insights, case studies, and industry trends.
+
+✅ Enterprise Solutions Page:
+	•	Custom solutions for large-scale ad agencies, brands, and enterprises.
+
+✅ Contact / Demo Request:
+	•	AI chatbot for instant inquiries.
+	•	Embedded Calendly integration for scheduling calls.
+
+⸻
+
+4. Additional Enhancements
+
+✅ Performance Optimization:
+	•	Built with Next.js for speed and SEO.
+	•	Uses WebGL & Three.js for 3D animations.
+	•	AI-powered image & video compression for fast loading.
+
+✅ Dark Mode & Accessibility:
+	•	Seamless dark/light mode toggle.
+	•	WCAG-compliant for accessibility.
+
+✅ AI-Powered Search & Navigation:
+	•	Users can ask AI “How does NarratixAI work?” and get instant responses.
+
+⸻
+
+Conclusion
+
+The NarratixAI website should feel futuristic, premium, and cutting-edge, combining NVIDIA’s high-tech aesthetic with dynamic AI-driven elements that showcase the power of autonomous ad creation.

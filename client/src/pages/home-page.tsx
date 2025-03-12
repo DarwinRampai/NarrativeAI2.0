@@ -2,6 +2,26 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { motion } from "framer-motion";
+import { Card } from "@/components/ui/card";
+import { ArrowRight, Code, Cpu, VideoIcon } from "lucide-react";
+
+const FeatureCard = ({ icon: Icon, title, description, delay = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6, delay }}
+    className="relative overflow-hidden rounded-lg border bg-card/30 backdrop-blur-sm"
+  >
+    <div className="p-6">
+      <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+        <Icon className="h-6 w-6 text-primary" />
+      </div>
+      <h3 className="text-xl font-semibold mb-2">{title}</h3>
+      <p className="text-muted-foreground">{description}</p>
+    </div>
+    <div className="absolute -bottom-2 -right-2 h-24 w-24 rounded-full bg-primary/5 blur-2xl" />
+  </motion.div>
+);
 
 export default function HomePage() {
   const { user } = useAuth();
@@ -9,73 +29,102 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
       <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold">NarratixAI</h1>
+        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/50">
+          NarratixAI
+        </h1>
         <div>
           {user ? (
             <Link href="/dashboard">
-              <Button variant="secondary">Go to Dashboard</Button>
+              <Button>
+                Go to Dashboard
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
             </Link>
           ) : (
             <Link href="/auth">
-              <Button>Get Started</Button>
+              <Button className="bg-primary/90 hover:bg-primary">
+                Get Started
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
             </Link>
           )}
         </div>
       </nav>
 
       <main className="container mx-auto px-6 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-4xl mx-auto"
-        >
-          <h2 className="text-5xl font-bold mb-6">
-            Create Stunning Ads with AI
-          </h2>
-          <p className="text-xl text-muted-foreground mb-12">
-            Generate persuasive scripts, create professional videos, and optimize your
-            advertising campaigns with the power of artificial intelligence.
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-8 mt-16">
+        <div className="relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="p-6 rounded-lg bg-card"
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-4xl mx-auto"
           >
-            <h3 className="text-xl font-semibold mb-4">AI Script Generation</h3>
-            <p className="text-muted-foreground">
-              Generate persuasive ad scripts tailored to your brand voice and target audience.
-            </p>
-          </motion.div>
+            <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
+              <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary to-primary/30 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" />
+            </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="p-6 rounded-lg bg-card"
-          >
-            <h3 className="text-xl font-semibold mb-4">Video Editor</h3>
-            <p className="text-muted-foreground">
-              Create professional videos using our library of templates and easy-to-use editor.
+            <h1 className="text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+              Revolutionizing Ad Creation with AI & Next-Gen CGI
+            </h1>
+            <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
+              Generate persuasive scripts, create professional videos, and optimize your
+              advertising campaigns with the power of artificial intelligence.
             </p>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="p-6 rounded-lg bg-card"
-          >
-            <h3 className="text-xl font-semibold mb-4">Analytics Dashboard</h3>
-            <p className="text-muted-foreground">
-              Track performance metrics and optimize your campaigns in real-time.
-            </p>
+            <div className="flex gap-4 justify-center mb-20">
+              <Link href="/auth">
+                <Button size="lg" className="bg-primary/90 hover:bg-primary">
+                  Get Early Access
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <Link href="#features">
+                <Button size="lg" variant="outline">
+                  Learn More
+                </Button>
+              </Link>
+            </div>
           </motion.div>
         </div>
+
+        <div id="features" className="grid md:grid-cols-3 gap-8 mt-16">
+          <FeatureCard
+            icon={Cpu}
+            title="AI Script Generation"
+            description="Generate persuasive ad scripts tailored to your brand voice and target audience."
+            delay={0.2}
+          />
+          <FeatureCard
+            icon={VideoIcon}
+            title="Next-Gen CGI Videos"
+            description="Create stunning videos with AI-powered CGI and real-time rendering."
+            delay={0.4}
+          />
+          <FeatureCard
+            icon={Code}
+            title="Smart Optimization"
+            description="Automatically optimize your ads for maximum engagement and conversion."
+            delay={0.6}
+          />
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mt-32 text-center"
+        >
+          <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Advertising?</h2>
+          <p className="text-muted-foreground mb-8">
+            Join the next generation of AI-powered advertising creation.
+          </p>
+          <Link href="/auth">
+            <Button size="lg" className="bg-primary/90 hover:bg-primary">
+              Start Creating Now
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        </motion.div>
       </main>
     </div>
   );
