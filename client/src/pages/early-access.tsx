@@ -29,7 +29,7 @@ export default function EarlyAccess() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-4xl mx-auto mb-12"
         >
-          <h1 className="text-5xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+          <h1 className="text-5xl font-bold tracking-tight mb-6 gradient-heading">
             Be Among the First to Experience NarratixAI
           </h1>
           <p className="text-xl text-muted-foreground mb-8">
@@ -43,7 +43,7 @@ export default function EarlyAccess() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Card className="relative overflow-hidden bg-card/30 backdrop-blur-sm border-primary/10">
+            <Card className="card-hover">
               <CardContent className="p-8">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="relative">
@@ -63,7 +63,6 @@ export default function EarlyAccess() {
                   </Button>
                 </form>
               </CardContent>
-              <div className="absolute -bottom-4 -right-4 h-32 w-32 rounded-full bg-primary/5 blur-2xl" />
             </Card>
           </motion.div>
 
@@ -74,8 +73,8 @@ export default function EarlyAccess() {
             className="space-y-6"
           >
             <div className="flex items-start gap-4">
-              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Star className="h-5 w-5 text-primary" />
+              <div className="feature-icon">
+                <Star className="feature-icon-inner" />
               </div>
               <div>
                 <h3 className="text-lg font-semibold mb-2">Exclusive Benefits</h3>
@@ -86,8 +85,8 @@ export default function EarlyAccess() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Shield className="h-5 w-5 text-primary" />
+              <div className="feature-icon">
+                <Shield className="feature-icon-inner" />
               </div>
               <div>
                 <h3 className="text-lg font-semibold mb-2">Dedicated Support</h3>
@@ -98,8 +97,8 @@ export default function EarlyAccess() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Sparkles className="h-5 w-5 text-primary" />
+              <div className="feature-icon">
+                <Sparkles className="feature-icon-inner" />
               </div>
               <div>
                 <h3 className="text-lg font-semibold mb-2">Shape the Future</h3>
