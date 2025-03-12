@@ -14,8 +14,8 @@ export default function Navbar() {
   const { user, logoutMutation } = useAuth();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 h-16 border-b bg-background z-50">
-      <div className="container h-full mx-auto px-6 flex items-center justify-between">
+    <header className="fixed top-0 left-0 right-0 h-16 border-b bg-background z-50">
+      <div className="h-full mx-auto px-6 flex items-center justify-between">
         <Link href="/">
           <Button variant="link" className="text-2xl font-bold p-0">
             NarratixAI
@@ -49,6 +49,6 @@ export default function Navbar() {
           </DropdownMenu>
         )}
       </div>
-    </nav>
+    </header>
   );
 }
