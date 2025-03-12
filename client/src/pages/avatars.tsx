@@ -5,7 +5,8 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { UserCircle } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { UserCircle, Sliders, Brain, Languages, Mic2 } from "lucide-react";
 import AppLayout from "@/components/layout/app-layout";
 import { motion } from "framer-motion";
 
@@ -18,6 +19,47 @@ interface Avatar {
   outfits: string[];
   backgrounds: string[];
   expressions: string[];
+  styles: string[];
+  languages: string[];
+  physicalFeatures: {
+    skinTones: string[];
+    hairStyles: string[];
+    faceShapes: string[];
+    eyeColors: string[];
+  };
+}
+
+interface CustomizationState {
+  // Basic customization
+  voiceStyle: number;
+  voicePitch: number;
+  voiceSpeed: number;
+  outfit: string;
+  background: string;
+  expression: string;
+  gestures: boolean;
+
+  // Physical features
+  skinTone: string;
+  hairStyle: string;
+  faceShape: string;
+  eyeColor: string;
+
+  // Advanced motion
+  lipSync: boolean;
+  expressionRecognition: boolean;
+  bodyMotion: boolean;
+  physicsEnabled: boolean;
+
+  // AI behavior
+  autonomousReactions: boolean;
+  voiceCloning: boolean;
+  emotionDetection: boolean;
+
+  // Style & Language
+  avatarStyle: string;
+  language: string;
+  accentStrength: number;
 }
 
 const demoAvatars: Avatar[] = [
@@ -29,7 +71,15 @@ const demoAvatars: Avatar[] = [
     voiceOptions: ["Professional", "Friendly", "Energetic"],
     outfits: ["Business Suit", "Smart Casual", "Professional Dress"],
     backgrounds: ["Office", "Conference Room", "Modern Studio"],
-    expressions: ["Confident", "Approachable", "Enthusiastic"]
+    expressions: ["Confident", "Approachable", "Enthusiastic"],
+    styles: ["Photorealistic", "Stylized", "Animated"],
+    languages: ["English", "Spanish", "French", "German", "Mandarin"],
+    physicalFeatures: {
+      skinTones: ["Light", "Medium", "Tan", "Dark"],
+      hairStyles: ["Straight Long", "Wavy Medium", "Professional Updo", "Sleek Bob"],
+      faceShapes: ["Oval", "Round", "Heart", "Square"],
+      eyeColors: ["Brown", "Blue", "Green", "Hazel"]
+    }
   },
   {
     id: 2,
@@ -39,7 +89,15 @@ const demoAvatars: Avatar[] = [
     voiceOptions: ["Technical", "Casual", "Engaging"],
     outfits: ["Casual Shirt", "Hoodie", "Tech Jacket"],
     backgrounds: ["Tech Office", "Laboratory", "Home Office"],
-    expressions: ["Focused", "Explanatory", "Excited"]
+    expressions: ["Focused", "Explanatory", "Excited"],
+    styles: ["Photorealistic", "Stylized", "Animated"],
+    languages: ["English", "Spanish", "French", "German", "Mandarin"],
+    physicalFeatures: {
+      skinTones: ["Light", "Medium", "Tan", "Dark"],
+      hairStyles: ["Straight Long", "Wavy Medium", "Professional Updo", "Sleek Bob"],
+      faceShapes: ["Oval", "Round", "Heart", "Square"],
+      eyeColors: ["Brown", "Blue", "Green", "Hazel"]
+    }
   },
   {
     id: 3,
@@ -49,7 +107,15 @@ const demoAvatars: Avatar[] = [
     voiceOptions: ["Artistic", "Inspirational", "Relaxed"],
     outfits: ["Bohemian Dress", "Artist Smock", "Casual Outfit"],
     backgrounds: ["Art Studio", "Gallery", "Nature Setting"],
-    expressions: ["Inspired", "Passionate", "Calm"]
+    expressions: ["Inspired", "Passionate", "Calm"],
+    styles: ["Photorealistic", "Stylized", "Animated"],
+    languages: ["English", "Spanish", "French", "German", "Mandarin"],
+    physicalFeatures: {
+      skinTones: ["Light", "Medium", "Tan", "Dark"],
+      hairStyles: ["Straight Long", "Wavy Medium", "Professional Updo", "Sleek Bob"],
+      faceShapes: ["Oval", "Round", "Heart", "Square"],
+      eyeColors: ["Brown", "Blue", "Green", "Hazel"]
+    }
   },
   {
     id: 4,
@@ -59,7 +125,15 @@ const demoAvatars: Avatar[] = [
     voiceOptions: ["Authoritative", "Confident", "Professional"],
     outfits: ["Business Suit", "Power Suit", "Formal Wear"],
     backgrounds: ["Boardroom", "Modern Office", "Luxury Setting"],
-    expressions: ["Confident", "Determined", "Serious"]
+    expressions: ["Confident", "Determined", "Serious"],
+    styles: ["Photorealistic", "Stylized", "Animated"],
+    languages: ["English", "Spanish", "French", "German", "Mandarin"],
+    physicalFeatures: {
+      skinTones: ["Light", "Medium", "Tan", "Dark"],
+      hairStyles: ["Straight Long", "Wavy Medium", "Professional Updo", "Sleek Bob"],
+      faceShapes: ["Oval", "Round", "Heart", "Square"],
+      eyeColors: ["Brown", "Blue", "Green", "Hazel"]
+    }
   },
   {
     id: 5,
@@ -69,7 +143,15 @@ const demoAvatars: Avatar[] = [
     voiceOptions: ["Motivational", "Calming", "Energetic"],
     outfits: ["Yoga Outfit", "Casual Wear", "Activewear"],
     backgrounds: ["Yoga Studio", "Nature Setting", "Home Gym"],
-    expressions: ["Positive", "Uplifting", "Friendly"]
+    expressions: ["Positive", "Uplifting", "Friendly"],
+    styles: ["Photorealistic", "Stylized", "Animated"],
+    languages: ["English", "Spanish", "French", "German", "Mandarin"],
+    physicalFeatures: {
+      skinTones: ["Light", "Medium", "Tan", "Dark"],
+      hairStyles: ["Straight Long", "Wavy Medium", "Professional Updo", "Sleek Bob"],
+      faceShapes: ["Oval", "Round", "Heart", "Square"],
+      eyeColors: ["Brown", "Blue", "Green", "Hazel"]
+    }
   },
   {
     id: 6,
@@ -79,7 +161,15 @@ const demoAvatars: Avatar[] = [
     voiceOptions: ["Persuasive", "Friendly", "Dynamic"],
     outfits: ["Business Casual", "Smart Casual", "Suit"],
     backgrounds: ["Office", "Retail Store", "Conference Room"],
-    expressions: ["Friendly", "Enthusiastic", "Confident"]
+    expressions: ["Friendly", "Enthusiastic", "Confident"],
+    styles: ["Photorealistic", "Stylized", "Animated"],
+    languages: ["English", "Spanish", "French", "German", "Mandarin"],
+    physicalFeatures: {
+      skinTones: ["Light", "Medium", "Tan", "Dark"],
+      hairStyles: ["Straight Long", "Wavy Medium", "Professional Updo", "Sleek Bob"],
+      faceShapes: ["Oval", "Round", "Heart", "Square"],
+      eyeColors: ["Brown", "Blue", "Green", "Hazel"]
+    }
   },
   {
     id: 7,
@@ -89,7 +179,15 @@ const demoAvatars: Avatar[] = [
     voiceOptions: ["Clear", "Patient", "Engaging"],
     outfits: ["Casual Wear", "Smart Casual", "Professional Outfit"],
     backgrounds: ["Classroom", "Library", "Home Office"],
-    expressions: ["Patient", "Explanatory", "Enthusiastic"]
+    expressions: ["Patient", "Explanatory", "Enthusiastic"],
+    styles: ["Photorealistic", "Stylized", "Animated"],
+    languages: ["English", "Spanish", "French", "German", "Mandarin"],
+    physicalFeatures: {
+      skinTones: ["Light", "Medium", "Tan", "Dark"],
+      hairStyles: ["Straight Long", "Wavy Medium", "Professional Updo", "Sleek Bob"],
+      faceShapes: ["Oval", "Round", "Heart", "Square"],
+      eyeColors: ["Brown", "Blue", "Green", "Hazel"]
+    }
   },
   {
     id: 8,
@@ -99,7 +197,15 @@ const demoAvatars: Avatar[] = [
     voiceOptions: ["Entertaining", "Dramatic", "Casual"],
     outfits: ["Formal Wear", "Smart Casual", "Casual Outfit"],
     backgrounds: ["Studio", "Stage", "Nightclub"],
-    expressions: ["Energetic", "Dramatic", "Humorous"]
+    expressions: ["Energetic", "Dramatic", "Humorous"],
+    styles: ["Photorealistic", "Stylized", "Animated"],
+    languages: ["English", "Spanish", "French", "German", "Mandarin"],
+    physicalFeatures: {
+      skinTones: ["Light", "Medium", "Tan", "Dark"],
+      hairStyles: ["Straight Long", "Wavy Medium", "Professional Updo", "Sleek Bob"],
+      faceShapes: ["Oval", "Round", "Heart", "Square"],
+      eyeColors: ["Brown", "Blue", "Green", "Hazel"]
+    }
   },
   {
     id: 9,
@@ -109,19 +215,17 @@ const demoAvatars: Avatar[] = [
     voiceOptions: ["Professional", "Compassionate", "Informative"],
     outfits: ["Lab Coat", "Scrubs", "Business Suit"],
     backgrounds: ["Hospital", "Clinic", "Laboratory"],
-    expressions: ["Professional", "Compassionate", "Informative"]
+    expressions: ["Professional", "Compassionate", "Informative"],
+    styles: ["Photorealistic", "Stylized", "Animated"],
+    languages: ["English", "Spanish", "French", "German", "Mandarin"],
+    physicalFeatures: {
+      skinTones: ["Light", "Medium", "Tan", "Dark"],
+      hairStyles: ["Straight Long", "Wavy Medium", "Professional Updo", "Sleek Bob"],
+      faceShapes: ["Oval", "Round", "Heart", "Square"],
+      eyeColors: ["Brown", "Blue", "Green", "Hazel"]
+    }
   }
 ];
-
-interface CustomizationState {
-  voiceStyle: number;
-  voicePitch: number;
-  voiceSpeed: number;
-  outfit: string;
-  background: string;
-  expression: string;
-  gestures: boolean;
-}
 
 function AvatarsPage() {
   const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null);
@@ -145,13 +249,36 @@ function AvatarsPage() {
       setCustomization(prev => ({
         ...prev,
         [avatarId]: {
+          // Basic customization
           voiceStyle: 0,
           voicePitch: 50,
           voiceSpeed: 50,
           outfit: "Business Suit",
           background: "Office",
           expression: "Confident",
-          gestures: true
+          gestures: true,
+
+          // Physical features
+          skinTone: "Light",
+          hairStyle: "Straight Long",
+          faceShape: "Oval",
+          eyeColor: "Brown",
+
+          // Advanced motion
+          lipSync: true,
+          expressionRecognition: true,
+          bodyMotion: true,
+          physicsEnabled: true,
+
+          // AI behavior
+          autonomousReactions: true,
+          voiceCloning: false,
+          emotionDetection: true,
+
+          // Style & Language
+          avatarStyle: "Photorealistic",
+          language: "English",
+          accentStrength: 50
         }
       }));
     }
@@ -204,12 +331,212 @@ function AvatarsPage() {
             {isCustomizing && selectedAvatar === avatar.id && (
               <Card className="mt-4 bg-card/30 backdrop-blur-sm border-primary/10">
                 <CardContent className="p-6">
-                  <Tabs defaultValue="voice">
-                    <TabsList className="grid w-full grid-cols-3">
-                      <TabsTrigger value="voice">Voice</TabsTrigger>
-                      <TabsTrigger value="appearance">Appearance</TabsTrigger>
-                      <TabsTrigger value="behavior">Behavior</TabsTrigger>
+                  <Tabs defaultValue="physical">
+                    <TabsList className="grid w-full grid-cols-5">
+                      <TabsTrigger value="physical">
+                        <UserCircle className="h-4 w-4 mr-2" />
+                        Physical
+                      </TabsTrigger>
+                      <TabsTrigger value="motion">
+                        <Sliders className="h-4 w-4 mr-2" />
+                        Motion
+                      </TabsTrigger>
+                      <TabsTrigger value="ai">
+                        <Brain className="h-4 w-4 mr-2" />
+                        AI
+                      </TabsTrigger>
+                      <TabsTrigger value="voice">
+                        <Mic2 className="h-4 w-4 mr-2" />
+                        Voice
+                      </TabsTrigger>
+                      <TabsTrigger value="language">
+                        <Languages className="h-4 w-4 mr-2" />
+                        Language
+                      </TabsTrigger>
                     </TabsList>
+
+                    <TabsContent value="physical" className="space-y-4">
+                      <div>
+                        <Label>Avatar Style</Label>
+                        <Select
+                          value={customization[avatar.id]?.avatarStyle}
+                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'avatarStyle', value)}
+                        >
+                          <SelectTrigger className="mt-2">
+                            <SelectValue placeholder="Select style" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {avatar.styles.map((style) => (
+                              <SelectItem key={style} value={style}>
+                                {style}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div>
+                        <Label>Skin Tone</Label>
+                        <Select
+                          value={customization[avatar.id]?.skinTone}
+                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'skinTone', value)}
+                        >
+                          <SelectTrigger className="mt-2">
+                            <SelectValue placeholder="Select skin tone" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {avatar.physicalFeatures.skinTones.map((tone) => (
+                              <SelectItem key={tone} value={tone}>
+                                {tone}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div>
+                        <Label>Hair Style</Label>
+                        <Select
+                          value={customization[avatar.id]?.hairStyle}
+                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'hairStyle', value)}
+                        >
+                          <SelectTrigger className="mt-2">
+                            <SelectValue placeholder="Select hair style" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {avatar.physicalFeatures.hairStyles.map((style) => (
+                              <SelectItem key={style} value={style}>
+                                {style}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div>
+                        <Label>Face Shape</Label>
+                        <Select
+                          value={customization[avatar.id]?.faceShape}
+                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'faceShape', value)}
+                        >
+                          <SelectTrigger className="mt-2">
+                            <SelectValue placeholder="Select face shape" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {avatar.physicalFeatures.faceShapes.map((shape) => (
+                              <SelectItem key={shape} value={shape}>
+                                {shape}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label>Eye Color</Label>
+                        <Select
+                          value={customization[avatar.id]?.eyeColor}
+                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'eyeColor', value)}
+                        >
+                          <SelectTrigger className="mt-2">
+                            <SelectValue placeholder="Select eye color" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {avatar.physicalFeatures.eyeColors.map((color) => (
+                              <SelectItem key={color} value={color}>
+                                {color}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="motion" className="space-y-4">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <Label>AI Lip Sync</Label>
+                          <Checkbox
+                            checked={customization[avatar.id]?.lipSync}
+                            onCheckedChange={(checked) => 
+                              handleCustomizationChange(avatar.id, 'lipSync', checked)
+                            }
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <Label>Expression Recognition</Label>
+                          <Checkbox
+                            checked={customization[avatar.id]?.expressionRecognition}
+                            onCheckedChange={(checked) => 
+                              handleCustomizationChange(avatar.id, 'expressionRecognition', checked)
+                            }
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <Label>Full Body Motion</Label>
+                          <Checkbox
+                            checked={customization[avatar.id]?.bodyMotion}
+                            onCheckedChange={(checked) => 
+                              handleCustomizationChange(avatar.id, 'bodyMotion', checked)
+                            }
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <Label>Physics-Based Animation</Label>
+                          <Checkbox
+                            checked={customization[avatar.id]?.physicsEnabled}
+                            onCheckedChange={(checked) => 
+                              handleCustomizationChange(avatar.id, 'physicsEnabled', checked)
+                            }
+                          />
+                        </div>
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="ai" className="space-y-4">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <Label>Autonomous Reactions</Label>
+                            <p className="text-sm text-muted-foreground">Avatar responds naturally to interactions</p>
+                          </div>
+                          <Checkbox
+                            checked={customization[avatar.id]?.autonomousReactions}
+                            onCheckedChange={(checked) => 
+                              handleCustomizationChange(avatar.id, 'autonomousReactions', checked)
+                            }
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <Label>Voice Cloning</Label>
+                            <p className="text-sm text-muted-foreground">Use AI to clone a specific voice</p>
+                          </div>
+                          <Checkbox
+                            checked={customization[avatar.id]?.voiceCloning}
+                            onCheckedChange={(checked) => 
+                              handleCustomizationChange(avatar.id, 'voiceCloning', checked)
+                            }
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <Label>Emotion Detection</Label>
+                            <p className="text-sm text-muted-foreground">Adapt to audience reactions</p>
+                          </div>
+                          <Checkbox
+                            checked={customization[avatar.id]?.emotionDetection}
+                            onCheckedChange={(checked) => 
+                              handleCustomizationChange(avatar.id, 'emotionDetection', checked)
+                            }
+                          />
+                        </div>
+                      </div>
+                    </TabsContent>
 
                     <TabsContent value="voice" className="space-y-4">
                       <div>
@@ -245,6 +572,7 @@ function AvatarsPage() {
                           onValueChange={(value) => handleCustomizationChange(avatar.id, 'voicePitch', value[0])}
                         />
                       </div>
+
                       <div>
                         <Label>Speaking Speed</Label>
                         <Slider
@@ -257,80 +585,47 @@ function AvatarsPage() {
                       </div>
                     </TabsContent>
 
-                    <TabsContent value="appearance" className="space-y-4">
+                    <TabsContent value="language" className="space-y-4">
                       <div>
-                        <Label>Outfit</Label>
+                        <Label>Language</Label>
                         <Select
-                          value={customization[avatar.id]?.outfit}
-                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'outfit', value)}
+                          value={customization[avatar.id]?.language}
+                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'language', value)}
                         >
                           <SelectTrigger className="mt-2">
-                            <SelectValue placeholder="Select outfit" />
+                            <SelectValue placeholder="Select language" />
                           </SelectTrigger>
                           <SelectContent>
-                            {avatar.outfits.map((outfit) => (
-                              <SelectItem key={outfit} value={outfit}>
-                                {outfit}
+                            {avatar.languages.map((lang) => (
+                              <SelectItem key={lang} value={lang}>
+                                {lang}
                               </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
                       </div>
-                      <div>
-                        <Label>Background</Label>
-                        <Select
-                          value={customization[avatar.id]?.background}
-                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'background', value)}
-                        >
-                          <SelectTrigger className="mt-2">
-                            <SelectValue placeholder="Select background" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {avatar.backgrounds.map((bg) => (
-                              <SelectItem key={bg} value={bg}>
-                                {bg}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </TabsContent>
 
-                    <TabsContent value="behavior" className="space-y-4">
                       <div>
-                        <Label>Expression</Label>
-                        <Select
-                          value={customization[avatar.id]?.expression}
-                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'expression', value)}
-                        >
-                          <SelectTrigger className="mt-2">
-                            <SelectValue placeholder="Select expression" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {avatar.expressions.map((expression) => (
-                              <SelectItem key={expression} value={expression}>
-                                {expression}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <Label>Enable Hand Gestures</Label>
-                        <Button
-                          variant={customization[avatar.id]?.gestures ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => handleCustomizationChange(
-                            avatar.id,
-                            'gestures',
-                            !customization[avatar.id]?.gestures
-                          )}
-                        >
-                          {customization[avatar.id]?.gestures ? "Enabled" : "Disabled"}
-                        </Button>
+                        <Label>Accent Strength</Label>
+                        <Slider
+                          defaultValue={[customization[avatar.id]?.accentStrength || 50]}
+                          min={0}
+                          max={100}
+                          step={1}
+                          onValueChange={(value) => handleCustomizationChange(avatar.id, 'accentStrength', value[0])}
+                        />
                       </div>
                     </TabsContent>
                   </Tabs>
+
+                  <div className="flex justify-end gap-2 mt-6">
+                    <Button variant="outline" onClick={() => setIsCustomizing(false)}>
+                      Cancel
+                    </Button>
+                    <Button className="bg-primary/90 hover:bg-primary">
+                      Apply Changes
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             )}
