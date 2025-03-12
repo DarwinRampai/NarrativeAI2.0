@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Navbar from "./navbar";
 import Sidebar from "./sidebar";
+import { Chat } from "@/components/ui/chat";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
@@ -12,6 +13,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           {children}
         </div>
       </main>
+      <Chat />
     </div>
   );
 }

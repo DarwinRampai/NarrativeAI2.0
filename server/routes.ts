@@ -5,9 +5,11 @@ import { storage } from "./storage";
 import { generateAIScript } from "./openai";
 import { z } from "zod";
 import { insertProjectSchema, insertScriptSchema } from "@shared/schema";
+import { setupChatRoutes } from "./routes/chat";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   setupAuth(app);
+  setupChatRoutes(app);
 
   // Projects
   app.get("/api/projects", async (req, res) => {
@@ -35,7 +37,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/projects/:projectId/scripts/generate", async (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
-    
+
     const schema = z.object({
       prompt: z.string(),
       tone: z.string(),
@@ -44,7 +46,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
     const data = schema.parse(req.body);
     const content = await generateAIScript(data.prompt, data.tone, data.audience);
-    
+
     const script = await storage.createScript({
       projectId: parseInt(req.params.projectId),
       content,
