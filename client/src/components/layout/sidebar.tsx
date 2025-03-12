@@ -5,7 +5,8 @@ import {
   PenSquare, 
   Video,
   Settings,
-  UserCircle
+  UserCircle,
+  Sparkles
 } from "lucide-react";
 
 const navigation = [
@@ -13,6 +14,7 @@ const navigation = [
   { name: "Script Generator", href: "/script-generator", icon: PenSquare },
   { name: "Neural Avatars", href: "/avatars", icon: UserCircle },
   { name: "Video Editor", href: "/video-editor", icon: Video },
+  { name: "Autonomous Ads", href: "/autonomous-ads", icon: Sparkles },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
@@ -28,15 +30,13 @@ export default function Sidebar() {
             <Link key={item.name} href={item.href}>
               <a
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200",
-                  isActive
-                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                    : "hover:bg-primary/10 text-muted-foreground hover:text-foreground"
+                  "menu-item",
+                  isActive ? "menu-item-active" : "menu-item-inactive"
                 )}
               >
                 <div className={cn(
-                  "p-1 rounded-md",
-                  isActive ? "bg-primary-foreground/10" : "bg-primary/10"
+                  "menu-icon-container",
+                  isActive ? "menu-icon-active" : "menu-icon-inactive"
                 )}>
                   <item.icon className="h-5 w-5" />
                 </div>

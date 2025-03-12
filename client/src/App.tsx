@@ -13,6 +13,7 @@ import AuthPage from "@/pages/auth-page";
 import EarlyAccess from "@/pages/early-access";
 import LearnMore from "@/pages/learn-more";
 import AvatarsPage from "@/pages/avatars";
+import AutonomousAds from "@/pages/autonomous-ads";
 import { ProtectedRoute } from "./lib/protected-route";
 
 function Router() {
@@ -26,6 +27,7 @@ function Router() {
       <ProtectedRoute path="/script-generator" component={ScriptGenerator} />
       <ProtectedRoute path="/avatars" component={AvatarsPage} />
       <ProtectedRoute path="/video-editor" component={VideoEditor} />
+      <ProtectedRoute path="/autonomous-ads" component={AutonomousAds} />
       <ProtectedRoute path="/settings" component={Settings} />
       <Route component={NotFound} />
     </Switch>
