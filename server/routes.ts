@@ -5,11 +5,9 @@ import { storage } from "./storage";
 import { generateAIScript } from "./openai";
 import { z } from "zod";
 import { insertProjectSchema, insertScriptSchema } from "@shared/schema";
-import { setupChatRoutes } from "./routes/chat";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   setupAuth(app);
-  setupChatRoutes(app);
 
   // Projects
   app.get("/api/projects", async (req, res) => {
