@@ -4,9 +4,7 @@ import {
   LayoutDashboard, 
   PenSquare, 
   Video,
-  Sparkles,
   Settings,
-  BarChart3,
   UserCircle
 } from "lucide-react";
 
@@ -15,8 +13,6 @@ const navigation = [
   { name: "Script Generator", href: "/script-generator", icon: PenSquare },
   { name: "Neural Avatars", href: "/avatars", icon: UserCircle },
   { name: "Video Editor", href: "/video-editor", icon: Video },
-  { name: "AI Optimization", href: "/optimization", icon: Sparkles },
-  { name: "Analytics", href: "/analytics", icon: BarChart3 },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 

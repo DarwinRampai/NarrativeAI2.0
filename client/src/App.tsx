@@ -8,8 +8,6 @@ import HomePage from "@/pages/home-page";
 import Dashboard from "@/pages/dashboard";
 import ScriptGenerator from "@/pages/script-generator";
 import VideoEditor from "@/pages/video-editor";
-import Optimization from "@/pages/optimization";
-import Analytics from "@/pages/analytics";
 import Settings from "@/pages/settings";
 import AuthPage from "@/pages/auth-page";
 import EarlyAccess from "@/pages/early-access";
@@ -28,8 +26,6 @@ function Router() {
       <ProtectedRoute path="/script-generator" component={ScriptGenerator} />
       <ProtectedRoute path="/avatars" component={AvatarsPage} />
       <ProtectedRoute path="/video-editor" component={VideoEditor} />
-      <ProtectedRoute path="/optimization" component={Optimization} />
-      <ProtectedRoute path="/analytics" component={Analytics} />
       <ProtectedRoute path="/settings" component={Settings} />
       <Route component={NotFound} />
     </Switch>
