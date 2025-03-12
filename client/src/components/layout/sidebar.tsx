@@ -12,7 +12,7 @@ export default function Sidebar() {
   const [location] = useLocation();
 
   return (
-    <aside className="fixed inset-y-0 left-0 w-64 bg-card border-r mt-16">
+    <aside className="fixed top-16 left-0 bottom-0 w-64 bg-card border-r z-40">
       <nav className="p-4 space-y-2">
         {navigation.map((item) => {
           const isActive = location.startsWith(item.href);

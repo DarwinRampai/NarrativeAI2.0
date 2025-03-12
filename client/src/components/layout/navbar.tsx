@@ -17,13 +17,15 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 h-16 border-b bg-background z-50">
       <div className="container h-full mx-auto px-6 flex items-center justify-between">
         <Link href="/">
-          <a className="text-2xl font-bold">NarratixAI</a>
+          <Button variant="link" className="text-2xl font-bold p-0">
+            NarratixAI
+          </Button>
         </Link>
 
         {user && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+              <Button variant="ghost" className="h-10 w-10 rounded-full p-0">
                 <Avatar className="h-10 w-10">
                   <AvatarFallback className="bg-primary text-primary-foreground">
                     {user.username.slice(0, 2).toUpperCase()}

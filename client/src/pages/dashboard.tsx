@@ -16,7 +16,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-background">
       <Navbar />
       <Sidebar />
-      <main className="ml-64 pt-16 min-h-screen">
+      <main className="pt-16 pl-64">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">Projects</h1>
