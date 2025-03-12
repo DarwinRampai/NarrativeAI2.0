@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -40,6 +40,15 @@ const demoAvatars: Avatar[] = [
 ];
 
 export default function AvatarsPage() {
+  const [selectedVoices, setSelectedVoices] = useState<Record<number, number>>({});
+
+  const handleVoiceChange = (avatarId: number, value: number[]) => {
+    setSelectedVoices(prev => ({
+      ...prev,
+      [avatarId]: value[0]
+    }));
+  };
+
   return (
     <AppLayout>
       <div className="flex justify-between items-center mb-6">
@@ -86,7 +95,9 @@ export default function AvatarsPage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label>Voice Style</Label>
-                    <span className="text-sm text-primary">{avatar.voiceOptions[0]}</span>
+                    <span className="text-sm text-primary">
+                      {avatar.voiceOptions[selectedVoices[avatar.id] || 0]}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Volume2 className="h-4 w-4 text-muted-foreground" />
@@ -95,6 +106,7 @@ export default function AvatarsPage() {
                       max={avatar.voiceOptions.length - 1}
                       step={1}
                       className="w-full"
+                      onValueChange={(value) => handleVoiceChange(avatar.id, value)}
                     />
                   </div>
                 </div>
