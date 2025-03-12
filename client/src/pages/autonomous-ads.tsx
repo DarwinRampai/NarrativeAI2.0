@@ -16,14 +16,20 @@ import {
   LineChart,
   Wand2,
   Globe,
-  RefreshCcw
+  RefreshCcw,
+  Upload,
+  Users,
+  Clock,
+  Palette,
+  Zap
 } from "lucide-react";
 import AppLayout from "@/components/layout/app-layout";
 import { motion } from "framer-motion";
 
 export default function AutonomousAds() {
   const [isGenerating, setIsGenerating] = useState(false);
-  const [isOptimizing, setIsOptimizing] = useState(false);
+  const [adMode, setAdMode] = useState("fully-ai");
+  const [prompt, setPrompt] = useState("");
 
   const handleGenerate = async () => {
     setIsGenerating(true);
@@ -58,7 +64,7 @@ export default function AutonomousAds() {
           </Button>
         </div>
 
-        <Tabs defaultValue="creation">
+        <Tabs defaultValue="creation" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="creation">
               <Brain className="h-4 w-4 mr-2" />
@@ -72,57 +78,93 @@ export default function AutonomousAds() {
               <Target className="h-4 w-4 mr-2" />
               Personalization
             </TabsTrigger>
-            <TabsTrigger value="analytics">
-              <LineChart className="h-4 w-4 mr-2" />
-              Performance
+            <TabsTrigger value="deployment">
+              <Globe className="h-4 w-4 mr-2" />
+              Deployment
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="creation" className="space-y-4">
+          <TabsContent value="creation" className="space-y-6">
             <Card className="card-hover">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Video className="h-5 w-5 text-primary" />
-                  AI-Driven Ad Creation
+                  <Brain className="h-5 w-5 text-primary" />
+                  Creation Mode
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label>Campaign Goals</Label>
-                  <Textarea 
-                    placeholder="Describe your campaign objectives and target audience..."
-                    className="h-24"
-                  />
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-3 gap-4">
+                  <Card className={`cursor-pointer p-4 ${adMode === 'fully-ai' ? 'border-primary' : 'border-primary/10'}`}
+                    onClick={() => setAdMode('fully-ai')}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Wand2 className="h-4 w-4 text-primary" />
+                      <h3 className="font-semibold">Fully AI-Generated</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground">AI builds everything from a simple prompt</p>
+                  </Card>
+
+                  <Card className={`cursor-pointer p-4 ${adMode === 'semi-custom' ? 'border-primary' : 'border-primary/10'}`}
+                    onClick={() => setAdMode('semi-custom')}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Layers className="h-4 w-4 text-primary" />
+                      <h3 className="font-semibold">Semi-Customized</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Upload assets, AI adapts them</p>
+                  </Card>
+
+                  <Card className={`cursor-pointer p-4 ${adMode === 'manual' ? 'border-primary' : 'border-primary/10'}`}
+                    onClick={() => setAdMode('manual')}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Palette className="h-4 w-4 text-primary" />
+                      <h3 className="font-semibold">Manual Override</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Full control over AI suggestions</p>
+                  </Card>
                 </div>
-                <div className="grid md:grid-cols-2 gap-4">
+
+                <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label>Brand Voice</Label>
-                    <Input placeholder="Professional, Casual, Energetic..." />
+                    <Label>Ad Description or Goals</Label>
+                    <Textarea 
+                      placeholder="Describe your ad or campaign goals..."
+                      value={prompt}
+                      onChange={(e) => setPrompt(e.target.value)}
+                      className="h-32"
+                    />
                   </div>
-                  <div className="space-y-2">
-                    <Label>Industry</Label>
-                    <Input placeholder="Tech, Fashion, Health..." />
-                  </div>
+
+                  {adMode === 'semi-custom' && (
+                    <div className="space-y-2">
+                      <Label>Brand Assets</Label>
+                      <div className="border-2 border-dashed border-primary/20 rounded-lg p-6 text-center">
+                        <Upload className="h-8 w-8 mx-auto mb-2 text-primary/60" />
+                        <p className="text-sm text-muted-foreground">
+                          Drop your logos, images, or videos here, or click to browse
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <div className="space-y-4 pt-4">
+
+                <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <Label>Auto-Generate Video Ads</Label>
-                      <p className="text-sm text-muted-foreground">Let AI create complete video ads</p>
+                      <Label>Auto-Generate Video</Label>
+                      <p className="text-sm text-muted-foreground">Create complete video ads</p>
                     </div>
                     <Switch defaultChecked />
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label>Dynamic CGI & Avatars</Label>
-                      <p className="text-sm text-muted-foreground">Use AI avatars for presentation</p>
+                      <p className="text-sm text-muted-foreground">Use AI presenters</p>
                     </div>
                     <Switch defaultChecked />
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <Label>Smart Scene Composition</Label>
-                      <p className="text-sm text-muted-foreground">AI-powered scene selection</p>
+                      <Label>Smart Scene Selection</Label>
+                      <p className="text-sm text-muted-foreground">AI-powered composition</p>
                     </div>
                     <Switch defaultChecked />
                   </div>
@@ -131,51 +173,116 @@ export default function AutonomousAds() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="optimization" className="space-y-4">
+          <TabsContent value="optimization" className="space-y-6">
             <Card className="card-hover">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Sparkles className="h-5 w-5 text-primary" />
+                  <Gauge className="h-5 w-5 text-primary" />
                   Real-Time Optimization
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 rounded-lg bg-primary/5 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-4 w-4 text-primary" />
+                      <h4 className="font-semibold">Adaptive Storytelling</h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Content evolves based on user interactions
+                    </p>
+                    <Switch defaultChecked />
+                  </div>
+
+                  <div className="p-4 rounded-lg bg-primary/5 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Zap className="h-4 w-4 text-primary" />
+                      <h4 className="font-semibold">A/B Testing</h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Auto-test multiple variations
+                    </p>
+                    <Switch defaultChecked />
+                  </div>
+                </div>
+
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label>Adaptive Storytelling</Label>
-                      <p className="text-sm text-muted-foreground">Dynamic content evolution</p>
+                  <Label>Smart Budget Allocation</Label>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="p-4 rounded-lg bg-primary/5">
+                      <p className="font-medium mb-2">Facebook</p>
+                      <div className="h-2 w-full bg-primary/10 rounded-full">
+                        <div className="h-2 bg-primary rounded-full" style={{ width: '60%' }} />
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-1">60% allocated</p>
                     </div>
-                    <Switch defaultChecked />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label>Automated A/B Testing</Label>
-                      <p className="text-sm text-muted-foreground">AI-driven variant testing</p>
+                    <div className="p-4 rounded-lg bg-primary/5">
+                      <p className="font-medium mb-2">Instagram</p>
+                      <div className="h-2 w-full bg-primary/10 rounded-full">
+                        <div className="h-2 bg-primary rounded-full" style={{ width: '25%' }} />
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-1">25% allocated</p>
                     </div>
-                    <Switch defaultChecked />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label>Audience Optimization</Label>
-                      <p className="text-sm text-muted-foreground">Dynamic audience targeting</p>
+                    <div className="p-4 rounded-lg bg-primary/5">
+                      <p className="font-medium mb-2">TikTok</p>
+                      <div className="h-2 w-full bg-primary/10 rounded-full">
+                        <div className="h-2 bg-primary rounded-full" style={{ width: '15%' }} />
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-1">15% allocated</p>
                     </div>
-                    <Switch defaultChecked />
                   </div>
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="personalization" className="space-y-4">
+          <TabsContent value="personalization" className="space-y-6">
             <Card className="card-hover">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Target className="h-5 w-5 text-primary" />
-                  Advanced Personalization
+                  <Users className="h-5 w-5 text-primary" />
+                  Audience Targeting
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Demographics</Label>
+                    <div className="p-4 rounded-lg bg-primary/5 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm">Age Range</span>
+                        <span className="text-sm text-primary">25-34</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm">Location</span>
+                        <span className="text-sm text-primary">Global</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm">Interests</span>
+                        <span className="text-sm text-primary">Tech, Fashion</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Behavioral Data</Label>
+                    <div className="p-4 rounded-lg bg-primary/5 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm">Shopping Habits</span>
+                        <span className="text-sm text-primary">Active</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm">Brand Affinity</span>
+                        <span className="text-sm text-primary">High</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm">Device Usage</span>
+                        <span className="text-sm text-primary">Mobile</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
@@ -203,75 +310,46 @@ export default function AutonomousAds() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="analytics" className="space-y-4">
+          <TabsContent value="deployment" className="space-y-6">
             <Card className="card-hover">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <LineChart className="h-5 w-5 text-primary" />
-                  Performance Analytics
+                  <Globe className="h-5 w-5 text-primary" />
+                  Multichannel Deployment
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="font-semibold mb-2">Predictive Success Rate</h3>
-                    <div className="h-2 w-full bg-primary/10 rounded-full">
-                      <div className="h-2 bg-primary rounded-full" style={{ width: '85%' }} />
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-1">85% predicted success rate</p>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="p-4 rounded-lg bg-primary/5 space-y-2">
+                    <h3 className="font-semibold">Platform Integration</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Connected to Meta, Google, TikTok
+                    </p>
                   </div>
+                  <div className="p-4 rounded-lg bg-primary/5 space-y-2">
+                    <h3 className="font-semibold">API Status</h3>
+                    <p className="text-sm text-muted-foreground">
+                      All systems operational
+                    </p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-primary/5 space-y-2">
+                    <h3 className="font-semibold">Brand Consistency</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Cross-platform alignment active
+                    </p>
+                  </div>
+                </div>
 
-                  <div>
-                    <h3 className="font-semibold mb-2">Budget Optimization</h3>
-                    <div className="h-2 w-full bg-primary/10 rounded-full">
-                      <div className="h-2 bg-primary rounded-full" style={{ width: '92%' }} />
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-1">92% budget efficiency</p>
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold mb-2">Engagement Score</h3>
-                    <div className="h-2 w-full bg-primary/10 rounded-full">
-                      <div className="h-2 bg-primary rounded-full" style={{ width: '78%' }} />
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-1">78% viewer engagement</p>
-                  </div>
+                <div className="mt-6">
+                  <Button className="w-full bg-primary/90 hover:bg-primary">
+                    <Globe className="mr-2 h-4 w-4" />
+                    Deploy Across All Channels
+                  </Button>
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
-
-        <Card className="card-hover">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Globe className="h-5 w-5 text-primary" />
-              Multichannel Deployment
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-3 gap-4">
-              <div className="p-4 rounded-lg bg-primary/5 space-y-2">
-                <h3 className="font-semibold">Platform Integration</h3>
-                <p className="text-sm text-muted-foreground">
-                  Connected to YouTube, TikTok, Instagram
-                </p>
-              </div>
-              <div className="p-4 rounded-lg bg-primary/5 space-y-2">
-                <h3 className="font-semibold">API Status</h3>
-                <p className="text-sm text-muted-foreground">
-                  All systems operational
-                </p>
-              </div>
-              <div className="p-4 rounded-lg bg-primary/5 space-y-2">
-                <h3 className="font-semibold">Brand Consistency</h3>
-                <p className="text-sm text-muted-foreground">
-                  100% cross-platform alignment
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </AppLayout>
   );

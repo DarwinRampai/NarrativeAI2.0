@@ -1,0 +1,61 @@
+1. User Interaction & Ad Creation
+
+How much user input should be required?
+	•	Fully AI-Generated: User provides a brief prompt, and AI builds everything—script, visuals, CGI, and avatars.
+	•	Semi-Customized: Users upload brand assets (logos, footage) and let AI adapt them into ads.
+	•	Manual Overrides: Users can edit AI-generated ads, tweak scenes, or change elements before publishing.
+
+How should the AI assist in the ad creation process?
+	•	Text-to-Ad Generation: User types a simple product description, and AI creates an ad.
+	•	Template-Based Creation: AI suggests pre-built ad templates based on the industry.
+	•	Brand Identity Matching: AI ensures all ads align with the company’s visual and tonal branding.
+
+⸻
+
+2. AI-Powered Optimization & Adaptation
+
+How should AI optimize ads?
+	•	Real-Time Adaptation: Ads automatically adjust elements (scenes, text, music) based on engagement.
+	•	Predictive Testing: AI runs A/B tests and selects the best-performing version before scaling.
+	•	Smart Budgeting: AI allocates ad spend efficiently across different platforms.
+
+How frequently should ads change?
+	•	Instant Adaptation: Ads update dynamically based on user interaction.
+	•	Periodic Refresh: AI automatically generates new ad variations weekly or monthly.
+
+⸻
+
+3. Personalization & User Targeting
+
+What factors should influence ad personalization?
+	•	Demographics: Age, gender, location, interests.
+	•	Behavioral Data: Previous interactions, engagement, clicks.
+	•	Emotion & Context: AI adjusts ads based on real-time facial expressions or device usage.
+
+How should AI personalize ads?
+	•	Content Customization: Adjusts messaging, visuals, or voiceovers based on the viewer.
+	•	Dynamic CGI & AI Avatars: Avatars react and change expressions to match the target audience.
+	•	Location & Time-Based Ads: AI tailors ads depending on the time of day, weather, or events.
+
+⸻
+
+4. Multi-Platform Deployment & API Integration
+
+Where should the ads be deployed?
+	•	Social Media: TikTok, Instagram, YouTube, Facebook.
+	•	Streaming Platforms: AI optimizes for CTV (Connected TV) ads.
+	•	Web & Mobile: Auto-generated banners, pop-ups, and landing page videos.
+
+How should AI integrate with ad networks?
+	•	Automated Uploading: AI directly publishes optimized ads to Google Ads, Meta, TikTok, etc.
+	•	Cross-Platform Tracking: AI syncs ad data from multiple platforms into a single dashboard.
+	•	Programmatic Buying: AI automates ad placements for real-time bidding (RTB).
+
+⸻
+
+5. Analytics & AI-Generated Insights
+
+What kind of analytics should be provided?
+	•	Engagement Tracking: View rates, watch time, click-through rates.
+	•	AI Performance Predictions: Predict how well an ad will perform before publishing.
+	•	Attribution Insights: AI tracks conversions across different platforms.
