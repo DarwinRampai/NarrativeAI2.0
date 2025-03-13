@@ -142,3 +142,97 @@ export async function getAudienceInsights(
     throw new Error("Failed to generate audience insights: " + (error as Error).message);
   }
 }
+
+// Add new function for generating feature recommendations
+export async function generateFeatureRecommendations(
+  userInteractions: Array<{
+    featurePath: string;
+    interactionType: string;
+    metadata: any;
+    createdAt: string;
+  }>,
+  currentFeature: string
+): Promise<{
+  recommendations: Array<{
+    feature: string;
+    score: number;
+    reasoning: string;
+  }>;
+}> {
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: `You are an AI feature recommendation system. Analyze user interactions and suggest relevant features. 
+          Consider:
+          - User's interaction patterns
+          - Feature usage frequency
+          - Related feature connections
+          - Time spent on features
+          Return a JSON object with recommendations, including feature names, relevance scores (0-100), and reasoning.`
+        },
+        {
+          role: "user",
+          content: JSON.stringify({
+            userInteractions,
+            currentFeature,
+          })
+        }
+      ],
+      response_format: { type: "json_object" },
+      temperature: 0.3,
+    });
+
+    return JSON.parse(response.choices[0].message.content || "{}");
+  } catch (error) {
+    console.error("Feature recommendation error:", error);
+    throw new Error("Failed to generate recommendations: " + (error as Error).message);
+  }
+}
+
+// Add new function for analyzing user behavior patterns
+export async function analyzeUserBehavior(
+  interactions: Array<{
+    featurePath: string;
+    interactionType: string;
+    metadata: any;
+    timestamp: string;
+  }>
+): Promise<{
+  patterns: {
+    frequentFeatures: string[];
+    preferredWorkflows: string[];
+    suggestedOptimizations: string[];
+  };
+  insights: string[];
+}> {
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: `Analyze user behavior patterns in the application.
+          Identify:
+          - Most frequently used features
+          - Common workflows
+          - Potential optimization opportunities
+          Return insights as a JSON object.`
+        },
+        {
+          role: "user",
+          content: JSON.stringify(interactions)
+        }
+      ],
+      response_format: { type: "json_object" },
+      temperature: 0.4,
+    });
+
+    return JSON.parse(response.choices[0].message.content || "{}");
+  } catch (error) {
+    console.error("User behavior analysis error:", error);
+    throw new Error("Failed to analyze user behavior: " + (error as Error).message);
+  }
+}

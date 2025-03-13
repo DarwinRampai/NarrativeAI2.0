@@ -33,6 +33,27 @@ export const templates = pgTable("templates", {
   settings: jsonb("settings"),
 });
 
+// New tables for feature recommendations
+export const userInteractions = pgTable("user_interactions", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  featurePath: text("feature_path").notNull(),
+  interactionType: text("interaction_type").notNull(), // 'view', 'click', 'complete'
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const featureRecommendations = pgTable("feature_recommendations", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  feature: text("feature").notNull(),
+  score: integer("score").notNull(),
+  reasoning: text("reasoning"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Existing schemas
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -48,8 +69,25 @@ export const insertScriptSchema = createInsertSchema(scripts).pick({
   metadata: true,
 });
 
+// New schemas for interactions and recommendations
+export const insertUserInteractionSchema = createInsertSchema(userInteractions).pick({
+  featurePath: true,
+  interactionType: true,
+  metadata: true,
+});
+
+export const insertFeatureRecommendationSchema = createInsertSchema(featureRecommendations).pick({
+  feature: true,
+  score: true,
+  reasoning: true,
+  metadata: true,
+});
+
+// Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type Project = typeof projects.$inferSelect;
 export type Script = typeof scripts.$inferSelect;
 export type Template = typeof templates.$inferSelect;
+export type UserInteraction = typeof userInteractions.$inferSelect;
+export type FeatureRecommendation = typeof featureRecommendations.$inferSelect;

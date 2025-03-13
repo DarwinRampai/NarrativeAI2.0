@@ -2,9 +2,9 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
-import { generateAIScript, optimizeContent, generateAdVariations, getAudienceInsights } from "./openai";
+import { generateAIScript, optimizeContent, generateAdVariations, getAudienceInsights, generateFeatureRecommendations, analyzeUserBehavior } from "./openai";
 import { z } from "zod";
-import { insertProjectSchema, insertScriptSchema } from "@shared/schema";
+import { insertProjectSchema, insertScriptSchema, insertUserInteractionSchema, insertFeatureRecommendationSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   setupAuth(app);
@@ -105,6 +105,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
     if (!req.isAuthenticated()) return res.sendStatus(401);
     const templates = await storage.getTemplates();
     res.json(templates);
+  }));
+
+  // New routes for feature recommendations
+  app.post("/api/interactions", asyncHandler(async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+
+    const data = insertUserInteractionSchema.parse(req.body);
+    const interaction = await storage.recordUserInteraction({
+      ...data,
+      userId: req.user.id,
+    });
+    res.status(201).json(interaction);
+  }));
+
+  app.get("/api/recommendations", asyncHandler(async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+
+    const userInteractions = await storage.getUserInteractions(req.user.id);
+    const currentFeature = req.query.feature as string;
+
+    const recommendations = await generateFeatureRecommendations(
+      userInteractions,
+      currentFeature
+    );
+
+    res.json(recommendations);
+  }));
+
+  app.get("/api/behavior-insights", asyncHandler(async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+
+    const userInteractions = await storage.getUserInteractions(req.user.id);
+    const insights = await analyzeUserBehavior(userInteractions);
+
+    res.json(insights);
   }));
 
   // Error handling middleware
