@@ -245,47 +245,56 @@ function GenerateAvatarSection({ inView = false }: { inView?: boolean }) {
 
   useEffect(() => {
     if (inView && sectionRef.current) {
-      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [inView]);
 
+  // If not in view, don't render the section
+  if (!inView) return null;
+
   return (
-    <Card ref={sectionRef} className="mb-8 bg-card/30 backdrop-blur-sm border-primary/10">
-      <CardHeader>
-        <CardTitle className="text-2xl flex items-center gap-2">
-          <Wand2 className="h-6 w-6 text-primary" />
-          Generate Custom Avatar
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label>Describe Your Avatar</Label>
-          <Textarea
-            placeholder="Describe the avatar you want to create... For example: 'A professional female presenter in her 30s with shoulder-length brown hair, wearing a navy business suit. She should have a warm and approachable demeanor, suitable for corporate training videos.'"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="h-32 bg-background/50 backdrop-blur-sm border-primary/10 focus:border-primary/30"
-          />
-        </div>
-        <Button
-          onClick={handleGenerate}
-          className="w-full bg-primary/90 hover:bg-primary"
-          disabled={!description.trim() || isGenerating}
-        >
-          {isGenerating ? (
-            <>
-              <Sliders className="mr-2 h-4 w-4 animate-spin" />
-              Generating Avatar...
-            </>
-          ) : (
-            <>
-              <Wand2 className="mr-2 h-4 w-4" />
-              Generate Avatar
-            </>
-          )}
-        </Button>
-      </CardContent>
-    </Card>
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Card ref={sectionRef} className="mb-8 bg-card/30 backdrop-blur-sm border-primary/10">
+        <CardHeader>
+          <CardTitle className="text-2xl flex items-center gap-2">
+            <Wand2 className="h-6 w-6 text-primary" />
+            Generate Custom Avatar
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label>Describe Your Avatar</Label>
+            <Textarea
+              placeholder="Describe the avatar you want to create... For example: 'A professional female presenter in her 30s with shoulder-length brown hair, wearing a navy business suit. She should have a warm and approachable demeanor, suitable for corporate training videos.'"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="h-32 bg-background/50 backdrop-blur-sm border-primary/10 focus:border-primary/30"
+            />
+          </div>
+          <Button
+            onClick={handleGenerate}
+            className="w-full bg-primary/90 hover:bg-primary"
+            disabled={!description.trim() || isGenerating}
+          >
+            {isGenerating ? (
+              <>
+                <Sliders className="mr-2 h-4 w-4 animate-spin" />
+                Generating Avatar...
+              </>
+            ) : (
+              <>
+                <Wand2 className="mr-2 h-4 w-4" />
+                Generate Avatar
+              </>
+            )}
+          </Button>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }
 
@@ -677,13 +686,16 @@ export default function AvatarsPage() {
   return (
     <AppLayout>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+        <h1 className="text-3xl font-bold gradient-heading">
           Neural Avatars
         </h1>
         <Button
-          className="bg-primary/90 hover:bg-primary"
-          onClick={() => setShowGenerateSection(true)}
+          className="bg-primary/90 hover:bg-primary relative overflow-hidden group"
+          onClick={() => {
+            setShowGenerateSection(true);
+          }}
         >
+          <span className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
           <UserCircle className="h-4 w-4 mr-2" />
           Create Custom Avatar
         </Button>
