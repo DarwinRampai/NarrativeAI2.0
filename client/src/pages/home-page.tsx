@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, Code, Cpu, VideoIcon } from "lucide-react";
+import { ArrowRight, Code, Cpu, VideoIcon, Shield, Database, Network, BarChart, Globe2, Lock } from "lucide-react";
 
 const FeatureCard = ({ icon: Icon, title, description, delay = 0 }: {
   icon: React.ElementType;
@@ -26,6 +26,18 @@ const FeatureCard = ({ icon: Icon, title, description, delay = 0 }: {
     </div>
     <div className="absolute -bottom-2 -right-2 h-24 w-24 rounded-full bg-primary/5 blur-2xl" />
   </motion.div>
+);
+
+const EnterpriseFeature = ({ icon: Icon, title, description }) => (
+  <div className="flex items-start gap-4 p-6 rounded-lg bg-card/30 backdrop-blur-sm border">
+    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+      <Icon className="h-5 w-5 text-primary" />
+    </div>
+    <div>
+      <h3 className="text-lg font-semibold mb-1">{title}</h3>
+      <p className="text-sm text-muted-foreground">{description}</p>
+    </div>
+  </div>
 );
 
 export default function HomePage() {
@@ -112,6 +124,55 @@ export default function HomePage() {
             delay={0.6}
           />
         </div>
+
+        {/* Enterprise Features Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mt-24 mb-24"
+        >
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Enterprise-Grade Features</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Built for scale and security, NarratixAI delivers the robust features and 
+              reliability that enterprise organizations demand.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <EnterpriseFeature
+              icon={Shield}
+              title="Enterprise Security"
+              description="SOC 2 Type II compliance, end-to-end encryption, and advanced access controls to protect your data and content."
+            />
+            <EnterpriseFeature
+              icon={Database}
+              title="Scalable Infrastructure"
+              description="Cloud-native architecture that scales automatically to handle millions of concurrent users and campaigns."
+            />
+            <EnterpriseFeature
+              icon={Network}
+              title="API Integration"
+              description="RESTful APIs and webhooks for seamless integration with your existing marketing stack and workflow tools."
+            />
+            <EnterpriseFeature
+              icon={BarChart}
+              title="Advanced Analytics"
+              description="Real-time performance metrics, custom reporting, and predictive analytics powered by machine learning."
+            />
+            <EnterpriseFeature
+              icon={Globe2}
+              title="Global CDN"
+              description="Content delivery network ensuring fast load times and optimal performance worldwide."
+            />
+            <EnterpriseFeature
+              icon={Lock}
+              title="Compliance & Governance"
+              description="Built-in compliance tools, audit logs, and governance features for regulated industries."
+            />
+          </div>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
