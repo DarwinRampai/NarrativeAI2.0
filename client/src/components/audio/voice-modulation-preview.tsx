@@ -36,7 +36,6 @@ export function VoiceModulationPreview({
         barWidth: 2,
         barGap: 1,
         height: 60,
-        responsive: true,
         normalize: true,
         partialRender: true,
       });
