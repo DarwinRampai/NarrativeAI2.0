@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Code, Cpu, VideoIcon, Shield, Database, Network, BarChart, Globe2, Lock } from "lucide-react";
+import { MainLayout } from "@/layouts/main";
 
 const FeatureCard = ({ icon: Icon, title, description, delay = 0 }: {
   icon: React.ElementType;
@@ -28,7 +29,11 @@ const FeatureCard = ({ icon: Icon, title, description, delay = 0 }: {
   </motion.div>
 );
 
-const EnterpriseFeature = ({ icon: Icon, title, description }) => (
+const EnterpriseFeature = ({ icon: Icon, title, description }: {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+}) => (
   <div className="flex items-start gap-4 p-6 rounded-lg bg-card/30 backdrop-blur-sm border">
     <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
       <Icon className="h-5 w-5 text-primary" />
@@ -44,31 +49,8 @@ export default function HomePage() {
   const { user } = useAuth();
 
   return (
-    <div className="min-h-screen bg-background">
-      <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/50">
-          NarratixAI
-        </h1>
-        <div>
-          {user ? (
-            <Button asChild>
-              <Link href="/dashboard">
-                Go to Dashboard
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          ) : (
-            <Button asChild className="bg-primary/90 hover:bg-primary">
-              <Link href="/auth">
-                Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          )}
-        </div>
-      </nav>
-
-      <main className="container mx-auto px-6 py-12">
+    <MainLayout showSidebar={true}>
+      <div className="container mx-auto px-6 py-12">
         <div className="relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -191,7 +173,7 @@ export default function HomePage() {
             </Link>
           </Button>
         </motion.div>
-      </main>
-    </div>
+      </div>
+    </MainLayout>
   );
 }

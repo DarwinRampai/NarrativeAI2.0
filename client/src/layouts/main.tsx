@@ -11,7 +11,7 @@ export function MainLayout({ children, showSidebar = false }: MainLayoutProps) {
     <div className="min-h-screen bg-background">
       <Navbar />
       {showSidebar && <Sidebar />}
-      <main className={`${showSidebar ? 'ml-64 pt-16' : 'pt-16'}`}>
+      <main className={`${showSidebar ? 'ml-[280px] pt-16' : 'pt-16'}`}>
         {children}
       </main>
     </div>
