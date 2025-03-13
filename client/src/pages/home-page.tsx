@@ -62,7 +62,7 @@ export default function HomePage() {
               <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary to-primary/30 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" />
             </div>
 
-            <h1 className="text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
+            <h1 className="text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-br from-primary via-primary/80 to-primary/50 animate-gradient">
               Revolutionizing Ad Creation with AI & Next-Gen CGI
             </h1>
             <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
