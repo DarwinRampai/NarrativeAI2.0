@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -230,9 +230,10 @@ const demoAvatars: Avatar[] = [
   }
 ];
 
-function GenerateAvatarSection() {
+function GenerateAvatarSection({ inView = false }: { inView?: boolean }) {
   const [description, setDescription] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   const handleGenerate = async () => {
     setIsGenerating(true);
@@ -242,8 +243,14 @@ function GenerateAvatarSection() {
     setIsGenerating(false);
   };
 
+  useEffect(() => {
+    if (inView && sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [inView]);
+
   return (
-    <Card className="mb-8 bg-card/30 backdrop-blur-sm border-primary/10">
+    <Card ref={sectionRef} className="mb-8 bg-card/30 backdrop-blur-sm border-primary/10">
       <CardHeader>
         <CardTitle className="text-2xl flex items-center gap-2">
           <Wand2 className="h-6 w-6 text-primary" />
@@ -613,6 +620,7 @@ export default function AvatarsPage() {
   const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null);
   const [customization, setCustomization] = useState<Record<number, CustomizationState>>({});
   const [isCustomizing, setIsCustomizing] = useState(false);
+  const [showGenerateSection, setShowGenerateSection] = useState(false);
 
   const handleCustomizationChange = (avatarId: number, field: keyof CustomizationState, value: any) => {
     setCustomization(prev => ({
@@ -672,13 +680,16 @@ export default function AvatarsPage() {
         <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
           Neural Avatars
         </h1>
-        <Button className="bg-primary/90 hover:bg-primary">
+        <Button
+          className="bg-primary/90 hover:bg-primary"
+          onClick={() => setShowGenerateSection(true)}
+        >
           <UserCircle className="h-4 w-4 mr-2" />
           Create Custom Avatar
         </Button>
       </div>
 
-      <GenerateAvatarSection />
+      <GenerateAvatarSection inView={showGenerateSection} />
 
       <div className="grid md:grid-cols-3 gap-6">
         {demoAvatars.map((avatar) => (
