@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { X, Play, Pause } from 'lucide-react';
 
 export function WelcomeVideo() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -14,9 +14,11 @@ export function WelcomeVideo() {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Check if user has completed tutorial before
     const hasWatchedVideo = localStorage.getItem('hasWatchedVideo');
-    if (!hasWatchedVideo) {
-      setIsVisible(true);
+    if (hasWatchedVideo) {
+      setIsVisible(false);
+      return;
     }
   }, []);
 
