@@ -3,7 +3,7 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/hooks/use-auth";
-import { PageTransition } from "@/components/ui/page-transition";
+import { AnimatePresence, motion } from "framer-motion";
 import { WelcomeScreen } from "@/components/welcome-screen";
 import NotFound from "@/pages/not-found";
 import HomePage from "@/pages/home-page";
@@ -19,9 +19,14 @@ import { ProtectedRoute } from "./lib/protected-route";
 
 function Router() {
   return (
-    <div className="relative min-h-screen bg-background">
-      <PageTransition>
-        <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
+      <AnimatePresence mode="wait">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
           <Switch>
             <Route path="/" component={HomePage} />
             <Route path="/auth" component={AuthPage} />
@@ -34,8 +39,8 @@ function Router() {
             <ProtectedRoute path="/settings" component={Settings} />
             <Route component={NotFound} />
           </Switch>
-        </div>
-      </PageTransition>
+        </motion.div>
+      </AnimatePresence>
       <WelcomeScreen />
       <Toaster />
     </div>

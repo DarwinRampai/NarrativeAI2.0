@@ -9,10 +9,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       <Navbar />
       <Sidebar />
       <motion.main
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.3 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.2 }}
         className="ml-[280px] pt-16"
       >
         <div className="p-6">
