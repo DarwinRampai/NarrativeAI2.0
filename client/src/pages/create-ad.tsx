@@ -18,13 +18,22 @@ import {
   Users,
   Settings,
   RefreshCcw,
-  AlertCircle
+  AlertCircle,
+  PenSquare,
+  Video,
+  Layers,
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward,
+  Plus
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import AppLayout from "@/components/layout/app-layout";
 
 export default function CreateAd() {
   const [isGenerating, setIsGenerating] = useState(false);
+  const [currentTab, setCurrentTab] = useState("details");
   const { toast } = useToast();
 
   const handleGenerate = async () => {
@@ -33,13 +42,13 @@ export default function CreateAd() {
       // Here we would integrate with AI generation API
       await new Promise(resolve => setTimeout(resolve, 2000));
       toast({
-        title: "Ad Generated Successfully",
-        description: "Your ad has been created and is ready for review.",
+        title: "Script Generated Successfully",
+        description: "Your ad script has been created and is ready for review.",
       });
     } catch (error) {
       toast({
         title: "Generation Failed",
-        description: "There was an error generating your ad. Please try again.",
+        description: "There was an error generating your script. Please try again.",
         variant: "destructive",
       });
     }
@@ -78,14 +87,33 @@ export default function CreateAd() {
           </Button>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+        <Tabs defaultValue="details" className="space-y-6" onValueChange={setCurrentTab}>
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="details">
+              <Brain className="h-4 w-4 mr-2" />
+              Ad Details
+            </TabsTrigger>
+            <TabsTrigger value="script">
+              <PenSquare className="h-4 w-4 mr-2" />
+              Script Generator
+            </TabsTrigger>
+            <TabsTrigger value="video">
+              <Video className="h-4 w-4 mr-2" />
+              Video Editor
+            </TabsTrigger>
+            <TabsTrigger value="settings">
+              <Settings className="h-4 w-4 mr-2" />
+              AI Settings
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Ad Details Tab */}
+          <TabsContent value="details" className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Brain className="h-5 w-5 text-primary" />
-                  Ad Details
+                  Campaign Details
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -118,53 +146,146 @@ export default function CreateAd() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
 
+          {/* Script Generator Tab */}
+          <TabsContent value="script" className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Target className="h-5 w-5 text-primary" />
-                  Targeting & Distribution
+                  <PenSquare className="h-5 w-5 text-primary" />
+                  Script Generator
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label>Platforms</Label>
-                    <Input placeholder="e.g., Instagram, Facebook, YouTube" />
+                    <Label>Tone of Voice</Label>
+                    <Input placeholder="e.g., Professional, Friendly, Energetic" />
                   </div>
+
                   <div className="space-y-2">
-                    <Label>Geographic Focus</Label>
-                    <Input placeholder="e.g., Global, United States, Europe" />
+                    <Label>Script Length</Label>
+                    <Input placeholder="e.g., 30 seconds, 60 seconds" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Key Points to Include</Label>
+                    <Textarea 
+                      placeholder="List the main points you want to highlight in your script"
+                      className="h-32"
+                    />
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label>Dynamic Targeting</Label>
-                      <p className="text-sm text-muted-foreground">Automatically adjust for different audiences</p>
-                    </div>
-                    <Switch defaultChecked />
+                <div className="bg-primary/5 rounded-lg p-4">
+                  <h3 className="font-semibold mb-2">Generated Script</h3>
+                  <div className="bg-background/50 rounded-lg p-4 min-h-[200px]">
+                    <p className="text-muted-foreground text-sm">
+                      Your AI-generated script will appear here...
+                    </p>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label>A/B Testing</Label>
-                      <p className="text-sm text-muted-foreground">Create multiple variations for testing</p>
-                    </div>
-                    <Switch defaultChecked />
+                  <div className="flex justify-end mt-4">
+                    <Button variant="outline" className="mr-2">
+                      <RefreshCcw className="h-4 w-4 mr-2" />
+                      Regenerate
+                    </Button>
+                    <Button>
+                      <Wand2 className="h-4 w-4 mr-2" />
+                      Edit Script
+                    </Button>
                   </div>
                 </div>
               </CardContent>
             </Card>
-          </div>
+          </TabsContent>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
+          {/* Video Editor Tab */}
+          <TabsContent value="video" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Video className="h-5 w-5 text-primary" />
+                  Video Editor
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="aspect-video bg-black rounded-lg relative">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <p className="text-white/60">Video preview will appear here</p>
+                  </div>
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-background/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <SkipBack className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Play className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <SkipForward className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <h3 className="font-semibold mb-4">Scenes</h3>
+                    <div className="space-y-2">
+                      <div className="p-3 rounded-lg bg-primary/5 cursor-pointer hover:bg-primary/10">
+                        <div className="flex items-center gap-2">
+                          <div className="h-12 w-20 bg-background rounded"></div>
+                          <div>
+                            <p className="font-medium">Opening Scene</p>
+                            <p className="text-sm text-muted-foreground">0:00 - 0:05</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-3 rounded-lg bg-primary/5 cursor-pointer hover:bg-primary/10">
+                        <div className="flex items-center gap-2">
+                          <div className="h-12 w-20 bg-background rounded"></div>
+                          <div>
+                            <p className="font-medium">Main Message</p>
+                            <p className="text-sm text-muted-foreground">0:05 - 0:20</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold mb-4">Assets</h3>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="aspect-video bg-primary/5 rounded-lg flex items-center justify-center cursor-pointer hover:bg-primary/10">
+                        <Upload className="h-6 w-6 text-primary/60" />
+                      </div>
+                      <div className="aspect-video bg-primary/5 rounded-lg flex items-center justify-center cursor-pointer hover:bg-primary/10">
+                        <Plus className="h-6 w-6 text-primary/60" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-between">
+                  <Button variant="outline">
+                    <Layers className="h-4 w-4 mr-2" />
+                    Add Scene
+                  </Button>
+                  <Button>
+                    <Wand2 className="h-4 w-4 mr-2" />
+                    Apply AI Enhancement
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* AI Settings Tab */}
+          <TabsContent value="settings" className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Settings className="h-5 w-5 text-primary" />
-                  AI Settings
+                  AI Configuration
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -202,26 +323,8 @@ export default function CreateAd() {
                 </div>
               </CardContent>
             </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Sparkles className="h-5 w-5 text-primary" />
-                  AI Suggestions
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="p-4 rounded-lg bg-primary/5 space-y-2">
-                    <p className="text-sm">
-                      Fill in your campaign details and our AI will provide personalized suggestions for maximizing impact.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </AppLayout>
   );
