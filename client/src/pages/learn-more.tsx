@@ -31,7 +31,7 @@ export default function LearnMore() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-4xl mx-auto mb-16"
         >
-          <h1 className="text-5xl font-bold tracking-tight mb-6 gradient-heading">
+          <h1 className="text-5xl font-bold tracking-tight mb-6 gradient-heading animate-text-shimmer">
             Transform Your Advertising with AI
           </h1>
           <p className="text-xl text-muted-foreground mb-8">

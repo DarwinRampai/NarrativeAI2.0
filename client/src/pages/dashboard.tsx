@@ -100,9 +100,9 @@ export default function Dashboard() {
                   </div>
                   <div className="space-y-2">
                     <div className="h-2 w-full bg-primary/10 rounded-full">
-                      <div 
-                        className="h-2 bg-primary rounded-full" 
-                        style={{ width: `${platform.engagement}%` }} 
+                      <div
+                        className="h-2 bg-primary rounded-full"
+                        style={{ width: `${platform.engagement}%` }}
                       />
                     </div>
                     <div className="flex justify-between text-sm text-muted-foreground">
@@ -206,7 +206,7 @@ export default function Dashboard() {
 
         {/* Recent Projects */}
         <div>
-          <h2 className="text-2xl font-bold mb-4">Recent Projects</h2>
+          <h2 className="text-2xl font-bold mb-4 gradient-heading">Recent Projects</h2>
           {isLoading ? (
             <div className="flex justify-center">
               <Loader2 className="h-8 w-8 animate-spin" />
