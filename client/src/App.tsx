@@ -19,20 +19,22 @@ import { ProtectedRoute } from "./lib/protected-route";
 
 function Router() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative min-h-screen bg-background">
       <PageTransition>
-        <Switch>
-          <Route path="/" component={HomePage} />
-          <Route path="/auth" component={AuthPage} />
-          <Route path="/early-access" component={EarlyAccess} />
-          <Route path="/learn-more" component={LearnMore} />
-          <ProtectedRoute path="/dashboard" component={Dashboard} />
-          <ProtectedRoute path="/avatars" component={AvatarsPage} />
-          <ProtectedRoute path="/autonomous-ads" component={AutonomousAds} />
-          <ProtectedRoute path="/create-ad" component={CreateAd} />
-          <ProtectedRoute path="/settings" component={Settings} />
-          <Route component={NotFound} />
-        </Switch>
+        <div className="min-h-screen bg-background">
+          <Switch>
+            <Route path="/" component={HomePage} />
+            <Route path="/auth" component={AuthPage} />
+            <Route path="/early-access" component={EarlyAccess} />
+            <Route path="/learn-more" component={LearnMore} />
+            <ProtectedRoute path="/dashboard" component={Dashboard} />
+            <ProtectedRoute path="/avatars" component={AvatarsPage} />
+            <ProtectedRoute path="/autonomous-ads" component={AutonomousAds} />
+            <ProtectedRoute path="/create-ad" component={CreateAd} />
+            <ProtectedRoute path="/settings" component={Settings} />
+            <Route component={NotFound} />
+          </Switch>
+        </div>
       </PageTransition>
       <WelcomeScreen />
       <Toaster />
