@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Brain, Cpu, Layers, LineChart, VideoIcon, Wand2, Code, Zap, Users, Globe, ChartBar } from "lucide-react";
 import { Link } from "wouter";
-import { MainLayout } from "@/layouts/main"; 
 
 const Feature = ({ icon: Icon, title, description, delay = 0 }) => (
   <motion.div
@@ -24,7 +23,7 @@ const Feature = ({ icon: Icon, title, description, delay = 0 }) => (
 
 export default function LearnMore() {
   return (
-    <MainLayout>
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-6 py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -149,6 +148,6 @@ export default function LearnMore() {
           </Card>
         </motion.div>
       </div>
-    </MainLayout>
+    </div>
   );
 }
