@@ -5,10 +5,12 @@ import {
   UserCircle,
   Settings,
   Sparkles,
-  Plus
+  Plus,
+  Home
 } from "lucide-react";
 
 const navigation = [
+  { name: "Home", href: "/", icon: Home },
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Create Ad", href: "/create-ad", icon: Plus },
   { name: "Neural Avatars", href: "/avatars", icon: UserCircle },
