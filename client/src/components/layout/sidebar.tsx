@@ -2,10 +2,8 @@ import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import { 
   LayoutDashboard, 
-  PenSquare, 
-  Video,
-  Settings,
   UserCircle,
+  Settings,
   Sparkles,
   Plus
 } from "lucide-react";
@@ -13,9 +11,7 @@ import {
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Create Ad", href: "/create-ad", icon: Plus },
-  { name: "Script Generator", href: "/script-generator", icon: PenSquare },
   { name: "Neural Avatars", href: "/avatars", icon: UserCircle },
-  { name: "Video Editor", href: "/video-editor", icon: Video },
   { name: "Autonomous Ads", href: "/autonomous-ads", icon: Sparkles },
   { name: "Settings", href: "/settings", icon: Settings },
 ];

@@ -6,8 +6,6 @@ import { AuthProvider } from "@/hooks/use-auth";
 import NotFound from "@/pages/not-found";
 import HomePage from "@/pages/home-page";
 import Dashboard from "@/pages/dashboard";
-import ScriptGenerator from "@/pages/script-generator";
-import VideoEditor from "@/pages/video-editor";
 import Settings from "@/pages/settings";
 import AuthPage from "@/pages/auth-page";
 import EarlyAccess from "@/pages/early-access";
@@ -25,9 +23,7 @@ function Router() {
       <Route path="/early-access" component={EarlyAccess} />
       <Route path="/learn-more" component={LearnMore} />
       <ProtectedRoute path="/dashboard" component={Dashboard} />
-      <ProtectedRoute path="/script-generator" component={ScriptGenerator} />
       <ProtectedRoute path="/avatars" component={AvatarsPage} />
-      <ProtectedRoute path="/video-editor" component={VideoEditor} />
       <ProtectedRoute path="/autonomous-ads" component={AutonomousAds} />
       <ProtectedRoute path="/create-ad" component={CreateAd} />
       <ProtectedRoute path="/settings" component={Settings} />
