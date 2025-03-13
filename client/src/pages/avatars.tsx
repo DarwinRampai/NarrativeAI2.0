@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Slider } from "@/components/ui/slider";
 import { UserCircle, Sliders, Brain, Languages, Mic2, Wand2 } from "lucide-react";
 import AppLayout from "@/components/layout/app-layout";
 import { motion } from "framer-motion";
@@ -258,8 +259,8 @@ function GenerateAvatarSection() {
             className="h-32 bg-background/50 backdrop-blur-sm border-primary/10 focus:border-primary/30"
           />
         </div>
-        <Button 
-          onClick={handleGenerate} 
+        <Button
+          onClick={handleGenerate}
           className="w-full bg-primary/90 hover:bg-primary"
           disabled={!description.trim() || isGenerating}
         >
@@ -280,12 +281,12 @@ function GenerateAvatarSection() {
   );
 }
 
-function CustomizationPanel({ 
-  avatar, 
-  customization, 
-  onCustomizationChange, 
-  onClose 
-}: { 
+function CustomizationPanel({
+  avatar,
+  customization,
+  onCustomizationChange,
+  onClose
+}: {
   avatar: Avatar;
   customization: CustomizationState;
   onCustomizationChange: (field: keyof CustomizationState, value: any) => void;
@@ -420,7 +421,7 @@ function CustomizationPanel({
                 <Label>AI Lip Sync</Label>
                 <Checkbox
                   checked={customization.lipSync}
-                  onCheckedChange={(checked) => 
+                  onCheckedChange={(checked) =>
                     onCustomizationChange('lipSync', checked)
                   }
                 />
@@ -430,7 +431,7 @@ function CustomizationPanel({
                 <Label>Expression Recognition</Label>
                 <Checkbox
                   checked={customization.expressionRecognition}
-                  onCheckedChange={(checked) => 
+                  onCheckedChange={(checked) =>
                     onCustomizationChange('expressionRecognition', checked)
                   }
                 />
@@ -440,7 +441,7 @@ function CustomizationPanel({
                 <Label>Full Body Motion</Label>
                 <Checkbox
                   checked={customization.bodyMotion}
-                  onCheckedChange={(checked) => 
+                  onCheckedChange={(checked) =>
                     onCustomizationChange('bodyMotion', checked)
                   }
                 />
@@ -450,7 +451,7 @@ function CustomizationPanel({
                 <Label>Physics-Based Animation</Label>
                 <Checkbox
                   checked={customization.physicsEnabled}
-                  onCheckedChange={(checked) => 
+                  onCheckedChange={(checked) =>
                     onCustomizationChange('physicsEnabled', checked)
                   }
                 />
@@ -467,7 +468,7 @@ function CustomizationPanel({
                 </div>
                 <Checkbox
                   checked={customization.autonomousReactions}
-                  onCheckedChange={(checked) => 
+                  onCheckedChange={(checked) =>
                     onCustomizationChange('autonomousReactions', checked)
                   }
                 />
@@ -480,7 +481,7 @@ function CustomizationPanel({
                 </div>
                 <Checkbox
                   checked={customization.voiceCloning}
-                  onCheckedChange={(checked) => 
+                  onCheckedChange={(checked) =>
                     onCustomizationChange('voiceCloning', checked)
                   }
                 />
@@ -493,7 +494,7 @@ function CustomizationPanel({
                 </div>
                 <Checkbox
                   checked={customization.emotionDetection}
-                  onCheckedChange={(checked) => 
+                  onCheckedChange={(checked) =>
                     onCustomizationChange('emotionDetection', checked)
                   }
                 />
@@ -504,7 +505,7 @@ function CustomizationPanel({
           <TabsContent value="voice" className="space-y-4">
             <div>
               <Label>Voice Style</Label>
-              <Select 
+              <Select
                 value={avatar.voiceOptions[customization.voiceStyle || 0]}
                 onValueChange={(value) => onCustomizationChange(
                   'voiceStyle',
@@ -527,22 +528,24 @@ function CustomizationPanel({
             <div>
               <Label>Voice Pitch</Label>
               <Slider
-                defaultValue={[customization.voicePitch || 50]}
+                value={[customization.voicePitch || 50]}
                 min={0}
                 max={100}
                 step={1}
                 onValueChange={(value) => onCustomizationChange('voicePitch', value[0])}
+                className="mt-2"
               />
             </div>
 
             <div>
               <Label>Speaking Speed</Label>
               <Slider
-                defaultValue={[customization.voiceSpeed || 50]}
+                value={[customization.voiceSpeed || 50]}
                 min={0}
                 max={100}
                 step={1}
                 onValueChange={(value) => onCustomizationChange('voiceSpeed', value[0])}
+                className="mt-2"
               />
             </div>
           </TabsContent>
@@ -570,11 +573,12 @@ function CustomizationPanel({
             <div>
               <Label>Accent Strength</Label>
               <Slider
-                defaultValue={[customization.accentStrength || 50]}
+                value={[customization.accentStrength || 50]}
                 min={0}
                 max={100}
                 step={1}
                 onValueChange={(value) => onCustomizationChange('accentStrength', value[0])}
+                className="mt-2"
               />
             </div>
           </TabsContent>
@@ -687,7 +691,7 @@ export default function AvatarsPage() {
                 <p className="text-sm text-muted-foreground">
                   {avatar.description}
                 </p>
-                <Button 
+                <Button
                   className="w-full bg-primary/90 hover:bg-primary"
                   onClick={() => startCustomizing(avatar.id)}
                 >
