@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Project } from "@shared/schema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, Plus, TrendingUp, Target, Brain, BarChart3, Zap, Activity } from "lucide-react";
+import { Loader2, Plus, TrendingUp, Target, Brain, BarChart3, Zap, Activity, Globe, Users, ArrowRight, ChartBar } from "lucide-react";
 import { Link } from "wouter";
 import AppLayout from "@/components/layout/app-layout";
 
@@ -16,6 +16,15 @@ export default function Dashboard() {
     { title: "Engagement Rate", value: "8.2%", change: "+3.1%", trend: "up" },
     { title: "Conversion Rate", value: "2.4%", change: "+0.8%", trend: "up" },
     { title: "AI Score", value: "92", change: "+5", trend: "up" },
+    { title: "ROI", value: "315%", change: "+25%", trend: "up" },
+    { title: "Click-Through Rate", value: "4.8%", change: "+1.2%", trend: "up" },
+  ];
+
+  const platformMetrics = [
+    { platform: "Instagram", engagement: 78, reach: "45K", conversion: "2.1%" },
+    { platform: "Facebook", engagement: 65, reach: "38K", conversion: "1.8%" },
+    { platform: "TikTok", engagement: 92, reach: "62K", conversion: "3.2%" },
+    { platform: "YouTube", engagement: 71, reach: "29K", conversion: "1.5%" },
   ];
 
   const aiRecommendations = [
@@ -23,16 +32,19 @@ export default function Dashboard() {
       title: "Optimize Script Tone",
       description: "Our AI suggests adjusting the script tone to be more conversational for better engagement",
       impact: "Potential +15% engagement",
+      priority: "high"
     },
     {
       title: "Avatar Expression Enhancement",
       description: "Add more dynamic expressions to increase viewer connection",
       impact: "Potential +20% retention",
+      priority: "medium"
     },
     {
       title: "Content Length Optimization",
       description: "Shorten video duration to optimal 60 seconds based on audience data",
       impact: "Potential +25% completion rate",
+      priority: "high"
     },
   ];
 
@@ -42,14 +54,16 @@ export default function Dashboard() {
         {/* Header */}
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold gradient-heading">Dashboard</h1>
-          <Button className="bg-primary/90 hover:bg-primary">
-            <Plus className="h-4 w-4 mr-2" />
-            New Project
-          </Button>
+          <Link href="/create-ad">
+            <Button className="bg-primary/90 hover:bg-primary">
+              <Plus className="h-4 w-4 mr-2" />
+              Create New Ad
+            </Button>
+          </Link>
         </div>
 
-        {/* Key Metrics */}
-        <div className="grid md:grid-cols-4 gap-4">
+        {/* Key Metrics Grid */}
+        <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
           {metrics.map((metric) => (
             <Card key={metric.title} className="card-hover">
               <CardContent className="pt-6">
@@ -58,7 +72,8 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground">{metric.title}</p>
                     <h3 className="text-2xl font-bold mt-2">{metric.value}</h3>
                   </div>
-                  <div className={`text-sm ${metric.trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
+                  <div className={`text-sm ${metric.trend === 'up' ? 'text-green-500' : 'text-red-500'} flex items-center`}>
+                    <TrendingUp className="h-4 w-4 mr-1" />
                     {metric.change}
                   </div>
                 </div>
@@ -67,8 +82,43 @@ export default function Dashboard() {
           ))}
         </div>
 
-        {/* AI Optimization */}
+        {/* Platform Performance */}
+        <Card className="card-hover">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Globe className="h-5 w-5 text-primary" />
+              Platform Performance
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-4 gap-4">
+              {platformMetrics.map((platform) => (
+                <div key={platform.platform} className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <h4 className="font-medium">{platform.platform}</h4>
+                    <span className="text-sm text-primary">{platform.engagement}%</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-2 w-full bg-primary/10 rounded-full">
+                      <div 
+                        className="h-2 bg-primary rounded-full" 
+                        style={{ width: `${platform.engagement}%` }} 
+                      />
+                    </div>
+                    <div className="flex justify-between text-sm text-muted-foreground">
+                      <span>Reach: {platform.reach}</span>
+                      <span>Conv: {platform.conversion}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* AI Insights Grid */}
         <div className="grid md:grid-cols-2 gap-6">
+          {/* AI Recommendations */}
           <Card className="card-hover">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -79,9 +129,16 @@ export default function Dashboard() {
             <CardContent className="space-y-4">
               {aiRecommendations.map((rec) => (
                 <div key={rec.title} className="p-4 rounded-lg bg-primary/5 space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Zap className="h-4 w-4 text-primary" />
-                    <h4 className="font-semibold">{rec.title}</h4>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Zap className="h-4 w-4 text-primary" />
+                      <h4 className="font-semibold">{rec.title}</h4>
+                    </div>
+                    <span className={`text-xs px-2 py-1 rounded-full ${
+                      rec.priority === 'high' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-600'
+                    }`}>
+                      {rec.priority} priority
+                    </span>
                   </div>
                   <p className="text-sm text-muted-foreground">{rec.description}</p>
                   <p className="text-sm text-primary">{rec.impact}</p>
@@ -90,48 +147,64 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
+          {/* Audience Insights */}
           <Card className="card-hover">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Activity className="h-5 w-5 text-primary" />
-                Performance Insights
+                <Users className="h-5 w-5 text-primary" />
+                Audience Insights
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium">Audience Retention</p>
-                    <div className="h-2 w-full bg-primary/10 rounded-full mt-2">
-                      <div className="h-2 bg-primary rounded-full" style={{ width: '75%' }} />
+              <div className="space-y-6">
+                <div>
+                  <div className="flex justify-between items-center mb-2">
+                    <h4 className="font-medium">Demographics</h4>
+                    <span className="text-sm text-primary">25-34 age group leads</span>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2">
+                    <div className="h-20 bg-primary/10 rounded-lg relative">
+                      <div className="absolute bottom-0 w-full bg-primary rounded-lg" style={{ height: '40%' }} />
+                      <span className="absolute top-2 left-2 text-xs">18-24</span>
+                    </div>
+                    <div className="h-20 bg-primary/10 rounded-lg relative">
+                      <div className="absolute bottom-0 w-full bg-primary rounded-lg" style={{ height: '75%' }} />
+                      <span className="absolute top-2 left-2 text-xs">25-34</span>
+                    </div>
+                    <div className="h-20 bg-primary/10 rounded-lg relative">
+                      <div className="absolute bottom-0 w-full bg-primary rounded-lg" style={{ height: '55%' }} />
+                      <span className="absolute top-2 left-2 text-xs">35-44</span>
+                    </div>
+                    <div className="h-20 bg-primary/10 rounded-lg relative">
+                      <div className="absolute bottom-0 w-full bg-primary rounded-lg" style={{ height: '30%' }} />
+                      <span className="absolute top-2 left-2 text-xs">45+</span>
                     </div>
                   </div>
-                  <span className="text-sm font-medium">75%</span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium">Click-Through Rate</p>
-                    <div className="h-2 w-full bg-primary/10 rounded-full mt-2">
-                      <div className="h-2 bg-primary rounded-full" style={{ width: '62%' }} />
+
+                <div className="space-y-4">
+                  <h4 className="font-medium">Interaction Patterns</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-3 rounded-lg bg-primary/5">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Peak Activity</span>
+                        <span className="text-sm font-medium">2PM - 6PM</span>
+                      </div>
+                    </div>
+                    <div className="p-3 rounded-lg bg-primary/5">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Device Type</span>
+                        <span className="text-sm font-medium">78% Mobile</span>
+                      </div>
                     </div>
                   </div>
-                  <span className="text-sm font-medium">62%</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium">Social Shares</p>
-                    <div className="h-2 w-full bg-primary/10 rounded-full mt-2">
-                      <div className="h-2 bg-primary rounded-full" style={{ width: '45%' }} />
-                    </div>
-                  </div>
-                  <span className="text-sm font-medium">45%</span>
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Projects */}
+        {/* Recent Projects */}
         <div>
           <h2 className="text-2xl font-bold mb-4">Recent Projects</h2>
           {isLoading ? (
@@ -152,17 +225,23 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground mb-4">
                       {project.description}
                     </p>
-                    <div className="flex space-x-2">
-                      <Link href={`/script-generator?projectId=${project.id}`}>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Performance</span>
+                        <span className="text-primary">92% effectiveness</span>
+                      </div>
+                      <div className="h-1.5 w-full bg-primary/10 rounded-full">
+                        <div className="h-1.5 bg-primary rounded-full" style={{ width: '92%' }} />
+                      </div>
+                      <div className="flex space-x-2">
                         <Button variant="outline" size="sm" className="bg-background/50 backdrop-blur-sm hover:bg-primary/10">
-                          Generate Script
+                          <ChartBar className="h-4 w-4 mr-2" />
+                          Analytics
                         </Button>
-                      </Link>
-                      <Link href={`/video-editor?projectId=${project.id}`}>
                         <Button variant="outline" size="sm" className="bg-background/50 backdrop-blur-sm hover:bg-primary/10">
-                          Edit Video
+                          <ArrowRight className="h-4 w-4" />
                         </Button>
-                      </Link>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
