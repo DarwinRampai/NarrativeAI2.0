@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Brain, Cpu, Layers, LineChart, VideoIcon, Wand2 } from "lucide-react";
+import { ArrowRight, Brain, Cpu, Layers, LineChart, VideoIcon, Wand2, Code, Zap, Users, Globe, ChartBar } from "lucide-react";
 import { Link } from "wouter";
 
 const Feature = ({ icon: Icon, title, description, delay = 0 }) => (
@@ -32,10 +32,10 @@ export default function LearnMore() {
           className="text-center max-w-4xl mx-auto mb-16"
         >
           <h1 className="text-5xl font-bold tracking-tight mb-6 gradient-heading">
-            The Future of Advertising is Here
+            Transform Your Advertising with AI
           </h1>
           <p className="text-xl text-muted-foreground mb-8">
-            Discover how NarratixAI is revolutionizing ad creation with cutting-edge AI technology and next-generation CGI.
+            NarratixAI combines cutting-edge artificial intelligence, neural avatars, and real-time optimization to revolutionize how brands create and deliver advertising content.
           </p>
           <Link href="/early-access">
             <Button size="lg" className="bg-primary/90 hover:bg-primary">
@@ -45,41 +45,41 @@ export default function LearnMore() {
           </Link>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
           <Feature
             icon={Brain}
             title="AI Script Generation"
-            description="Our advanced AI understands your brand voice and creates compelling ad scripts that resonate with your target audience."
+            description="Our advanced language models analyze your brand voice, market trends, and campaign goals to create compelling ad scripts that resonate with your target audience."
             delay={0.2}
           />
           <Feature
             icon={VideoIcon}
-            title="CGI Video Creation"
-            description="Transform scripts into stunning videos using state-of-the-art CGI and real-time rendering technology."
+            title="Neural Avatar Technology"
+            description="Create lifelike digital presenters using advanced CGI and neural networks. Our avatars can speak multiple languages and adapt their expressions in real-time."
             delay={0.3}
           />
           <Feature
             icon={Wand2}
-            title="Neural Avatars"
-            description="Create lifelike digital spokespersons that perfectly represent your brand identity."
+            title="Autonomous Ad Creation"
+            description="Just provide a brief prompt, and our AI will handle everything - from script writing to visual composition, CGI integration, and final production."
             delay={0.4}
           />
           <Feature
-            icon={Layers}
-            title="Dynamic Templates"
-            description="Access a library of professional templates that adapt to your content and brand guidelines."
+            icon={Zap}
+            title="Real-Time Optimization"
+            description="Our AI continuously analyzes engagement metrics and automatically adjusts ad content, timing, and targeting for maximum performance."
             delay={0.5}
           />
           <Feature
-            icon={LineChart}
-            title="Performance Analytics"
-            description="Track and optimize your ad performance with real-time analytics and AI-driven insights."
+            icon={Users}
+            title="Dynamic Personalization"
+            description="Deliver personalized ad experiences that adapt to viewer demographics, behavior patterns, and emotional responses in real-time."
             delay={0.6}
           />
           <Feature
-            icon={Cpu}
-            title="Smart Optimization"
-            description="Let AI automatically optimize your ads for maximum engagement and conversion rates."
+            icon={Globe}
+            title="Multi-Platform Deployment"
+            description="Automatically optimize and distribute your ads across social media, streaming platforms, and programmatic networks with perfect format adaptation."
             delay={0.7}
           />
         </div>
@@ -88,7 +88,47 @@ export default function LearnMore() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mt-24 text-center"
+          className="text-center max-w-4xl mx-auto mb-20"
+        >
+          <h2 className="text-3xl font-bold mb-6 gradient-heading">
+            Advanced AI Technologies
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="card-hover">
+              <CardContent className="p-6">
+                <Code className="h-8 w-8 text-primary mb-4" />
+                <h3 className="text-lg font-semibold mb-2">GPT-4o Integration</h3>
+                <p className="text-sm text-muted-foreground">
+                  Leveraging the latest large language models for human-like script generation and content optimization.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="card-hover">
+              <CardContent className="p-6">
+                <Cpu className="h-8 w-8 text-primary mb-4" />
+                <h3 className="text-lg font-semibold mb-2">Neural Rendering</h3>
+                <p className="text-sm text-muted-foreground">
+                  State-of-the-art CGI and real-time rendering powered by advanced neural networks.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="card-hover">
+              <CardContent className="p-6">
+                <ChartBar className="h-8 w-8 text-primary mb-4" />
+                <h3 className="text-lg font-semibold mb-2">Predictive Analytics</h3>
+                <p className="text-sm text-muted-foreground">
+                  Machine learning algorithms that forecast ad performance and optimize delivery.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center"
         >
           <Card className="card-hover max-w-2xl mx-auto">
             <CardContent className="p-8">
@@ -96,7 +136,7 @@ export default function LearnMore() {
                 Ready to Transform Your Advertising?
               </h2>
               <p className="text-muted-foreground mb-6">
-                Join the next generation of AI-powered advertising creation.
+                Join the next generation of AI-powered advertising creation. Get early access to our platform and be among the first to experience the future of digital advertising.
               </p>
               <Link href="/auth">
                 <Button size="lg" className="bg-primary/90 hover:bg-primary">

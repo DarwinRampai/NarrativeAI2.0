@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Mail, Shield, Sparkles, Star } from "lucide-react";
+import { ArrowRight, Mail, Shield, Sparkles, Star, Gift, Users, Gauge } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function EarlyAccess() {
@@ -33,7 +33,7 @@ export default function EarlyAccess() {
             Be Among the First to Experience NarratixAI
           </h1>
           <p className="text-xl text-muted-foreground mb-8">
-            Join our exclusive early access program and transform your advertising with next-generation AI technology.
+            Join our exclusive early access program and get privileged access to the most advanced AI-powered advertising platform. Transform your advertising strategy with cutting-edge technology before your competitors.
           </p>
         </motion.div>
 
@@ -77,9 +77,21 @@ export default function EarlyAccess() {
                 <Star className="feature-icon-inner" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold mb-2">Exclusive Benefits</h3>
+                <h3 className="text-lg font-semibold mb-2">Exclusive Beta Access</h3>
                 <p className="text-muted-foreground">
-                  Early access members receive premium features, priority support, and special pricing.
+                  Be the first to experience our revolutionary AI-powered ad creation platform and shape its development.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="feature-icon">
+                <Gift className="feature-icon-inner" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Early Bird Pricing</h3>
+                <p className="text-muted-foreground">
+                  Lock in special founder-tier pricing and receive additional credits for our AI services.
                 </p>
               </div>
             </div>
@@ -89,21 +101,33 @@ export default function EarlyAccess() {
                 <Shield className="feature-icon-inner" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold mb-2">Dedicated Support</h3>
+                <h3 className="text-lg font-semibold mb-2">Priority Support</h3>
                 <p className="text-muted-foreground">
-                  Get personalized onboarding and direct access to our product team.
+                  Get direct access to our development team and receive personalized onboarding assistance.
                 </p>
               </div>
             </div>
 
             <div className="flex items-start gap-4">
               <div className="feature-icon">
-                <Sparkles className="feature-icon-inner" />
+                <Users className="feature-icon-inner" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold mb-2">Shape the Future</h3>
+                <h3 className="text-lg font-semibold mb-2">Exclusive Community</h3>
                 <p className="text-muted-foreground">
-                  Influence product development and be part of our innovation journey.
+                  Join our private community of early adopters and industry innovators.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="feature-icon">
+                <Gauge className="feature-icon-inner" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Advanced Features</h3>
+                <p className="text-muted-foreground">
+                  Get early access to upcoming features and experimental AI capabilities.
                 </p>
               </div>
             </div>
