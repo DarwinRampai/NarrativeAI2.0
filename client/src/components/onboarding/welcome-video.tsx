@@ -3,7 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { X, Play, Pause } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, Play, Pause } from 'lucide-react';
+
+interface Step {
+  time: number;
+  title: string;
+  description: string;
+}
 
 export function WelcomeVideo() {
   const [isVisible, setIsVisible] = useState(true);
@@ -14,7 +20,7 @@ export function WelcomeVideo() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if user has completed tutorial before
+    // Check if user has watched video before
     const hasWatchedVideo = localStorage.getItem('hasWatchedVideo');
     if (hasWatchedVideo) {
       setIsVisible(false);
@@ -68,12 +74,28 @@ export function WelcomeVideo() {
 
   if (!isVisible) return null;
 
-  // Video sections based on prompt
-  const sections = [
-    { time: 0, title: "Opening: Welcome to NarratixAI" },
-    { time: 10, title: "AI-Powered Ad Creation" },
-    { time: 30, title: "Advanced Neural Avatars" },
-    { time: 50, title: "Your Journey Begins" }
+  // Video sections based on the cinematic prompt
+  const sections: Step[] = [
+    { 
+      time: 0, 
+      title: "Opening Sequence", 
+      description: "Welcome to NarratixAI, where AI meets creativity"
+    },
+    { 
+      time: 10, 
+      title: "AI-Powered Ad Creation", 
+      description: "Generate complete, high-quality video ads in seconds"
+    },
+    { 
+      time: 30, 
+      title: "Advanced Features", 
+      description: "Neural avatars, optimization, and seamless integration"
+    },
+    { 
+      time: 50, 
+      title: "Your Creative Future", 
+      description: "Create. Optimize. Dominate."
+    }
   ];
 
   const currentSection = sections.reduce((prev, curr) => {
@@ -88,7 +110,7 @@ export function WelcomeVideo() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         />
 
         <motion.div
@@ -165,6 +187,7 @@ export function WelcomeVideo() {
 
                 <div className="flex-1 mx-4">
                   <p className="text-sm text-white/80">{currentSection.title}</p>
+                  <p className="text-xs text-white/60">{currentSection.description}</p>
                 </div>
 
                 <Button
