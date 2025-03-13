@@ -2,15 +2,18 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 import { X, Play, Pause } from 'lucide-react';
 
 export function WelcomeVideo() {
   const [isVisible, setIsVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
-    // Check if user has watched the video before
     const hasWatchedVideo = localStorage.getItem('hasWatchedVideo');
     if (!hasWatchedVideo) {
       setIsVisible(true);
@@ -28,7 +31,15 @@ export function WelcomeVideo() {
       if (isPlaying) {
         video.pause();
       } else {
-        video.play();
+        video.play().catch(error => {
+          console.error('Video playback failed:', error);
+          setHasError(true);
+          toast({
+            title: "Video Playback Error",
+            description: "There was an error playing the video. Please try again later.",
+            variant: "destructive",
+          });
+        });
       }
       setIsPlaying(!isPlaying);
     }
@@ -38,14 +49,29 @@ export function WelcomeVideo() {
     setCurrentTime(e.currentTarget.currentTime);
   };
 
+  const handleLoadedData = () => {
+    setIsLoading(false);
+    setHasError(false);
+  };
+
+  const handleError = () => {
+    setIsLoading(false);
+    setHasError(true);
+    toast({
+      title: "Video Loading Error",
+      description: "There was an error loading the video. Please try again later.",
+      variant: "destructive",
+    });
+  };
+
   if (!isVisible) return null;
 
   // Video sections based on prompt
   const sections = [
-    { time: 0, title: "Opening" },
-    { time: 10, title: "AI-Powered Creation" },
-    { time: 30, title: "Advanced Features" },
-    { time: 50, title: "Get Started" }
+    { time: 0, title: "Opening: Welcome to NarratixAI" },
+    { time: 10, title: "AI-Powered Ad Creation" },
+    { time: 30, title: "Advanced Neural Avatars" },
+    { time: 50, title: "Your Journey Begins" }
   ];
 
   const currentSection = sections.reduce((prev, curr) => {
@@ -71,10 +97,37 @@ export function WelcomeVideo() {
         >
           <Card className="overflow-hidden">
             <div className="relative aspect-video bg-black">
+              {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                </div>
+              )}
+
+              {hasError && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <p className="text-white mb-4">Failed to load video</p>
+                    <Button 
+                      variant="outline"
+                      onClick={() => {
+                        setIsLoading(true);
+                        setHasError(false);
+                        const video = document.querySelector('video');
+                        if (video) video.load();
+                      }}
+                    >
+                      Retry
+                    </Button>
+                  </div>
+                </div>
+              )}
+
               <video
                 className="w-full h-full object-cover"
-                src="https://storage.googleapis.com/narratix-onboarding/welcome.mp4"
+                src="/assets/onboarding/welcome.mp4"
                 onTimeUpdate={handleTimeUpdate}
+                onLoadedData={handleLoadedData}
+                onError={handleError}
                 onEnded={() => setIsPlaying(false)}
                 playsInline
                 controls={false}
