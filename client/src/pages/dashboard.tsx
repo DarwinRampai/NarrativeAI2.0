@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Plus, TrendingUp, Target, Brain, BarChart3, Zap, Activity, Globe, Users, ArrowRight, ChartBar } from "lucide-react";
 import { Link } from "wouter";
 import AppLayout from "@/components/layout/app-layout";
+import { PerformanceForecast } from "@/components/charts/performance-forecast"; // Added import
 
 const getMetricColor = (value: string | number, type: string) => {
     // Remove % sign and convert to number if necessary
@@ -204,6 +205,9 @@ const getMetricColor = (value: string | number, type: string) => {
               </CardContent>
             </Card>
           </div>
+
+          {/* Performance Forecast */}
+          <PerformanceForecast />
 
           {/* Recent Projects */}
           <div>
