@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Mail, Shield, Sparkles, Star, Gift, Users, Gauge } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { MainLayout } from "@/layouts/main";
 
 export default function EarlyAccess() {
   const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ export default function EarlyAccess() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <MainLayout>
       <div className="container mx-auto px-6 py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -134,6 +135,6 @@ export default function EarlyAccess() {
           </motion.div>
         </div>
       </div>
-    </div>
+    </MainLayout>
   );
 }
