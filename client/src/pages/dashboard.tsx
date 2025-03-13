@@ -46,7 +46,7 @@ const getMetricColor = (value: string | number, type: string) => {
           <div className="flex justify-between items-center">
             <h1 className="text-3xl font-bold gradient-heading">Dashboard</h1>
             <Link href="/create-ad">
-              <Button className="bg-primary/90 hover:bg-primary">
+              <Button id="create-ad-button" className="bg-primary/90 hover:bg-primary">
                 <Plus className="h-4 w-4 mr-2" />
                 Create New Ad
               </Button>
@@ -54,7 +54,7 @@ const getMetricColor = (value: string | number, type: string) => {
           </div>
 
           {/* Key Metrics Grid */}
-          <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div id="metrics-grid" className="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
             {metrics.map((metric) => (
               <Card key={metric.title} className="card-hover">
                 <CardContent className="pt-6">
@@ -121,7 +121,7 @@ const getMetricColor = (value: string | number, type: string) => {
           {/* AI Insights Grid */}
           <div className="grid md:grid-cols-2 gap-6">
             {/* AI Recommendations */}
-            <Card className="card-hover">
+            <Card id="ai-recommendations" className="card-hover">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Brain className="h-5 w-5 text-primary" />
@@ -207,7 +207,9 @@ const getMetricColor = (value: string | number, type: string) => {
           </div>
 
           {/* Performance Forecast */}
-          <PerformanceForecast />
+          <div id="performance-forecast">
+            <PerformanceForecast />
+          </div>
 
           {/* Recent Projects */}
           <div>
