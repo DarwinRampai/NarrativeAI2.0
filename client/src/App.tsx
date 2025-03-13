@@ -13,6 +13,7 @@ import AuthPage from "@/pages/auth-page";
 import EarlyAccess from "@/pages/early-access";
 import LearnMore from "@/pages/learn-more";
 import AvatarsPage from "@/pages/avatars";
+import CustomAvatarPage from "@/pages/custom-avatar";
 import AutonomousAds from "@/pages/autonomous-ads";
 import CreateAd from "@/pages/create-ad";
 import { ProtectedRoute } from "./lib/protected-route";
@@ -34,6 +35,7 @@ function Router() {
             <Route path="/learn-more" component={LearnMore} />
             <ProtectedRoute path="/dashboard" component={Dashboard} />
             <ProtectedRoute path="/avatars" component={AvatarsPage} />
+            <ProtectedRoute path="/custom-avatar" component={CustomAvatarPage} />
             <ProtectedRoute path="/autonomous-ads" component={AutonomousAds} />
             <ProtectedRoute path="/create-ad" component={CreateAd} />
             <ProtectedRoute path="/settings" component={Settings} />

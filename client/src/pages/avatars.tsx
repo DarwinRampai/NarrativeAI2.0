@@ -12,6 +12,7 @@ import { UserCircle, Sliders, Brain, Languages, Mic2, Wand2 } from "lucide-react
 import AppLayout from "@/components/layout/app-layout";
 import { motion } from "framer-motion";
 import { VoiceModulationPreview } from "@/components/audio/voice-modulation-preview";
+import { useLocation } from 'wouter';
 
 interface Avatar {
   id: number;
@@ -630,6 +631,7 @@ export default function AvatarsPage() {
   const [customization, setCustomization] = useState<Record<number, CustomizationState>>({});
   const [isCustomizing, setIsCustomizing] = useState(false);
   const [showGenerateSection, setShowGenerateSection] = useState(false);
+  const [, navigate] = useLocation();
 
   const handleCustomizationChange = (avatarId: number, field: keyof CustomizationState, value: any) => {
     setCustomization(prev => ({
@@ -691,9 +693,7 @@ export default function AvatarsPage() {
         </h1>
         <Button
           className="bg-primary/90 hover:bg-primary relative overflow-hidden group"
-          onClick={() => {
-            setShowGenerateSection(true);
-          }}
+          onClick={() => navigate('/custom-avatar')}
         >
           <span className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
           <UserCircle className="h-4 w-4 mr-2" />
