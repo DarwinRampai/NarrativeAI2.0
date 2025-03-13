@@ -3,15 +3,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Loader2, Wand2, RotateCw, Eye } from "lucide-react";
+import { Loader2, Wand2, Eye } from "lucide-react";
 import AppLayout from "@/components/layout/app-layout";
 import { motion } from "framer-motion";
 import * as THREE from 'three';
+import { PersonalityGenerator } from "@/components/avatar/personality-generator";
 
 export default function CustomAvatarPage() {
   const [description, setDescription] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [personalityProfile, setPersonalityProfile] = useState<any>(null);
   const previewContainerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
@@ -95,51 +97,59 @@ export default function CustomAvatarPage() {
     }
   };
 
+  const handlePersonalityGenerated = (personality: any) => {
+    setPersonalityProfile(personality);
+  };
+
   return (
     <AppLayout>
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold gradient-heading mb-6">
           Create Custom Avatar
         </h1>
 
         <div className="grid lg:grid-cols-2 gap-6">
           {/* Avatar Generation Form */}
-          <Card className="bg-card/30 backdrop-blur-sm border-primary/10">
-            <CardHeader>
-              <CardTitle className="text-xl flex items-center gap-2">
-                <Wand2 className="h-5 w-5 text-primary" />
-                Generate Avatar
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label>Describe Your Avatar</Label>
-                <Textarea
-                  placeholder="Describe the avatar you want to create... For example: 'A professional female presenter in her 30s with shoulder-length brown hair, wearing a navy business suit. She should have a warm and approachable demeanor, suitable for corporate training videos.'"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="h-32 bg-background/50 backdrop-blur-sm border-primary/10 focus:border-primary/30"
-                />
-              </div>
-              <Button
-                onClick={handleGenerate}
-                className="w-full bg-primary/90 hover:bg-primary"
-                disabled={!description.trim() || isGenerating}
-              >
-                {isGenerating ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Generating Avatar...
-                  </>
-                ) : (
-                  <>
-                    <Wand2 className="mr-2 h-4 w-4" />
-                    Generate Avatar
-                  </>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
+          <div className="space-y-6">
+            <Card className="bg-card/30 backdrop-blur-sm border-primary/10">
+              <CardHeader>
+                <CardTitle className="text-xl flex items-center gap-2">
+                  <Wand2 className="h-5 w-5 text-primary" />
+                  Generate Avatar
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label>Describe Your Avatar</Label>
+                  <Textarea
+                    placeholder="Describe the avatar you want to create... For example: 'A professional female presenter in her 30s with shoulder-length brown hair, wearing a navy business suit. She should have a warm and approachable demeanor, suitable for corporate training videos.'"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="h-32 bg-background/50 backdrop-blur-sm border-primary/10 focus:border-primary/30"
+                  />
+                </div>
+                <Button
+                  onClick={handleGenerate}
+                  className="w-full bg-primary/90 hover:bg-primary"
+                  disabled={!description.trim() || isGenerating}
+                >
+                  {isGenerating ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Generating Avatar...
+                    </>
+                  ) : (
+                    <>
+                      <Wand2 className="mr-2 h-4 w-4" />
+                      Generate Avatar
+                    </>
+                  )}
+                </Button>
+              </CardContent>
+            </Card>
+
+            <PersonalityGenerator onPersonalityGenerated={handlePersonalityGenerated} />
+          </div>
 
           {/* 3D Avatar Preview */}
           <Card className="bg-card/30 backdrop-blur-sm border-primary/10">
