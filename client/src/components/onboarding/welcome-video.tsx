@@ -6,7 +6,6 @@ import { useToast } from "@/hooks/use-toast";
 import { X, ChevronRight, ChevronLeft, Play, Pause } from 'lucide-react';
 
 interface Step {
-  time: number;
   title: string;
   description: string;
 }
@@ -20,11 +19,16 @@ export function WelcomeVideo() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if user has watched video before
     const hasWatchedVideo = localStorage.getItem('hasWatchedVideo');
-    if (hasWatchedVideo) {
+    if (hasWatchedVideo === 'true') {
       setIsVisible(false);
-      return;
+    } else {
+      setIsVisible(true);
+      // Ensure video starts fresh for new users
+      const video = document.querySelector('video');
+      if (video) {
+        video.currentTime = 0;
+      }
     }
   }, []);
 
@@ -75,7 +79,7 @@ export function WelcomeVideo() {
   if (!isVisible) return null;
 
   // Video sections based on the cinematic prompt
-  const sections: Step[] = [
+  const sections = [
     { 
       time: 0, 
       title: "Opening Sequence", 
