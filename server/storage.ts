@@ -22,22 +22,42 @@ export class MemStorage implements IStorage {
     this.sessionStore = new MemoryStore({
       checkPeriod: 86400000,
     });
+
+    // Initialize with a test user
+    this.createUser({
+      username: "test",
+      password: "password123", // This will be hashed by auth.ts
+      role: "user",
+    });
   }
 
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    console.log("Getting user by ID:", id);
+    const user = this.users.get(id);
+    console.log("Found user:", user?.username);
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
+    console.log("Getting user by username:", username);
+    const user = Array.from(this.users.values()).find(
       (user) => user.username === username,
     );
+    console.log("Found user:", user?.username);
+    return user;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
+    console.log("Creating new user:", insertUser.username);
     const id = this.currentId++;
-    const user: User = { ...insertUser, id, createdAt: new Date() };
+    const user: User = { 
+      ...insertUser, 
+      id, 
+      createdAt: new Date(),
+      role: insertUser.role || "user",
+    };
     this.users.set(id, user);
+    console.log("User created successfully:", user.username);
     return user;
   }
 
