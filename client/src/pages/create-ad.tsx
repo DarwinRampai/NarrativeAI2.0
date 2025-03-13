@@ -35,30 +35,48 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import AppLayout from "@/components/layout/app-layout";
+import { LoadingIndicator } from "@/components/ui/loading-indicator";
 
 export default function CreateAd() {
   const [isGenerating, setIsGenerating] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
   const [currentTab, setCurrentTab] = useState("details");
   const [selectedTemplate, setSelectedTemplate] = useState("custom");
   const { toast } = useToast();
 
+  const generationSteps = [
+    { title: "Analyzing Input", description: "Processing your requirements..." },
+    { title: "Generating Script", description: "Creating compelling ad copy..." },
+    { title: "Creating Visuals", description: "Designing visual elements..." },
+    { title: "Optimizing Content", description: "Finalizing your advertisement..." }
+  ];
+
   const handleGenerate = async () => {
     setIsGenerating(true);
+    setCurrentStep(0);
+
     try {
-      // Here we would integrate with AI generation API
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Simulate the generation process with steps
+      for (let i = 0; i < generationSteps.length; i++) {
+        setCurrentStep(i);
+        // Here we would integrate with AI generation API
+        await new Promise(resolve => setTimeout(resolve, 1500));
+      }
+
       toast({
-        title: "Script Generated Successfully",
-        description: "Your ad script has been created and is ready for review.",
+        title: "Ad Generated Successfully",
+        description: "Your ad has been created and is ready for review.",
       });
     } catch (error) {
       toast({
         title: "Generation Failed",
-        description: "There was an error generating your script. Please try again.",
+        description: "There was an error generating your ad. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsGenerating(false);
+      setCurrentStep(0);
     }
-    setIsGenerating(false);
   };
 
   return (
@@ -92,6 +110,24 @@ export default function CreateAd() {
             )}
           </Button>
         </div>
+
+        {/* Loading Overlay */}
+        {isGenerating && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center"
+          >
+            <div className="max-w-md w-full mx-auto p-6">
+              <LoadingIndicator
+                steps={generationSteps}
+                currentStep={currentStep}
+                title="Generating Your Ad"
+                description="Using AI to create your perfect advertisement"
+              />
+            </div>
+          </motion.div>
+        )}
 
         <Tabs defaultValue="details" className="space-y-6" onValueChange={setCurrentTab}>
           <TabsList className="grid w-full grid-cols-6">
