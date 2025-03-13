@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import { motion } from "framer-motion";
 import Navbar from "./navbar";
 import Sidebar from "./sidebar";
-import { WelcomeVideo } from "../onboarding/welcome-video";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
@@ -19,7 +18,6 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           {children}
         </div>
       </motion.main>
-      <WelcomeVideo />
     </div>
   );
 }
