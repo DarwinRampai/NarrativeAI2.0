@@ -69,12 +69,12 @@ export default function Sidebar() {
 
   return (
     <motion.nav
-      initial={{ x: -280 }}
-      animate={{ x: 0 }}
+      initial={{ width: 280 }}
+      animate={{ width: isExpanded ? 280 : 80 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
       className={cn(
-        "fixed top-16 left-0 bottom-0 w-[280px] bg-background/80 backdrop-blur-lg border-r border-border/40 z-40",
-        "transition-all duration-300 ease-in-out",
-        isExpanded ? "w-[280px]" : "w-20"
+        "fixed top-16 left-0 bottom-0 bg-background/80 backdrop-blur-lg border-r border-border/40 z-40",
+        "transition-all duration-300 ease-in-out"
       )}
     >
       <div className="h-full flex flex-col">
@@ -94,37 +94,47 @@ export default function Sidebar() {
         </Button>
 
         {/* Search and Voice */}
-        <div className="p-4 space-y-2">
-          <div className="relative">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search features..."
-              className="pl-9 bg-background/50"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-2 top-2 h-5 w-5"
-              onClick={handleVoiceCommand}
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="p-4 space-y-2"
             >
-              <Mic className={cn(
-                "h-4 w-4",
-                isListening && "text-primary animate-pulse"
-              )} />
-            </Button>
-          </div>
-        </div>
+              <div className="relative">
+                <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search features..."
+                  className="pl-9 bg-background/50"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-2 h-5 w-5"
+                  onClick={handleVoiceCommand}
+                >
+                  <Mic className={cn(
+                    "h-4 w-4",
+                    isListening && "text-primary animate-pulse"
+                  )} />
+                </Button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* AI Suggestions */}
         <AnimatePresence>
-          {searchQuery === "" && (
+          {isExpanded && searchQuery === "" && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="px-4 py-2"
+              className="px-4 py-2 overflow-hidden"
             >
               <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                 <Brain className="h-4 w-4" />
@@ -151,7 +161,7 @@ export default function Sidebar() {
         </AnimatePresence>
 
         {/* Navigation Items */}
-        <div className="flex-1 px-4 py-2 space-y-1 overflow-auto">
+        <div className="flex-1 px-4 py-2 space-y-1 overflow-hidden">
           {filteredNavigation.map((item) => {
             const isActive = location.startsWith(item.href);
             return (
@@ -170,24 +180,33 @@ export default function Sidebar() {
                   >
                     <item.icon className="h-5 w-5" />
                   </motion.div>
-                  <AnimatePresence>
+                  <AnimatePresence mode="wait">
                     {isExpanded && (
-                      <motion.span
+                      <motion.div
                         initial={{ opacity: 0, width: 0 }}
                         animate={{ opacity: 1, width: "auto" }}
                         exit={{ opacity: 0, width: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden whitespace-nowrap"
                       >
                         {item.name}
-                      </motion.span>
+                      </motion.div>
                     )}
                   </AnimatePresence>
                   {/* AI Relevance Indicator */}
-                  <div className="ml-auto h-1 w-8 rounded-full bg-primary/10">
-                    <div
-                      className="h-1 rounded-full bg-primary transition-all duration-300"
-                      style={{ width: `${item.aiScore}%` }}
-                    />
-                  </div>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ opacity: 0, width: 0 }}
+                      animate={{ opacity: 1, width: "auto" }}
+                      exit={{ opacity: 0, width: 0 }}
+                      className="ml-auto h-1 w-8 rounded-full bg-primary/10 overflow-hidden"
+                    >
+                      <div
+                        className="h-1 rounded-full bg-primary transition-all duration-300"
+                        style={{ width: `${item.aiScore}%` }}
+                      />
+                    </motion.div>
+                  )}
                 </a>
               </Link>
             );
@@ -222,7 +241,7 @@ export default function Sidebar() {
 
         {/* Notifications Panel */}
         <AnimatePresence>
-          {showNotifications && (
+          {showNotifications && isExpanded && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
