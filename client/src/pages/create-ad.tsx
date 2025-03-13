@@ -26,7 +26,12 @@ import {
   Pause,
   SkipBack,
   SkipForward,
-  Plus
+  Plus,
+  LineChart,
+  Globe,
+  Layout,
+  Zap,
+  Eye
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import AppLayout from "@/components/layout/app-layout";
@@ -34,6 +39,7 @@ import AppLayout from "@/components/layout/app-layout";
 export default function CreateAd() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentTab, setCurrentTab] = useState("details");
+  const [selectedTemplate, setSelectedTemplate] = useState("custom");
   const { toast } = useToast();
 
   const handleGenerate = async () => {
@@ -88,7 +94,7 @@ export default function CreateAd() {
         </div>
 
         <Tabs defaultValue="details" className="space-y-6" onValueChange={setCurrentTab}>
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="details">
               <Brain className="h-4 w-4 mr-2" />
               Ad Details
@@ -101,6 +107,14 @@ export default function CreateAd() {
               <Video className="h-4 w-4 mr-2" />
               Video Editor
             </TabsTrigger>
+            <TabsTrigger value="preview">
+              <Eye className="h-4 w-4 mr-2" />
+              Multi-Platform Preview
+            </TabsTrigger>
+            <TabsTrigger value="optimize">
+              <Zap className="h-4 w-4 mr-2" />
+              Smart Optimization
+            </TabsTrigger>
             <TabsTrigger value="settings">
               <Settings className="h-4 w-4 mr-2" />
               AI Settings
@@ -112,36 +126,73 @@ export default function CreateAd() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Brain className="h-5 w-5 text-primary" />
-                  Campaign Details
+                  <Layout className="h-5 w-5 text-primary" />
+                  Template Selection
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="space-y-2">
-                  <Label>Campaign Goal</Label>
-                  <Input placeholder="e.g., Increase brand awareness, drive sales, etc." />
+                <div className="grid grid-cols-3 gap-4">
+                  <Card 
+                    className={`cursor-pointer p-4 ${selectedTemplate === 'storytelling' ? 'border-primary' : 'border-primary/10'}`}
+                    onClick={() => setSelectedTemplate('storytelling')}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <Brain className="h-4 w-4 text-primary" />
+                      <h3 className="font-semibold">Storytelling</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Emotional narrative-driven ads</p>
+                  </Card>
+
+                  <Card 
+                    className={`cursor-pointer p-4 ${selectedTemplate === 'product-showcase' ? 'border-primary' : 'border-primary/10'}`}
+                    onClick={() => setSelectedTemplate('product-showcase')}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <Sparkles className="h-4 w-4 text-primary" />
+                      <h3 className="font-semibold">Product Showcase</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Feature-focused product presentations</p>
+                  </Card>
+
+                  <Card 
+                    className={`cursor-pointer p-4 ${selectedTemplate === 'custom' ? 'border-primary' : 'border-primary/10'}`}
+                    onClick={() => setSelectedTemplate('custom')}
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <Wand2 className="h-4 w-4 text-primary" />
+                      <h3 className="font-semibold">Custom</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Build from scratch with AI assistance</p>
+                  </Card>
                 </div>
 
-                <div className="space-y-2">
-                  <Label>Target Audience</Label>
-                  <Input placeholder="e.g., Young professionals, tech enthusiasts, etc." />
-                </div>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>Campaign Goals</Label>
+                    <Input placeholder="e.g., Increase brand awareness, drive sales, etc." />
+                  </div>
 
-                <div className="space-y-2">
-                  <Label>Key Message</Label>
-                  <Textarea 
-                    placeholder="What's the main message you want to convey?"
-                    className="h-32"
-                  />
-                </div>
+                  <div className="space-y-2">
+                    <Label>Target Audience</Label>
+                    <Input placeholder="e.g., Young professionals, tech enthusiasts, etc." />
+                  </div>
 
-                <div className="space-y-2">
-                  <Label>Brand Assets</Label>
-                  <div className="border-2 border-dashed border-primary/20 rounded-lg p-6 text-center">
-                    <Upload className="h-8 w-8 mx-auto mb-2 text-primary/60" />
-                    <p className="text-sm text-muted-foreground">
-                      Drop your logos, images, or videos here, or click to browse
-                    </p>
+                  <div className="space-y-2">
+                    <Label>Key Message</Label>
+                    <Textarea 
+                      placeholder="What's the main message you want to convey?"
+                      className="h-32"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Brand Assets</Label>
+                    <div className="border-2 border-dashed border-primary/20 rounded-lg p-6 text-center">
+                      <Upload className="h-8 w-8 mx-auto mb-2 text-primary/60" />
+                      <p className="text-sm text-muted-foreground">
+                        Drop your logos, images, or videos here, or click to browse
+                      </p>
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -274,6 +325,120 @@ export default function CreateAd() {
                     <Wand2 className="h-4 w-4 mr-2" />
                     Apply AI Enhancement
                   </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Multi-Platform Preview Tab */}
+          <TabsContent value="preview" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Globe className="h-5 w-5 text-primary" />
+                  Platform Previews
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label>Instagram Feed</Label>
+                    <div className="aspect-square bg-black rounded-lg relative">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <p className="text-white/60">Instagram preview</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>TikTok</Label>
+                    <div className="aspect-[9/16] bg-black rounded-lg relative">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <p className="text-white/60">TikTok preview</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>YouTube</Label>
+                    <div className="aspect-video bg-black rounded-lg relative">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <p className="text-white/60">YouTube preview</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-end">
+                  <Button>
+                    <Wand2 className="mr-2 h-4 w-4" />
+                    Auto-Adapt for All Platforms
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Smart Optimization Tab */}
+          <TabsContent value="optimize" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <LineChart className="h-5 w-5 text-primary" />
+                  Performance Prediction
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="p-4 rounded-lg bg-primary/5 space-y-2">
+                    <h3 className="font-semibold">Engagement Score</h3>
+                    <div className="h-2 w-full bg-primary/10 rounded-full">
+                      <div className="h-2 bg-primary rounded-full" style={{ width: '85%' }} />
+                    </div>
+                    <p className="text-sm text-muted-foreground">85% predicted engagement</p>
+                  </div>
+
+                  <div className="p-4 rounded-lg bg-primary/5 space-y-2">
+                    <h3 className="font-semibold">Conversion Rate</h3>
+                    <div className="h-2 w-full bg-primary/10 rounded-full">
+                      <div className="h-2 bg-primary rounded-full" style={{ width: '72%' }} />
+                    </div>
+                    <p className="text-sm text-muted-foreground">72% estimated conversions</p>
+                  </div>
+
+                  <div className="p-4 rounded-lg bg-primary/5 space-y-2">
+                    <h3 className="font-semibold">Brand Alignment</h3>
+                    <div className="h-2 w-full bg-primary/10 rounded-full">
+                      <div className="h-2 bg-primary rounded-full" style={{ width: '95%' }} />
+                    </div>
+                    <p className="text-sm text-muted-foreground">95% brand consistency</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label>Automatic A/B Testing</Label>
+                      <p className="text-sm text-muted-foreground">Create and test multiple variations</p>
+                    </div>
+                    <Switch defaultChecked />
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label>Dynamic Content Optimization</Label>
+                      <p className="text-sm text-muted-foreground">Auto-adjust based on performance</p>
+                    </div>
+                    <Switch defaultChecked />
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label>Smart Budget Allocation</Label>
+                      <p className="text-sm text-muted-foreground">AI-driven spend optimization</p>
+                    </div>
+                    <Switch defaultChecked />
+                  </div>
                 </div>
               </CardContent>
             </Card>
