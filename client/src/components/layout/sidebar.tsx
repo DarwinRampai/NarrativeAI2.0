@@ -6,11 +6,13 @@ import {
   Video,
   Settings,
   UserCircle,
-  Sparkles
+  Sparkles,
+  Plus
 } from "lucide-react";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Create Ad", href: "/create-ad", icon: Plus },
   { name: "Script Generator", href: "/script-generator", icon: PenSquare },
   { name: "Neural Avatars", href: "/avatars", icon: UserCircle },
   { name: "Video Editor", href: "/video-editor", icon: Video },
