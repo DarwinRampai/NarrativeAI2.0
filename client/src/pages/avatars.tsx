@@ -11,6 +11,7 @@ import { Slider } from "@/components/ui/slider";
 import { UserCircle, Sliders, Brain, Languages, Mic2, Wand2 } from "lucide-react";
 import AppLayout from "@/components/layout/app-layout";
 import { motion } from "framer-motion";
+import { VoiceModulationPreview } from "@/components/audio/voice-modulation-preview";
 
 interface Avatar {
   id: number;
@@ -502,51 +503,62 @@ function CustomizationPanel({
             </div>
           </TabsContent>
 
-          <TabsContent value="voice" className="space-y-4">
-            <div>
-              <Label>Voice Style</Label>
-              <Select
-                value={avatar.voiceOptions[customization.voiceStyle || 0]}
-                onValueChange={(value) => onCustomizationChange(
-                  'voiceStyle',
-                  avatar.voiceOptions.indexOf(value)
-                )}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {avatar.voiceOptions.map((voice) => (
-                    <SelectItem key={voice} value={voice}>
-                      {voice}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+          <TabsContent value="voice" className="space-y-6">
+            <VoiceModulationPreview
+              pitch={customization.voicePitch || 50}
+              speed={customization.voiceSpeed || 50}
+              onPreviewComplete={(audioUrl) => {
+                // Handle the recorded audio URL if needed
+                console.log('Audio preview completed:', audioUrl);
+              }}
+            />
 
-            <div>
-              <Label>Voice Pitch</Label>
-              <Slider
-                value={[customization.voicePitch || 50]}
-                min={0}
-                max={100}
-                step={1}
-                onValueChange={(value) => onCustomizationChange('voicePitch', value[0])}
-                className="mt-2"
-              />
-            </div>
+            <div className="space-y-4">
+              <div>
+                <Label>Voice Style</Label>
+                <Select
+                  value={avatar.voiceOptions[customization.voiceStyle || 0]}
+                  onValueChange={(value) => onCustomizationChange(
+                    'voiceStyle',
+                    avatar.voiceOptions.indexOf(value)
+                  )}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {avatar.voiceOptions.map((voice) => (
+                      <SelectItem key={voice} value={voice}>
+                        {voice}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-            <div>
-              <Label>Speaking Speed</Label>
-              <Slider
-                value={[customization.voiceSpeed || 50]}
-                min={0}
-                max={100}
-                step={1}
-                onValueChange={(value) => onCustomizationChange('voiceSpeed', value[0])}
-                className="mt-2"
-              />
+              <div>
+                <Label>Voice Pitch</Label>
+                <Slider
+                  value={[customization.voicePitch || 50]}
+                  min={0}
+                  max={100}
+                  step={1}
+                  onValueChange={(value) => onCustomizationChange('voicePitch', value[0])}
+                  className="mt-2"
+                />
+              </div>
+
+              <div>
+                <Label>Speaking Speed</Label>
+                <Slider
+                  value={[customization.voiceSpeed || 50]}
+                  min={0}
+                  max={100}
+                  step={1}
+                  onValueChange={(value) => onCustomizationChange('voiceSpeed', value[0])}
+                  className="mt-2"
+                />
+              </div>
             </div>
           </TabsContent>
 
