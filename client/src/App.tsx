@@ -19,20 +19,24 @@ import { ProtectedRoute } from "./lib/protected-route";
 
 function Router() {
   return (
-    <PageTransition>
-      <Switch>
-        <Route path="/" component={HomePage} />
-        <Route path="/auth" component={AuthPage} />
-        <Route path="/early-access" component={EarlyAccess} />
-        <Route path="/learn-more" component={LearnMore} />
-        <ProtectedRoute path="/dashboard" component={Dashboard} />
-        <ProtectedRoute path="/avatars" component={AvatarsPage} />
-        <ProtectedRoute path="/autonomous-ads" component={AutonomousAds} />
-        <ProtectedRoute path="/create-ad" component={CreateAd} />
-        <ProtectedRoute path="/settings" component={Settings} />
-        <Route component={NotFound} />
-      </Switch>
-    </PageTransition>
+    <div className="min-h-screen bg-background">
+      <PageTransition>
+        <Switch>
+          <Route path="/" component={HomePage} />
+          <Route path="/auth" component={AuthPage} />
+          <Route path="/early-access" component={EarlyAccess} />
+          <Route path="/learn-more" component={LearnMore} />
+          <ProtectedRoute path="/dashboard" component={Dashboard} />
+          <ProtectedRoute path="/avatars" component={AvatarsPage} />
+          <ProtectedRoute path="/autonomous-ads" component={AutonomousAds} />
+          <ProtectedRoute path="/create-ad" component={CreateAd} />
+          <ProtectedRoute path="/settings" component={Settings} />
+          <Route component={NotFound} />
+        </Switch>
+      </PageTransition>
+      <WelcomeScreen />
+      <Toaster />
+    </div>
   );
 }
 
@@ -41,8 +45,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Router />
-        <WelcomeScreen />
-        <Toaster />
       </AuthProvider>
     </QueryClientProvider>
   );

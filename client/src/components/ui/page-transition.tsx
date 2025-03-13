@@ -34,14 +34,14 @@ export function PageTransition({ children }: PageTransitionProps) {
   const [location] = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={location}
         initial="initial"
         animate="enter"
         exit="exit"
         variants={pageVariants}
-        className="min-h-screen w-full"
+        className="relative min-h-screen w-full bg-background"
       >
         {children}
       </motion.div>
