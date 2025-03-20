@@ -4,18 +4,25 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import aiRoutes from "./routes/ai";
 
-// Create separate apps for API and frontend
+// Create Express app
 const app = express();
-const apiApp = express();
 
 // Essential middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-apiApp.use(express.json());
-apiApp.use(express.urlencoded({ extended: false }));
+
+// Request logging
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    log(`${req.method} ${req.originalUrl} ${res.statusCode} in ${duration}ms`);
+  });
+  next();
+});
 
 // API middleware configuration
-apiApp.use((req, res, next) => {
+app.use('/api', (req, res, next) => {
   console.log("API Request:", {
     method: req.method,
     path: req.path,
@@ -35,69 +42,52 @@ apiApp.use((req, res, next) => {
 });
 
 // Test endpoint to verify API routing
-apiApp.get('/ping', (req, res) => {
+app.get('/api/ping', (req, res) => {
   console.log("Ping endpoint hit");
   res.json({ message: 'pong', timestamp: new Date().toISOString() });
 });
 
-// Mount AI routes
-apiApp.use('/ai', aiRoutes);
-
-// API error handling
-apiApp.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-  console.error("API Error:", err);
-  res.status(err.status || 500).json({
-    error: err.message || "Internal Server Error",
-    details: app.get("env") === "development" ? err.stack : undefined
-  });
-});
-
-// Mount API app at /api path before any other middleware
-app.use('/api', apiApp);
+// Mount API routes
+app.use('/api/ai', aiRoutes);
 
 (async () => {
+  // Register backend routes
   const server = await registerRoutes(app);
+
+  // Vite/Frontend handling - explicitly exclude API routes
+  app.use((req, res, next) => {
+    // Don't let Vite handle API routes
+    if (!req.originalUrl.startsWith('/api')) {
+      if (app.get("env") === "development") {
+        setupVite(app, server)(req, res, next);
+      } else {
+        serveStatic(app)(req, res, next);
+      }
+    } else {
+      next();
+    }
+  });
+
+  // API error handling
+  app.use('/api', (err: any, _req: Request, res: Response, _next: NextFunction) => {
+    console.error("API Error:", err);
+    res.status(err.status || 500).json({
+      error: err.message || "Internal Server Error",
+      details: app.get("env") === "development" ? err.stack : undefined
+    });
+  });
 
   // Global error handling
   app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     console.error("Global Error:", err);
 
-    if (req.path.startsWith('/api')) {
+    if (req.originalUrl.startsWith('/api')) {
       return res.status(err.status || 500).json({
         error: err.message || "Internal Server Error",
         details: app.get("env") === "development" ? err.stack : undefined
       });
     }
     next(err);
-  });
-
-  // Frontend handling - only for non-API routes
-  if (app.get("env") === "development") {
-    app.use((req, res, next) => {
-      if (req.path.startsWith('/api')) {
-        console.log("Skipping Vite for API route:", req.path);
-        return next();
-      }
-      console.log("Handling frontend request:", req.path);
-      return setupVite(app, server)(req, res, next);
-    });
-  } else {
-    app.use((req, res, next) => {
-      if (req.path.startsWith('/api')) {
-        return next();
-      }
-      return serveStatic(app)(req, res, next);
-    });
-  }
-
-  // Request logging
-  app.use((req, res, next) => {
-    const start = Date.now();
-    res.on("finish", () => {
-      const duration = Date.now() - start;
-      log(`${req.method} ${req.originalUrl} ${res.statusCode} in ${duration}ms`);
-    });
-    next();
   });
 
   const port = 5000;
