@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { motion } from "framer-motion";
 import Navbar from "./navbar";
 import Sidebar from "./sidebar";
+import { AmbientSoundSystem } from "@/components/audio/ambient-sound-system";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
@@ -40,6 +41,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
       {/* Holographic grid effect */}
       <div className="absolute inset-0 bg-[linear-gradient(transparent_1px,_transparent_1px),_linear-gradient(to_right,_rgba(109,40,217,0.05)_1px,_transparent_1px)] bg-[size:64px_64px] pointer-events-none opacity-30" />
+
+      {/* Ambient Sound System */}
+      <AmbientSoundSystem />
     </div>
   );
 }
