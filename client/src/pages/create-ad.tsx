@@ -2,13 +2,21 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Brain,
   Upload,
@@ -37,12 +45,31 @@ import { useToast } from "@/hooks/use-toast";
 import AppLayout from "@/components/layout/app-layout";
 import { LoadingIndicator } from "@/components/ui/loading-indicator";
 
+// Form schema
+const adFormSchema = z.object({
+  goals: z.string().min(1, "Campaign goals are required"),
+  audience: z.string().min(1, "Target audience is required"),
+  message: z.string().min(1, "Key message is required"),
+});
+
+type AdFormData = z.infer<typeof adFormSchema>;
+
 export default function CreateAd() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const [currentTab, setCurrentTab] = useState("details");
   const [selectedTemplate, setSelectedTemplate] = useState("custom");
+  const [generatedContent, setGeneratedContent] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState("details");
   const { toast } = useToast();
+
+  const form = useForm<AdFormData>({
+    resolver: zodResolver(adFormSchema),
+    defaultValues: {
+      goals: "",
+      audience: "",
+      message: "",
+    },
+  });
 
   const generationSteps = [
     { title: "Analyzing Input", description: "Processing your requirements..." },
@@ -51,19 +78,18 @@ export default function CreateAd() {
     { title: "Optimizing Content", description: "Finalizing your advertisement..." }
   ];
 
-  const handleGenerate = async () => {
+  const handleGenerate = async (data: AdFormData) => {
     setIsGenerating(true);
     setCurrentStep(0);
+    setGeneratedContent(null);
 
     try {
-      // Gather ad details from the form
+      // Prepare the request payload
       const adDetails = {
         type: "text",
         input: {
           template: selectedTemplate,
-          goals: document.querySelector('input[placeholder*="Campaign Goals"]')?.value,
-          audience: document.querySelector('input[placeholder*="Target Audience"]')?.value,
-          message: document.querySelector('textarea[placeholder*="main message"]')?.value,
+          ...data
         }
       };
 
@@ -86,12 +112,17 @@ export default function CreateAd() {
         await new Promise(resolve => setTimeout(resolve, 1500));
       }
 
-      const data = await response.json();
+      const result = await response.json();
 
-      toast({
-        title: "Ad Generated Successfully",
-        description: "Your ad has been created and is ready for review.",
-      });
+      if (result.success) {
+        setGeneratedContent(result.data);
+        toast({
+          title: "Ad Generated Successfully",
+          description: "Your ad has been created and is ready for review.",
+        });
+      } else {
+        throw new Error(result.error || 'Failed to generate ad content');
+      }
     } catch (error) {
       console.error('Ad generation error:', error);
       toast({
@@ -120,7 +151,7 @@ export default function CreateAd() {
           </div>
           <Button
             className="bg-primary/90 hover:bg-primary"
-            onClick={handleGenerate}
+            onClick={form.handleSubmit(handleGenerate)}
             disabled={isGenerating}
           >
             {isGenerating ? (
@@ -155,36 +186,9 @@ export default function CreateAd() {
           </motion.div>
         )}
 
-        <Tabs defaultValue="details" className="space-y-6" onValueChange={setCurrentTab}>
-          <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="details">
-              <Brain className="h-4 w-4 mr-2" />
-              Ad Details
-            </TabsTrigger>
-            <TabsTrigger value="script">
-              <PenSquare className="h-4 w-4 mr-2" />
-              Script Generator
-            </TabsTrigger>
-            <TabsTrigger value="video">
-              <Video className="h-4 w-4 mr-2" />
-              Video Editor
-            </TabsTrigger>
-            <TabsTrigger value="preview">
-              <Eye className="h-4 w-4 mr-2" />
-              Multi-Platform Preview
-            </TabsTrigger>
-            <TabsTrigger value="optimize">
-              <Zap className="h-4 w-4 mr-2" />
-              Smart Optimization
-            </TabsTrigger>
-            <TabsTrigger value="settings">
-              <Settings className="h-4 w-4 mr-2" />
-              AI Settings
-            </TabsTrigger>
-          </TabsList>
-
-          {/* Ad Details Tab */}
-          <TabsContent value="details" className="space-y-6">
+        {/* Main Content */}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleGenerate)} className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -229,23 +233,57 @@ export default function CreateAd() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label>Campaign Goals</Label>
-                    <Input placeholder="e.g., Increase brand awareness, drive sales, etc." />
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name="goals"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Campaign Goals</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g., Increase brand awareness, drive sales, etc."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                  <div className="space-y-2">
-                    <Label>Target Audience</Label>
-                    <Input placeholder="e.g., Young professionals, tech enthusiasts, etc." />
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name="audience"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Target Audience</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g., Young professionals, tech enthusiasts, etc."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                  <div className="space-y-2">
-                    <Label>Key Message</Label>
-                    <Textarea
-                      placeholder="What's the main message you want to convey?"
-                      className="h-32"
-                    />
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Key Message</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="What's the main message you want to convey?"
+                            className="h-32"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
                   <div className="space-y-2">
                     <Label>Brand Assets</Label>
@@ -259,7 +297,73 @@ export default function CreateAd() {
                 </div>
               </CardContent>
             </Card>
-          </TabsContent>
+          </form>
+        </Form>
+
+        {/* Generated Content Display */}
+        {generatedContent && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Generated Ad Content</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="font-semibold mb-2">Headline</h3>
+                  <p className="text-lg">{generatedContent.headline}</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-2">Tagline</h3>
+                  <p>{generatedContent.tagline}</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-2">Script</h3>
+                  <p className="whitespace-pre-wrap">{generatedContent.script}</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-2">Key Points</h3>
+                  <ul className="list-disc list-inside space-y-1">
+                    {generatedContent.keyPoints.map((point: string, index: number) => (
+                      <li key={index}>{point}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-2">Call to Action</h3>
+                  <p className="text-primary font-medium">{generatedContent.callToAction}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        <Tabs defaultValue="details" className="space-y-6" onValueChange={setActiveTab}>
+          <TabsList className="grid w-full grid-cols-6">
+            <TabsTrigger value="details">
+              <Brain className="h-4 w-4 mr-2" />
+              Ad Details
+            </TabsTrigger>
+            <TabsTrigger value="script">
+              <PenSquare className="h-4 w-4 mr-2" />
+              Script Generator
+            </TabsTrigger>
+            <TabsTrigger value="video">
+              <Video className="h-4 w-4 mr-2" />
+              Video Editor
+            </TabsTrigger>
+            <TabsTrigger value="preview">
+              <Eye className="h-4 w-4 mr-2" />
+              Multi-Platform Preview
+            </TabsTrigger>
+            <TabsTrigger value="optimize">
+              <Zap className="h-4 w-4 mr-2" />
+              Smart Optimization
+            </TabsTrigger>
+            <TabsTrigger value="settings">
+              <Settings className="h-4 w-4 mr-2" />
+              AI Settings
+            </TabsTrigger>
+          </TabsList>
 
           {/* Script Generator Tab */}
           <TabsContent value="script" className="space-y-6">
@@ -294,9 +398,15 @@ export default function CreateAd() {
                 <div className="bg-primary/5 rounded-lg p-4">
                   <h3 className="font-semibold mb-2">Generated Script</h3>
                   <div className="bg-background/50 rounded-lg p-4 min-h-[200px]">
-                    <p className="text-muted-foreground text-sm">
-                      Your AI-generated script will appear here...
-                    </p>
+                    {generatedContent ? (
+                      <pre className="text-sm">
+                        {generatedContent.script}
+                      </pre>
+                    ) : (
+                      <p className="text-muted-foreground text-sm">
+                        Your AI-generated script will appear here...
+                      </p>
+                    )}
                   </div>
                   <div className="flex justify-end mt-4">
                     <Button variant="outline" className="mr-2">
