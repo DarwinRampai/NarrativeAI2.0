@@ -56,18 +56,44 @@ export default function CreateAd() {
     setCurrentStep(0);
 
     try {
-      // Simulate the generation process with steps
+      // Gather ad details from the form
+      const adDetails = {
+        type: "text",
+        input: {
+          template: selectedTemplate,
+          goals: document.querySelector('input[placeholder*="Campaign Goals"]')?.value,
+          audience: document.querySelector('input[placeholder*="Target Audience"]')?.value,
+          message: document.querySelector('textarea[placeholder*="main message"]')?.value,
+        }
+      };
+
+      // Call the AI orchestration API
+      const response = await fetch('/api/ai/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(adDetails),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate ad');
+      }
+
+      // Process each generation step
       for (let i = 0; i < generationSteps.length; i++) {
         setCurrentStep(i);
-        // Here we would integrate with AI generation API
         await new Promise(resolve => setTimeout(resolve, 1500));
       }
+
+      const data = await response.json();
 
       toast({
         title: "Ad Generated Successfully",
         description: "Your ad has been created and is ready for review.",
       });
     } catch (error) {
+      console.error('Ad generation error:', error);
       toast({
         title: "Generation Failed",
         description: "There was an error generating your ad. Please try again.",
@@ -92,7 +118,7 @@ export default function CreateAd() {
               Let AI help you create engaging and effective advertisements
             </p>
           </div>
-          <Button 
+          <Button
             className="bg-primary/90 hover:bg-primary"
             onClick={handleGenerate}
             disabled={isGenerating}
@@ -168,7 +194,7 @@ export default function CreateAd() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-3 gap-4">
-                  <Card 
+                  <Card
                     className={`cursor-pointer p-4 ${selectedTemplate === 'storytelling' ? 'border-primary' : 'border-primary/10'}`}
                     onClick={() => setSelectedTemplate('storytelling')}
                   >
@@ -179,7 +205,7 @@ export default function CreateAd() {
                     <p className="text-sm text-muted-foreground">Emotional narrative-driven ads</p>
                   </Card>
 
-                  <Card 
+                  <Card
                     className={`cursor-pointer p-4 ${selectedTemplate === 'product-showcase' ? 'border-primary' : 'border-primary/10'}`}
                     onClick={() => setSelectedTemplate('product-showcase')}
                   >
@@ -190,7 +216,7 @@ export default function CreateAd() {
                     <p className="text-sm text-muted-foreground">Feature-focused product presentations</p>
                   </Card>
 
-                  <Card 
+                  <Card
                     className={`cursor-pointer p-4 ${selectedTemplate === 'custom' ? 'border-primary' : 'border-primary/10'}`}
                     onClick={() => setSelectedTemplate('custom')}
                   >
@@ -215,7 +241,7 @@ export default function CreateAd() {
 
                   <div className="space-y-2">
                     <Label>Key Message</Label>
-                    <Textarea 
+                    <Textarea
                       placeholder="What's the main message you want to convey?"
                       className="h-32"
                     />
@@ -258,7 +284,7 @@ export default function CreateAd() {
 
                   <div className="space-y-2">
                     <Label>Key Points to Include</Label>
-                    <Textarea 
+                    <Textarea
                       placeholder="List the main points you want to highlight in your script"
                       className="h-32"
                     />
