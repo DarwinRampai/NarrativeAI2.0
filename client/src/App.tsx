@@ -17,10 +17,11 @@ import CustomAvatarPage from "@/pages/custom-avatar";
 import AutonomousAds from "@/pages/autonomous-ads";
 import CreateAd from "@/pages/create-ad";
 import { ProtectedRoute } from "./lib/protected-route";
+import { ThemeProvider } from "@/components/theme-provider";
 
 function Router() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative min-h-screen bg-background text-foreground">
       <AnimatePresence mode="wait">
         <motion.div
           initial={{ opacity: 0 }}
@@ -51,11 +52,13 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Router />
-      </AuthProvider>
-    </QueryClientProvider>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Router />
+        </AuthProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 
