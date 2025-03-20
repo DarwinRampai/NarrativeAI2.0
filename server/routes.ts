@@ -4,6 +4,7 @@ import { setupAuth } from "./auth";
 import { storage } from "./storage";
 import { z } from "zod";
 import { insertProjectSchema } from "@shared/schema";
+import { orchestrationRouter } from "./services/orchestration";
 
 // Create an async handler utility
 const asyncHandler = (fn: Function) => (req: any, res: any, next: any) => {
@@ -13,6 +14,9 @@ const asyncHandler = (fn: Function) => (req: any, res: any, next: any) => {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication
   setupAuth(app);
+
+  // Mount AI orchestration router
+  app.use('/api/ai', orchestrationRouter);
 
   // Project routes
   app.get("/api/projects", asyncHandler(async (req, res) => {
