@@ -46,10 +46,15 @@ const FeatureCard = ({ icon: Icon, title, description, delay = 0 }: {
       <div className="p-6 relative z-10">
         <motion.div 
           className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4"
-          whileHover={{ scale: 1.1, rotate: 360 }}
-          transition={{ duration: 0.8 }}
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.2 }}
         >
-          <Icon className="h-6 w-6 text-primary" />
+          <motion.div
+            whileHover={{ rotate: 180 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <Icon className="h-6 w-6 text-primary" />
+          </motion.div>
         </motion.div>
         <h3 className="text-xl font-semibold mb-2">{title}</h3>
         <p className="text-muted-foreground">{description}</p>
