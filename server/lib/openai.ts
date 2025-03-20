@@ -21,6 +21,18 @@ export interface AdScriptResponse {
   };
 }
 
+export class OpenAIError extends Error {
+  constructor(
+    message: string,
+    public status?: number,
+    public code?: string,
+    public details?: any
+  ) {
+    super(message);
+    this.name = 'OpenAIError';
+  }
+}
+
 export async function generateAdScript(params: AdScriptGenerationParams): Promise<AdScriptResponse> {
   try {
     console.log("Generating ad script with params:", params);
@@ -57,19 +69,6 @@ export async function generateAdScript(params: AdScriptGenerationParams): Promis
   } catch (error: any) {
     console.error("Error in generateAdScript:", error);
 
-    // Handle specific OpenAI errors
-    if (error.status === 429) {
-      throw new Error("OpenAI API rate limit exceeded. Please try again in a few minutes.");
-    }
-
-    if (error.status === 401) {
-      throw new Error("Invalid OpenAI API key. Please check your API key configuration.");
-    }
-
-    if (error.status === 500) {
-      throw new Error("OpenAI service is currently experiencing issues. Please try again later.");
-    }
-
     // Detailed error logging for debugging
     if (error.response?.data) {
       console.error("OpenAI API Error Details:", {
@@ -81,8 +80,41 @@ export async function generateAdScript(params: AdScriptGenerationParams): Promis
       });
     }
 
+    // Handle specific OpenAI errors
+    if (error.status === 429) {
+      throw new OpenAIError(
+        "OpenAI API rate limit exceeded. Please try again in a few minutes.",
+        429,
+        "rate_limit_exceeded",
+        error.response?.data
+      );
+    }
+
+    if (error.status === 401) {
+      throw new OpenAIError(
+        "Invalid OpenAI API key. Please check your API key configuration.",
+        401,
+        "invalid_api_key",
+        error.response?.data
+      );
+    }
+
+    if (error.status === 500) {
+      throw new OpenAIError(
+        "OpenAI service is currently experiencing issues. Please try again later.",
+        500,
+        "service_error",
+        error.response?.data
+      );
+    }
+
     // Handle general errors
-    throw new Error(`Failed to generate ad script: ${error.message}`);
+    throw new OpenAIError(
+      `Failed to generate ad script: ${error.message}`,
+      error.status,
+      error.code,
+      error.response?.data
+    );
   }
 }
 
@@ -115,19 +147,6 @@ export async function analyzeAdPerformance(adScript: string): Promise<{
   } catch (error: any) {
     console.error("Error in analyzeAdPerformance:", error);
 
-    // Handle specific OpenAI errors
-    if (error.status === 429) {
-      throw new Error("OpenAI API rate limit exceeded. Please try again in a few minutes.");
-    }
-
-    if (error.status === 401) {
-      throw new Error("Invalid OpenAI API key. Please check your API key configuration.");
-    }
-
-    if (error.status === 500) {
-      throw new Error("OpenAI service is currently experiencing issues. Please try again later.");
-    }
-
     // Detailed error logging for debugging
     if (error.response?.data) {
       console.error("OpenAI API Error Details:", {
@@ -139,7 +158,40 @@ export async function analyzeAdPerformance(adScript: string): Promise<{
       });
     }
 
+    // Handle specific OpenAI errors
+    if (error.status === 429) {
+      throw new OpenAIError(
+        "OpenAI API rate limit exceeded. Please try again in a few minutes.",
+        429,
+        "rate_limit_exceeded",
+        error.response?.data
+      );
+    }
+
+    if (error.status === 401) {
+      throw new OpenAIError(
+        "Invalid OpenAI API key. Please check your API key configuration.",
+        401,
+        "invalid_api_key",
+        error.response?.data
+      );
+    }
+
+    if (error.status === 500) {
+      throw new OpenAIError(
+        "OpenAI service is currently experiencing issues. Please try again later.",
+        500,
+        "service_error",
+        error.response?.data
+      );
+    }
+
     // Handle general errors
-    throw new Error(`Failed to analyze ad performance: ${error.message}`);
+    throw new OpenAIError(
+      `Failed to analyze ad performance: ${error.message}`,
+      error.status,
+      error.code,
+      error.response?.data
+    );
   }
 }

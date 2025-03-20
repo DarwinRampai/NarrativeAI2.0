@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { generateAdScript, analyzeAdPerformance } from "../lib/openai";
+import { generateAdScript, analyzeAdPerformance, OpenAIError } from "../lib/openai";
 import { z } from "zod";
 
 const router = Router();
@@ -37,14 +37,16 @@ router.post("/generate-script", async (req, res) => {
         error: "Invalid request parameters", 
         details: error.errors 
       });
-    } else {
-      // Determine appropriate status code based on error type
-      const statusCode = error.status === 429 ? 429 : 500;
-      res.status(statusCode).json({ 
-        error: error.message || "Failed to generate ad script",
-        status: error.status,
+    } else if (error instanceof OpenAIError) {
+      res.status(error.status || 500).json({ 
+        error: error.message,
         code: error.code,
         details: error.details
+      });
+    } else {
+      res.status(500).json({ 
+        error: "An unexpected error occurred",
+        details: error.message
       });
     }
   }
@@ -67,14 +69,16 @@ router.post("/analyze-performance", async (req, res) => {
         error: "Invalid request parameters", 
         details: error.errors 
       });
-    } else {
-      // Determine appropriate status code based on error type
-      const statusCode = error.status === 429 ? 429 : 500;
-      res.status(statusCode).json({ 
-        error: error.message || "Failed to analyze ad performance",
-        status: error.status,
+    } else if (error instanceof OpenAIError) {
+      res.status(error.status || 500).json({ 
+        error: error.message,
         code: error.code,
         details: error.details
+      });
+    } else {
+      res.status(500).json({ 
+        error: "An unexpected error occurred",
+        details: error.message
       });
     }
   }
