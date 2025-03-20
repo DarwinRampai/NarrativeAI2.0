@@ -116,7 +116,7 @@ export default function HomePage() {
             className="text-center max-w-4xl mx-auto"
           >
             <motion.h1 
-              className="text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-purple-400"
+              className="text-6xl font-bold tracking-tight mb-6 gradient-heading"
               animate={{
                 backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
               }}
