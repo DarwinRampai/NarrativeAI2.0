@@ -1,0 +1,42 @@
+Objective:
+Create a groundbreaking UI/UX design for NarratixAI, an AI-powered ad creation platform, that redefines user interaction with an ultra-modern, intuitive, and visually stunning interface. The design should be fluid, adaptive, and feel almost alive, making every interaction engaging and effortless.
+
+⸻
+
+Core Design Principles:
+	•	Futuristic & Minimalist: Clean yet dynamic, blending high-tech aesthetics with smooth functionality.
+	•	Asymmetrical & Layered Layouts: Move beyond conventional grids—use layered, floating elements for depth.
+	•	Gesture & AI-Driven Navigation: Reduce reliance on static menus; interactions should feel intuitive and immersive.
+	•	Dynamic UI Elements: Buttons, cards, and panels should morph, expand, and transition fluidly.
+
+⸻
+
+Visual Aesthetics & Interaction Design:
+	•	Glassmorphism & Liquid UI: Use semi-transparent floating elements with subtle reflections and depth.
+	•	Holographic & Neon Highlights: Glow effects, AI-powered animations, and futuristic gradients.
+	•	AI-Powered Customization: UI adjusts based on user preferences, behaviors, and workflows.
+	•	Physics-Based Motion: Use inertia, elasticity, and real-time physics to make UI interactions feel tactile and dynamic.
+
+⸻
+
+Navigation & User Flow:
+	•	No Static Menus: Implement a radial, floating, or collapsible sidebar that adapts in real time.
+	•	3D Layered Interaction: Content should be navigable in a semi-3D space rather than just scrolling.
+	•	Predictive UI Assistance: AI-driven hints and shortcuts dynamically appear as the user interacts.
+	•	Avatar-Driven UI: Users interact with a real-time AI avatar that helps guide workflows naturally.
+
+⸻
+
+Advanced Features to Integrate:
+	1.	Adaptive Color Schemes: The UI shifts its palette based on user activity or time of day.
+	2.	Spatial Audio & Haptics: Subtle sound effects and vibrations enhance interactions.
+	3.	Real-Time Collaboration Mode: Multi-user UI with synchronized workspaces.
+	4.	Immersive AR/VR Support: Optional integration for 3D ad creation in XR environments.
+
+⸻
+
+Design Tools & Software Recommendations:
+	•	Figma/XD for UI Mockups
+	•	Spline/Three.js for 3D UI Elements
+	•	Framer Motion for Micro-Animations
+	•	Unreal Engine/Unity (Optional) for XR Integration
