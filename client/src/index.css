@@ -18,7 +18,14 @@
 
 @layer components {
   .gradient-heading {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-purple-400 animate-text-shimmer;
+    @apply relative bg-clip-text text-transparent bg-[size:200%_auto] animate-shimmer;
+    background-image: linear-gradient(
+      to right,
+      theme(colors.purple.400),
+      theme(colors.pink.500),
+      theme(colors.purple.600),
+      theme(colors.purple.400)
+    );
   }
 
   .card-hover {
@@ -58,7 +65,7 @@
   }
 }
 
-@keyframes text-shimmer {
+@keyframes shimmer {
   0% {
     background-position: -200% 50%;
   }
@@ -67,7 +74,6 @@
   }
 }
 
-.animate-text-shimmer {
-  background-size: 200% auto;
-  animation: text-shimmer 3s linear infinite;
+.animate-shimmer {
+  animation: shimmer 3s linear infinite;
 }
