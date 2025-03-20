@@ -1,0 +1,52 @@
+Website Design Prompt for NarratixAI
+
+Objective:
+Craft a never-before-seen website layout that completely reimagines how users interact with an AI-powered ad creation platform. The design should be cinematic, fluid, and adaptive, giving visitors a sense of innovation and high-tech immersion the moment they land.
+
+⸻
+
+Core Layout Philosophy:
+	•	No Traditional Scrolling: Move beyond a simple top-to-bottom scroll. Implement dynamic parallax movements, fluid motion-based navigation, and interactive zoom-ins.
+	•	Spatial UI (3D-Like Navigation): Instead of flat pages, users move through layered environments with smooth depth transitions.
+	•	AI-Driven Interface: The website reacts to the user’s behavior—menus expand based on focus, elements subtly adapt based on their journey.
+	•	Cinematic Micro-Interactions: Hover effects, button clicks, and transitions should feel organic, physics-driven, and smooth.
+	•	Floating, Liquid UI Components: No rigid rectangles—design modular, shifting elements that move naturally as if suspended in air.
+
+⸻
+
+Design Features & Structure:
+	1.	AI-Powered Home Screen:
+	•	Instead of a static hero section, the site greets visitors with a dynamic AI-powered intro, where visuals change based on the visitor’s interaction history or industry.
+	•	The homepage is a portal, not a landing page—visitors feel like they’re stepping into an intelligent system.
+	•	Option for an AI-generated tour that adapts in real-time.
+	2.	Navigation & Movement:
+	•	No standard navbar—instead, use a circular, floating radial menu that adapts as users hover over sections.
+	•	Gesture-Based Navigation: The site should feel gesture-responsive, with elements shifting dynamically as the mouse moves.
+	•	Zoom-Based Exploration: Sections expand or contract dynamically, creating a seamless, non-linear experience.
+	3.	Content Display & User Flow:
+	•	Modular & Interactive Cards: Instead of static text blocks, information appears as animated, intelligent content blocks that reformat dynamically.
+	•	Holographic UI Elements: Semi-transparent panels that morph and reposition based on the focus area.
+	•	Real-Time AI Assistance: Users can ask the AI assistant (a built-in chatbot/avatar) questions about features directly on the website.
+	4.	Cinematic Transitions & Motion:
+	•	Seamless Morphing Between Pages: Instead of basic page loads, sections morph into each other like a fluid experience.
+	•	Subtle Camera-Like Movements: The whole site has a parallax-driven depth, almost feeling semi-3D.
+	•	Real-Time Particle & Light Effects: Tiny glow particles or light streaks respond as users move their cursor.
+	5.	Customization & Personalization:
+	•	Users can pick a theme style: A “Dark Futuristic” mode with neon and shadows or a “Minimal Tech” mode with soft pastels and glassmorphism.
+	•	Dynamic Backgrounds: Background elements change based on time of day or user behavior.
+	•	AI-Generated Content Previews: If a potential client is visiting, the website auto-generates ad concepts related to their industry in real-time.
+
+⸻
+
+Design Tools & Implementation:
+	•	Three.js/WebGL – For 3D elements and spatial UI effects.
+	•	GSAP (GreenSock Animation Platform) – For cinematic motion & fluid transitions.
+	•	Spline/Figma/XD – For conceptual design & prototyping.
+	•	Framer Motion – For micro-interactions.
+	•	AI Integration – GPT-based chatbot/assistant embedded into the experience.
+
+⸻
+
+Final Feel:
+
+This isn’t just a website—it’s an AI-driven, visually stunning, interactive journey that makes users feel like they’re entering the future of ad creation. It should be as immersive as a high-tech interface from a sci-fi movie, but fast, intuitive, and functional.
