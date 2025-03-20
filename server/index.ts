@@ -2,7 +2,6 @@ import express, { type Request, Response, NextFunction } from "express";
 import { Router } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import aiRoutes from "./routes/ai";
 
 // Create Express app
 const app = express();
@@ -50,18 +49,6 @@ apiRouter.get('/ping', (req, res) => {
   res.json({ message: 'pong', timestamp: new Date().toISOString() });
 });
 
-// Mount AI routes
-apiRouter.use('/ai', aiRoutes);
-
-// API error handling
-apiRouter.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-  console.error("API Error:", err);
-  res.status(err.status || 500).json({
-    error: err.message || "Internal Server Error",
-    details: app.get("env") === "development" ? err.stack : undefined
-  });
-});
-
 // Mount API router before any frontend middleware
 app.use('/api', apiRouter);
 
@@ -70,20 +57,14 @@ app.use('/api', apiRouter);
     // Register backend routes
     const server = await registerRoutes(app);
 
-    // Frontend handling - ensure it doesn't interfere with API routes
-    app.use((req, res, next) => {
-      if (req.path.startsWith('/api')) {
-        console.log("Skipping frontend middleware for API route:", req.path);
-        return next();
-      }
-
-      if (app.get("env") === "development") {
-        console.log("Handling frontend request with Vite:", req.path);
-        return setupVite(app, server)(req, res, next);
-      } else {
-        return serveStatic(app)(req, res, next);
-      }
-    });
+    // Frontend handling
+    if (app.get("env") === "development") {
+      // Setup Vite middleware for development
+      await setupVite(app, server);
+    } else {
+      // Serve static files in production
+      serveStatic(app);
+    }
 
     // Global error handling
     app.use((err: any, req: Request, res: Response, next: NextFunction) => {
