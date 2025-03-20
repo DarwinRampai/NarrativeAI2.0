@@ -30,12 +30,22 @@ router.post("/generate-script", async (req, res) => {
     const result = await generateAdScript(params);
     console.log("Generated script result:", result);
     res.json(result);
-  } catch (error) {
+  } catch (error: any) {
     console.error("Script generation error:", error);
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: "Invalid request parameters", details: error.errors });
+      res.status(400).json({ 
+        error: "Invalid request parameters", 
+        details: error.errors 
+      });
     } else {
-      res.status(500).json({ error: "Failed to generate ad script" });
+      // Determine appropriate status code based on error type
+      const statusCode = error.status === 429 ? 429 : 500;
+      res.status(statusCode).json({ 
+        error: error.message || "Failed to generate ad script",
+        status: error.status,
+        code: error.code,
+        details: error.details
+      });
     }
   }
 });
@@ -50,12 +60,22 @@ router.post("/analyze-performance", async (req, res) => {
     const { script } = analyzeScriptSchema.parse(req.body);
     const analysis = await analyzeAdPerformance(script);
     res.json(analysis);
-  } catch (error) {
+  } catch (error: any) {
     console.error("Analysis error:", error);
     if (error instanceof z.ZodError) {
-      res.status(400).json({ error: "Invalid request parameters", details: error.errors });
+      res.status(400).json({ 
+        error: "Invalid request parameters", 
+        details: error.errors 
+      });
     } else {
-      res.status(500).json({ error: "Failed to analyze ad performance" });
+      // Determine appropriate status code based on error type
+      const statusCode = error.status === 429 ? 429 : 500;
+      res.status(statusCode).json({ 
+        error: error.message || "Failed to analyze ad performance",
+        status: error.status,
+        code: error.code,
+        details: error.details
+      });
     }
   }
 });

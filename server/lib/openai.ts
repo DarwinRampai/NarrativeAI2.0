@@ -23,6 +23,8 @@ export interface AdScriptResponse {
 
 export async function generateAdScript(params: AdScriptGenerationParams): Promise<AdScriptResponse> {
   try {
+    console.log("Generating ad script with params:", params);
+
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
@@ -38,7 +40,7 @@ export async function generateAdScript(params: AdScriptGenerationParams): Promis
             - Target Audience: ${params.targetAudience}
             - Key Points: ${params.key_points.join(", ")}
             - Duration: ${params.duration} seconds
-            
+
             Provide the response in JSON format with:
             - script: the complete ad script
             - suggestions: array of improvement suggestions
@@ -48,10 +50,39 @@ export async function generateAdScript(params: AdScriptGenerationParams): Promis
       response_format: { type: "json_object" },
     });
 
-    return JSON.parse(response.choices[0].message.content);
-  } catch (error) {
-    console.error("Error generating ad script:", error);
-    throw new Error("Failed to generate ad script");
+    console.log("OpenAI response received:", response.choices[0].message.content);
+
+    const result = JSON.parse(response.choices[0].message.content);
+    return result;
+  } catch (error: any) {
+    console.error("Error in generateAdScript:", error);
+
+    // Handle specific OpenAI errors
+    if (error.status === 429) {
+      throw new Error("OpenAI API rate limit exceeded. Please try again in a few minutes.");
+    }
+
+    if (error.status === 401) {
+      throw new Error("Invalid OpenAI API key. Please check your API key configuration.");
+    }
+
+    if (error.status === 500) {
+      throw new Error("OpenAI service is currently experiencing issues. Please try again later.");
+    }
+
+    // Detailed error logging for debugging
+    if (error.response?.data) {
+      console.error("OpenAI API Error Details:", {
+        status: error.status,
+        type: error.response.data.error?.type,
+        code: error.response.data.error?.code,
+        param: error.response.data.error?.param,
+        message: error.response.data.error?.message
+      });
+    }
+
+    // Handle general errors
+    throw new Error(`Failed to generate ad script: ${error.message}`);
   }
 }
 
@@ -60,6 +91,8 @@ export async function analyzeAdPerformance(adScript: string): Promise<{
   improvement_suggestions: string[];
 }> {
   try {
+    console.log("Analyzing ad performance for script:", adScript);
+
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
@@ -75,9 +108,38 @@ export async function analyzeAdPerformance(adScript: string): Promise<{
       response_format: { type: "json_object" },
     });
 
-    return JSON.parse(response.choices[0].message.content);
-  } catch (error) {
-    console.error("Error analyzing ad performance:", error);
-    throw new Error("Failed to analyze ad performance");
+    console.log("OpenAI analysis response received:", response.choices[0].message.content);
+
+    const result = JSON.parse(response.choices[0].message.content);
+    return result;
+  } catch (error: any) {
+    console.error("Error in analyzeAdPerformance:", error);
+
+    // Handle specific OpenAI errors
+    if (error.status === 429) {
+      throw new Error("OpenAI API rate limit exceeded. Please try again in a few minutes.");
+    }
+
+    if (error.status === 401) {
+      throw new Error("Invalid OpenAI API key. Please check your API key configuration.");
+    }
+
+    if (error.status === 500) {
+      throw new Error("OpenAI service is currently experiencing issues. Please try again later.");
+    }
+
+    // Detailed error logging for debugging
+    if (error.response?.data) {
+      console.error("OpenAI API Error Details:", {
+        status: error.status,
+        type: error.response.data.error?.type,
+        code: error.response.data.error?.code,
+        param: error.response.data.error?.param,
+        message: error.response.data.error?.message
+      });
+    }
+
+    // Handle general errors
+    throw new Error(`Failed to analyze ad performance: ${error.message}`);
   }
 }

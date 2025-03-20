@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Request logging
+// Request logging middleware
 app.use((req, res, next) => {
   const start = Date.now();
   res.on("finish", () => {
@@ -21,8 +21,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// API Router setup
+const apiRouter = Router();
+
 // API middleware configuration
-app.use('/api', (req, res, next) => {
+apiRouter.use((req, res, next) => {
   console.log("API Request:", {
     method: req.method,
     path: req.path,
@@ -41,60 +44,66 @@ app.use('/api', (req, res, next) => {
   next();
 });
 
-// Test endpoint to verify API routing
-app.get('/api/ping', (req, res) => {
+// Test endpoint
+apiRouter.get('/ping', (req, res) => {
   console.log("Ping endpoint hit");
   res.json({ message: 'pong', timestamp: new Date().toISOString() });
 });
 
-// Mount API routes
-app.use('/api/ai', aiRoutes);
+// Mount AI routes
+apiRouter.use('/ai', aiRoutes);
+
+// API error handling
+apiRouter.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  console.error("API Error:", err);
+  res.status(err.status || 500).json({
+    error: err.message || "Internal Server Error",
+    details: app.get("env") === "development" ? err.stack : undefined
+  });
+});
+
+// Mount API router before any frontend middleware
+app.use('/api', apiRouter);
 
 (async () => {
-  // Register backend routes
-  const server = await registerRoutes(app);
+  try {
+    // Register backend routes
+    const server = await registerRoutes(app);
 
-  // Vite/Frontend handling - explicitly exclude API routes
-  app.use((req, res, next) => {
-    // Don't let Vite handle API routes
-    if (!req.originalUrl.startsWith('/api')) {
-      if (app.get("env") === "development") {
-        setupVite(app, server)(req, res, next);
-      } else {
-        serveStatic(app)(req, res, next);
+    // Frontend handling - ensure it doesn't interfere with API routes
+    app.use((req, res, next) => {
+      if (req.path.startsWith('/api')) {
+        console.log("Skipping frontend middleware for API route:", req.path);
+        return next();
       }
-    } else {
-      next();
-    }
-  });
 
-  // API error handling
-  app.use('/api', (err: any, _req: Request, res: Response, _next: NextFunction) => {
-    console.error("API Error:", err);
-    res.status(err.status || 500).json({
-      error: err.message || "Internal Server Error",
-      details: app.get("env") === "development" ? err.stack : undefined
+      if (app.get("env") === "development") {
+        console.log("Handling frontend request with Vite:", req.path);
+        return setupVite(app, server)(req, res, next);
+      } else {
+        return serveStatic(app)(req, res, next);
+      }
     });
-  });
 
-  // Global error handling
-  app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    console.error("Global Error:", err);
+    // Global error handling
+    app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+      console.error("Error:", err);
+      if (req.path.startsWith('/api')) {
+        return res.status(err.status || 500).json({
+          error: err.message || "Internal Server Error",
+          details: app.get("env") === "development" ? err.stack : undefined
+        });
+      }
+      next(err);
+    });
 
-    if (req.originalUrl.startsWith('/api')) {
-      return res.status(err.status || 500).json({
-        error: err.message || "Internal Server Error",
-        details: app.get("env") === "development" ? err.stack : undefined
-      });
-    }
-    next(err);
-  });
-
-  const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-  }, () => {
-    log(`serving on port ${port}`);
-  });
+    // Start server
+    const port = 5000;
+    server.listen(port, "0.0.0.0", () => {
+      log(`Server running on port ${port}`);
+    });
+  } catch (error) {
+    console.error("Server startup error:", error);
+    process.exit(1);
+  }
 })();
