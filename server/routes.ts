@@ -5,8 +5,17 @@ import { storage } from "./storage";
 import { generateAIScript, optimizeContent, generateAdVariations, getAudienceInsights, generateFeatureRecommendations, analyzeUserBehavior } from "./openai";
 import { z } from "zod";
 import { insertProjectSchema, insertScriptSchema, insertUserInteractionSchema, insertFeatureRecommendationSchema } from "@shared/schema";
+import aiRoutes from "./routes/ai";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Register API routes first
+  app.use("/api/ai", (req, res, next) => {
+    // Ensure proper content type for API responses
+    res.setHeader('Content-Type', 'application/json');
+    console.log("AI route hit:", req.path);
+    next();
+  }, aiRoutes);
+
   setupAuth(app);
 
   // Error handling middleware
