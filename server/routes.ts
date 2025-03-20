@@ -3,8 +3,7 @@ import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
 import { z } from "zod";
-import { insertProjectSchema, insertScriptSchema } from "@shared/schema";
-import aiRoutes from "./routes/ai";
+import { insertProjectSchema } from "@shared/schema";
 
 // Create an async handler utility
 const asyncHandler = (fn: Function) => (req: any, res: any, next: any) => {
@@ -12,28 +11,7 @@ const asyncHandler = (fn: Function) => (req: any, res: any, next: any) => {
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // API middleware - handle all /api routes
-  app.all('/api/*', (req, res, next) => {
-    // Set JSON content type and CORS headers
-    res.header('Content-Type', 'application/json');
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-
-    // Handle preflight requests
-    if (req.method === 'OPTIONS') {
-      return res.sendStatus(200);
-    }
-
-    // Log API requests
-    console.log(`API ${req.method} request to ${req.originalUrl}`);
-    next();
-  });
-
-  // Mount API routes first
-  app.use("/api/ai", aiRoutes);
-
-  // Setup authentication after API routes
+  // Setup authentication
   setupAuth(app);
 
   // Project routes

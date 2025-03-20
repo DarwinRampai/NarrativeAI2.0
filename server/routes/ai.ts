@@ -17,12 +17,16 @@ const analyzeScriptSchema = z.object({
 });
 
 router.post("/generate-script", async (req, res) => {
-  console.log("Received generate-script request:", req.body);
+  console.log("API: Entered generate-script route handler");
+  console.log("Request body:", req.body);
+  console.log("Request headers:", req.headers);
+  console.log("Request path:", req.path);
+  console.log("Original URL:", req.originalUrl);
   try {
     // Ensure content type
     res.setHeader('Content-Type', 'application/json');
-
     const params = generateScriptSchema.parse(req.body);
+    console.log("Validated params:", params);
     const result = await generateAdScript(params);
     console.log("Generated script result:", result);
     res.json(result);
@@ -37,14 +41,14 @@ router.post("/generate-script", async (req, res) => {
 });
 
 router.post("/analyze-performance", async (req, res) => {
-  console.log("Received analyze-performance request:", req.body);
+  console.log("API: Entered analyze-performance route handler");
+  console.log("Request body:", req.body);
+
   try {
     // Ensure content type
     res.setHeader('Content-Type', 'application/json');
-
     const { script } = analyzeScriptSchema.parse(req.body);
     const analysis = await analyzeAdPerformance(script);
-    console.log("Analysis result:", analysis);
     res.json(analysis);
   } catch (error) {
     console.error("Analysis error:", error);
