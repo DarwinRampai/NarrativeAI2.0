@@ -44,9 +44,9 @@ export function PersonalityGenerator({ onPersonalityGenerated }: PersonalityGene
       // Here we'll integrate with OpenAI to generate personality traits
       // For now, simulate with a delay
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       const generatedDescription = `A ${speakingStyle} personality with balanced traits across all dimensions. Shows moderate levels of extraversion, making them adaptable to both social and independent scenarios. Their agreeable nature helps in maintaining positive relationships while staying true to their values.`;
-      
+
       setPersonalityDescription(generatedDescription);
       onPersonalityGenerated({
         traits: personalityTraits,
@@ -61,19 +61,36 @@ export function PersonalityGenerator({ onPersonalityGenerated }: PersonalityGene
   };
 
   return (
-    <Card className="bg-card/30 backdrop-blur-sm border-primary/10">
+    <Card className="bg-card/30 backdrop-blur-sm border-primary/10 overflow-hidden relative">
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-br from-primary/5 via-primary/2 to-transparent"
+        animate={{
+          background: [
+            "linear-gradient(45deg, rgba(109,40,217,0.05) 0%, rgba(109,40,217,0.02) 50%, transparent 100%)",
+            "linear-gradient(225deg, rgba(109,40,217,0.05) 0%, rgba(109,40,217,0.02) 50%, transparent 100%)"
+          ]
+        }}
+        transition={{ duration: 10, repeat: Infinity, repeatType: "reverse" }}
+      />
+
       <CardHeader>
         <CardTitle className="text-xl flex items-center gap-2">
-          <Brain className="h-5 w-5 text-primary" />
+          <motion.div
+            animate={{ rotate: [0, 360] }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          >
+            <Brain className="h-5 w-5 text-primary" />
+          </motion.div>
           AI Personality Generator
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+
+      <CardContent className="space-y-6 relative z-10">
         <div className="space-y-4">
           <div>
             <Label>Speaking Style</Label>
             <Select value={speakingStyle} onValueChange={setSpeakingStyle}>
-              <SelectTrigger className="mt-2">
+              <SelectTrigger className="mt-2 bg-background/50 backdrop-blur-sm border-primary/10">
                 <SelectValue placeholder="Select speaking style" />
               </SelectTrigger>
               <SelectContent>
@@ -89,83 +106,104 @@ export function PersonalityGenerator({ onPersonalityGenerated }: PersonalityGene
           <div className="space-y-4">
             <div>
               <Label>Extraversion</Label>
-              <Slider
-                value={[personalityTraits.extraversion]}
-                min={0}
-                max={100}
-                step={1}
-                onValueChange={(value) => handleTraitChange('extraversion', value)}
-                className="mt-2"
-              />
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Slider
+                  value={[personalityTraits.extraversion]}
+                  min={0}
+                  max={100}
+                  step={1}
+                  onValueChange={(value) => handleTraitChange('extraversion', value)}
+                  className="mt-2"
+                />
+              </motion.div>
             </div>
 
             <div>
               <Label>Agreeableness</Label>
-              <Slider
-                value={[personalityTraits.agreeableness]}
-                min={0}
-                max={100}
-                step={1}
-                onValueChange={(value) => handleTraitChange('agreeableness', value)}
-                className="mt-2"
-              />
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Slider
+                  value={[personalityTraits.agreeableness]}
+                  min={0}
+                  max={100}
+                  step={1}
+                  onValueChange={(value) => handleTraitChange('agreeableness', value)}
+                  className="mt-2"
+                />
+              </motion.div>
             </div>
 
             <div>
               <Label>Conscientiousness</Label>
-              <Slider
-                value={[personalityTraits.conscientiousness]}
-                min={0}
-                max={100}
-                step={1}
-                onValueChange={(value) => handleTraitChange('conscientiousness', value)}
-                className="mt-2"
-              />
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Slider
+                  value={[personalityTraits.conscientiousness]}
+                  min={0}
+                  max={100}
+                  step={1}
+                  onValueChange={(value) => handleTraitChange('conscientiousness', value)}
+                  className="mt-2"
+                />
+              </motion.div>
             </div>
 
             <div>
               <Label>Openness</Label>
-              <Slider
-                value={[personalityTraits.openness]}
-                min={0}
-                max={100}
-                step={1}
-                onValueChange={(value) => handleTraitChange('openness', value)}
-                className="mt-2"
-              />
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Slider
+                  value={[personalityTraits.openness]}
+                  min={0}
+                  max={100}
+                  step={1}
+                  onValueChange={(value) => handleTraitChange('openness', value)}
+                  className="mt-2"
+                />
+              </motion.div>
             </div>
 
             <div>
               <Label>Emotional Stability</Label>
-              <Slider
-                value={[personalityTraits.emotionalStability]}
-                min={0}
-                max={100}
-                step={1}
-                onValueChange={(value) => handleTraitChange('emotionalStability', value)}
-                className="mt-2"
-              />
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Slider
+                  value={[personalityTraits.emotionalStability]}
+                  min={0}
+                  max={100}
+                  step={1}
+                  onValueChange={(value) => handleTraitChange('emotionalStability', value)}
+                  className="mt-2"
+                />
+              </motion.div>
             </div>
           </div>
         </div>
 
-        <Button
-          onClick={generatePersonality}
-          className="w-full bg-primary/90 hover:bg-primary"
-          disabled={isGenerating}
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
         >
-          {isGenerating ? (
-            <>
-              <Sparkles className="mr-2 h-4 w-4 animate-spin" />
-              Generating Personality...
-            </>
-          ) : (
-            <>
-              <Brain className="mr-2 h-4 w-4" />
-              Generate Personality
-            </>
-          )}
-        </Button>
+          <Button
+            onClick={generatePersonality}
+            className="w-full bg-primary/90 hover:bg-primary relative overflow-hidden group"
+            disabled={isGenerating}
+          >
+            <motion.span
+              className="absolute inset-0 bg-white/10"
+              initial={{ y: "100%" }}
+              animate={{ y: "0%" }}
+              transition={{ duration: 0.3 }}
+            />
+            {isGenerating ? (
+              <>
+                <Sparkles className="mr-2 h-4 w-4 animate-spin" />
+                Generating Personality...
+              </>
+            ) : (
+              <>
+                <Brain className="mr-2 h-4 w-4" />
+                Generate Personality
+              </>
+            )}
+          </Button>
+        </motion.div>
 
         {personalityDescription && (
           <motion.div
