@@ -3,14 +3,11 @@ import { Router } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
-// Create Express app
 const app = express();
 
-// Essential middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Request logging middleware
 app.use((req, res, next) => {
   const start = Date.now();
   res.on("finish", () => {
@@ -20,10 +17,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// API Router setup
 const apiRouter = Router();
 
-// API middleware configuration
 apiRouter.use((req, res, next) => {
   console.log("API Request:", {
     method: req.method,
@@ -43,30 +38,23 @@ apiRouter.use((req, res, next) => {
   next();
 });
 
-// Test endpoint
 apiRouter.get('/ping', (req, res) => {
   console.log("Ping endpoint hit");
   res.json({ message: 'pong', timestamp: new Date().toISOString() });
 });
 
-// Mount API router before any frontend middleware
 app.use('/api', apiRouter);
 
 (async () => {
   try {
-    // Register backend routes
     const server = await registerRoutes(app);
 
-    // Frontend handling
     if (app.get("env") === "development") {
-      // Setup Vite middleware for development
       await setupVite(app, server);
     } else {
-      // Serve static files in production
       serveStatic(app);
     }
 
-    // Global error handling
     app.use((err: any, req: Request, res: Response, next: NextFunction) => {
       console.error("Error:", err);
       if (req.path.startsWith('/api')) {
@@ -78,7 +66,6 @@ app.use('/api', apiRouter);
       next(err);
     });
 
-    // Start server
     const port = 5000;
     server.listen(port, "0.0.0.0", () => {
       log(`Server running on port ${port}`);

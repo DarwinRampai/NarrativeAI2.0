@@ -1,3 +1,4 @@
+
 import { pgTable, text, serial, integer, timestamp, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -33,12 +34,11 @@ export const templates = pgTable("templates", {
   settings: jsonb("settings"),
 });
 
-// New tables for feature recommendations
 export const userInteractions = pgTable("user_interactions", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").references(() => users.id),
   featurePath: text("feature_path").notNull(),
-  interactionType: text("interaction_type").notNull(), // 'view', 'click', 'complete'
+  interactionType: text("interaction_type").notNull(),
   metadata: jsonb("metadata"),
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -53,7 +53,6 @@ export const featureRecommendations = pgTable("feature_recommendations", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-// Existing schemas
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -69,7 +68,6 @@ export const insertScriptSchema = createInsertSchema(scripts).pick({
   metadata: true,
 });
 
-// New schemas for interactions and recommendations
 export const insertUserInteractionSchema = createInsertSchema(userInteractions).pick({
   featurePath: true,
   interactionType: true,
@@ -83,7 +81,6 @@ export const insertFeatureRecommendationSchema = createInsertSchema(featureRecom
   metadata: true,
 });
 
-// Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type Project = typeof projects.$inferSelect;

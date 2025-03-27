@@ -1,6 +1,6 @@
+
 import OpenAI from "openai";
 
-// the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 interface ScriptPrompt {
@@ -143,7 +143,6 @@ export async function getAudienceInsights(
   }
 }
 
-// Add new function for generating feature recommendations
 export async function generateFeatureRecommendations(
   userInteractions: Array<{
     featurePath: string;
@@ -192,7 +191,6 @@ export async function generateFeatureRecommendations(
   }
 }
 
-// Add new function for analyzing user behavior patterns
 export async function analyzeUserBehavior(
   interactions: Array<{
     featurePath: string;

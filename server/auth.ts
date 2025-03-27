@@ -1,3 +1,4 @@
+
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Express } from "express";
@@ -29,7 +30,6 @@ async function comparePasswords(supplied: string, stored: string) {
 }
 
 export function setupAuth(app: Express) {
-  // Add logging to track session setup
   console.log("Setting up authentication...");
 
   const sessionSettings: session.SessionOptions = {
@@ -39,7 +39,7 @@ export function setupAuth(app: Express) {
     store: storage.sessionStore,
     cookie: {
       secure: process.env.NODE_ENV === "production",
-      maxAge: 1000 * 60 * 60 * 24 // 24 hours
+      maxAge: 1000 * 60 * 60 * 24
     }
   };
 
@@ -48,7 +48,6 @@ export function setupAuth(app: Express) {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // Add logging to track strategy setup
   console.log("Setting up LocalStrategy...");
 
   passport.use(
