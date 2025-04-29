@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Response } from "express";
 import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
@@ -19,28 +19,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use('/api/ai', orchestrationRouter);
 
   // Project routes
-  app.get("/api/projects", asyncHandler(async (req, res) => {
+  app.get("/api/projects", asyncHandler(async (req: Express.Request, res: Response) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
     const projects = await storage.getProjects(req.user.id);
     res.json(projects);
   }));
 
-  app.post("/api/projects", asyncHandler(async (req, res) => {
+  app.post("/api/projects", asyncHandler(async (req: Express.Request & { body: any }, res: Response) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
     const data = insertProjectSchema.parse(req.body);
     const project = await storage.createProject({
       ...data,
+      description: data.description ?? null,
       userId: req.user.id,
     });
     res.status(201).json(project);
   }));
 
   // Scripts routes
-  app.get("/api/projects/:projectId/scripts", asyncHandler(async (req, res) => {
-    if (!req.isAuthenticated()) return res.sendStatus(401);
-    const scripts = await storage.getScripts(parseInt(req.params.projectId));
-    res.json(scripts);
-  }));
+  app.get("/api/projects/:projectId/scripts", asyncHandler(async (req: Express.Request & { params: { projectId: string } }, res: Response) => {
+      if (!req.isAuthenticated()) return res.sendStatus(401);
+      const scripts = await storage.getScripts(parseInt(req.params.projectId));
+      res.json(scripts);
+    }));
 
   const httpServer = createServer(app);
   return httpServer;

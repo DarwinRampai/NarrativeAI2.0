@@ -2,6 +2,9 @@ import { Router } from "express";
 import OpenAI from "openai";
 
 const textRouter = Router();
+if (!process.env.OPENAI_API_KEY) {
+  throw new Error("OPENAI_API_KEY environment variable is not set.");
+}
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
@@ -32,13 +35,13 @@ textRouter.post('/generate', async (req, res) => {
 
     res.json({
       success: true,
-      data: JSON.parse(response.choices[0].message.content)
+      data: response.choices[0].message.content ? JSON.parse(response.choices[0].message.content) : null
     });
   } catch (error) {
     console.error('Text generation error:', error);
     res.status(500).json({
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error occurred'
+      error: error instanceof Error ? (error.message || 'An error occurred') : 'Unknown error occurred'
     });
   }
 });

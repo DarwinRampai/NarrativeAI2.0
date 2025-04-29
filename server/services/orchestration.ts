@@ -103,7 +103,7 @@ orchestrationRouter.post('/generate', validateAIRequest, async (req: Request, re
     console.error('Orchestration error:', error);
     res.status(500).json({
       success: false,
-      error: error.message || "Internal server error"
+      error: error instanceof Error ? error.message : "Internal server error"
     });
   }
 });
